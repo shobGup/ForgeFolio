@@ -15,6 +15,15 @@ const Home = () => {
     const recentWorks = allWorks
         .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
         .slice(0, 2);
+
+    const [allPortfolios, setAllPortfolios] = React.useState([
+        { title: 'Dreamworks', imageUrl: '/images/portfolio2.png', createdDate: '03/01/2025', description: 'A portfolio for dreamworks.', tags: ['art', 'paintings', 'cartoon'] },
+        { title: 'Cellos at Texas', imageUrl: '/images/portfolio1.png', createdDate: '02/25/2025', description: 'A portfolio for cellos at texas.', tags: ['audio', 'expressionism'] },
+    ]);
+
+    const recentPortfolios = allPortfolios
+        .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
+        .slice(0, 2);
         
     return (
         <div>
@@ -28,18 +37,30 @@ const Home = () => {
                 {recentWorks.map((work) => (
                     <Image key={work.title} work={work} />
                 ))}
-                {allWorks.length > 2 && <button>See All {allWorks.length}</button>}
+                {allWorks.length > 2 ? (
+                    <div className='see-all-container'>
+                        <button className='see-all-button'>See All {allWorks.length}</button>
+                    </div>
+                ) : (
+                    <div className="see-all-container"></div> 
+                )}
             </div>
             <div className="titles">Portfolios</div>
             <div className='images-container'>
                 <div className="add-button-container">
                     <button className="add-button">+</button>
-                    <div className="add-button-text">New Work</div>
+                    <div className="add-button-text">New Portfolio</div>
                 </div>
-                {recentWorks.map((work) => (
-                    <Image key={work.title} work={work} />
+                {recentPortfolios.map((portfolio) => (
+                    <Image key={portfolio.title} work={portfolio} />
                 ))}
-                {allWorks.length > 2 && <button>See All {allWorks.length}</button>}
+                {allPortfolios.length > 2 ? (
+                    <div className='see-all-container'>
+                        <button className='see-all-button'>See All {allPortfolios.length}</button>
+                    </div>
+                ) : (
+                    <div className="see-all-container"></div> 
+                )}
             </div>
         </div>
     );

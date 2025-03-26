@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: flex-start;
     align-items: center;
+    gap: 10px;
 }
 
 .works img {
@@ -16,4 +17,6 @@
     width: 279px;
     height: 227px;
     object-fit: contain;
+    background-color: #EEEEEE;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
