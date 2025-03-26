@@ -1,0 +1,55 @@
+.edit-header {
+    font-family: Merriweather, serif;
+    display: flex;
+    align-items: center;
+}
+
+.portfolio-name {
+    color: #000;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+}
+
+
+.logo {
+    width: 75px;
+    height: 75px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+    border-radius: 50px;
+    background: url('../../../../public/images/Logo_no_Text.png') lightgray 50% / cover no-repeat;
+    margin-left: 9px;
+    margin-top: 6px;
+}
+
+.view-button {
+    width: 136px;
+    height: 47px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #EFEFEF;
+    color: #000;
+    text-align: center;
+    font-family: Merriweather;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.share-button {
+    width: 136px;
+    height: 47px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #B6D6E0;
+    color: #000;
+    font-family: Merriweather;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
