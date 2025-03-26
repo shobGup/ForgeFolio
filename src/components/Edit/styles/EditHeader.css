@@ -1,10 +1,43 @@
 .edit-header {
     font-family: Merriweather, serif;
+    /* Use flex for alignment, but remove the old space-between */
     display: flex;
     align-items: center;
+    
+    /* Let us absolutely position the name in the center */
+    position: relative;
+    
+    /* Expand to full width (and box-sizing helps if you add padding) */
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* 1) LOGO on the left */
+.logo {
+    width: 75px;
+    height: 75px;
+    border-radius: 50px;
+    
+    /* Force everything else to shift right */
+    margin-right: auto;
+    
+    /* Keep your original margins if desired: */
+    margin-left: 9px;
+    margin-top: 6px;
+
+    /* If you are using a real <img>, 
+       you typically don't need a background-image here. 
+       You can remove this line if you like:
+       background: url('../../../../public/images/Logo_no_Text.png') ... */
+}
+
+/* 2) TITLE absolutely centered */
 .portfolio-name {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Existing text styles */
     color: #000;
     font-size: 48px;
     font-style: normal;
@@ -13,43 +46,28 @@
     margin: 0;
 }
 
-
-.logo {
-    width: 75px;
-    height: 75px;
-    flex-shrink: 0;
-    aspect-ratio: 1/1;
-    border-radius: 50px;
-    background: url('../../../../public/images/Logo_no_Text.png') lightgray 50% / cover no-repeat;
-    margin-left: 9px;
-    margin-top: 6px;
-}
-
-.view-button {
-    width: 136px;
-    height: 47px;
-    flex-shrink: 0;
-    border-radius: 20px;
-    background: #EFEFEF;
-    color: #000;
-    text-align: center;
-    font-family: Merriweather;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-}
-
+/* 3) BUTTONS remain in the normal flow on the right */
+.view-button,
 .share-button {
     width: 136px;
     height: 47px;
     flex-shrink: 0;
     border-radius: 20px;
-    background: #B6D6E0;
-    color: #000;
-    font-family: Merriweather;
+    font-family: Merriweather, serif;
     font-size: 20px;
-    font-style: normal;
     font-weight: 700;
     line-height: normal;
+    color: #000;
+}
+
+/* Gray background for view-button */
+.view-button {
+    background: #EFEFEF;
+    /* (Optional) small gap if you'd like to separate the two buttons: */
+    margin-right: 10px;
+}
+
+/* Light-blue background for share-button */
+.share-button {
+    background: #B6D6E0;
 }
