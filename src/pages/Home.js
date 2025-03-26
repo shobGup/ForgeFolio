@@ -1,5 +1,5 @@
 import React from 'react';
-import Work from '../components/Work/Work.js';
+import Image from '../components/Image/Image.js';
 import HomeHeader from '../components/Home Page/HomeHeader.js';
 import './styles/Home.css';
 
@@ -19,12 +19,27 @@ const Home = () => {
     return (
         <div>
             <HomeHeader/>
-            <div>Works</div>
-            <div className='works-container'>
-                <button className="add-button">+</button>
+            <div className="titles">Works</div>
+            <div className='images-container'>
+                <div className="add-button-container">
+                    <button className="add-button">+</button>
+                    <div className="add-button-text">New Work</div>
+                </div>
                 {recentWorks.map((work) => (
-                    <Work key={work.title} work={work} />
+                    <Image key={work.title} work={work} />
                 ))}
+                {allWorks.length > 2 && <button>See All {allWorks.length}</button>}
+            </div>
+            <div className="titles">Portfolios</div>
+            <div className='images-container'>
+                <div className="add-button-container">
+                    <button className="add-button">+</button>
+                    <div className="add-button-text">New Work</div>
+                </div>
+                {recentWorks.map((work) => (
+                    <Image key={work.title} work={work} />
+                ))}
+                {allWorks.length > 2 && <button>See All {allWorks.length}</button>}
             </div>
         </div>
     );
