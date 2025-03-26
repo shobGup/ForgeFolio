@@ -1,7 +1,9 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/Login.css";
+import Popup from "../components/Popup/Popup";
+import AddWork from "../components/AddWork/AddWork";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -9,6 +11,11 @@ const Login = () => {
         e.preventDefault();
         navigate("/home")
     }
+
+
+    const [buttonPopup, setButtonPopup] = useState(true);
+
+
     return (
         <div className="container">
             {/* Top Row */}
@@ -45,8 +52,12 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-
+            <Popup trigger={buttonPopup} closePopup={() => setButtonPopup(false)}>
+                <AddWork />
+            </Popup>
         </div>
+
+        
     );
 }
 
