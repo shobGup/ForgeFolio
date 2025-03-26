@@ -32,3 +32,17 @@
     font-size: 30px;
     font-family: 'Merriweather', serif;
 }
+
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 images per row */
+    gap: 20px; /* Space between images */
+    justify-content: center;
+    padding: 20px;
+}
+
+.images-grid img {
+    width: 100%; /* Ensures images fit within their grid */
+    max-width: 300px; /* Adjust this based on your design */
+    height: auto;
+}
