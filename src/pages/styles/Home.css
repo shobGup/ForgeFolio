@@ -11,7 +11,6 @@
     height: 227px;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
     align-items: center;
     padding: 0;
     margin: 0;
@@ -25,10 +24,26 @@
     justify-content: center;
     align-items: flex-start;
     align-items: center;
+    gap: 10px;
 }
 
 .titles {
     padding: 10px 40px;
     font-size: 30px;
     font-family: 'Merriweather', serif;
+}
+
+.see-all-container {
+    width: 100px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    box-sizing: border-box;
+    
+}
+
+.see-all-button {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
