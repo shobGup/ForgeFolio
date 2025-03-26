@@ -1,5 +1,6 @@
 import React from 'react';
 import EditHeader from '../components/Edit/EditHeader';
+import EditToolbar from '../components/Edit/EditToolbar'
 
 
 const Edit = () => {
@@ -7,6 +8,9 @@ const Edit = () => {
         <div>
             <EditHeader
                 portfolioName="Shobhit's portfolio"
+            />
+            <EditToolbar
+
             />
         </div>
     );
