@@ -10,7 +10,7 @@ const SeeAllHeader = ({ work }) => {
                 <option value="default">Sort</option>
                 <option value="name">Name</option>
                 <option value="date">Date</option>
-                <option value="popularity">Popularity</option>
+                <option value="tags">Tags</option>
             </select>
         </div>
     );

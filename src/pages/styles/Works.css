@@ -1,9 +1,3 @@
-.images-container {
-    display: flex;
-    padding: 0px 40px; 
-    justify-content: space-between;
-    align-items: center;
-}
 
 .add-button {
     display: flex;
@@ -33,16 +27,15 @@
     font-family: 'Merriweather', serif;
 }
 
+
 .images-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 images per row */
-    gap: 20px; /* Space between images */
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
+    gap: 20px;
 }
 
-.images-grid img {
-    width: 100%; /* Ensures images fit within their grid */
-    max-width: 300px; /* Adjust this based on your design */
-    height: auto;
+.images-grid > * {
+    flex: 1 1 calc(33.33% - 20px); /* 3 images per row */
+    max-width: calc(33.33% - 20px);
 }
