@@ -30,6 +30,7 @@ const EditToolbar = () => {
                     <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon textbox-icon" alt="add textbox"/>
                 </button>
                 <button className="item icon image-button">
+                    {/* eslint-disable-next-line jsx-a11y/img-redundant-alt*/}
                     <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon image-icon" alt="add image"/>
                 </button>
             </div>
