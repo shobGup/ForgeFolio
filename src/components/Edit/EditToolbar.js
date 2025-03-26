@@ -15,23 +15,23 @@ const EditToolbar = () => {
             </div>
             <div className="icons">
                 <button className="item icon print-button">
-                    <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon print-icon" alt="print"/>
+                    <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/printer_icon.png"} className="icon print-icon" alt="print"/>
                 </button>
                 <button className="item icon undo-button">
-                    <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon undo-icon" alt="undo"/>
+                    <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/undo_icon.png"} className="icon undo-icon" alt="undo"/>
                 </button>
                 <button className="item icon redo-button">
-                    <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon redo-icon" alt="redo"/>
+                    <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/redo_icon.png"} className="icon redo-icon" alt="redo"/>
                 </button>
                 <button className="item icon select-button">
-                    <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon select-icon" alt="select"/>
+                    <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/cursor_icon.png"} className="icon select-icon" alt="select"/>
                 </button>
                 <button className="item icon textbox-button">
-                    <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon textbox-icon" alt="add textbox"/>
+                    <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/textbox_icon.png"} className="icon textbox-icon" alt="add textbox"/>
                 </button>
                 <button className="item icon image-button">
                     {/* eslint-disable-next-line jsx-a11y/img-redundant-alt*/}
-                    <img src={process.env.PUBLIC_URL + "/logo192.png"} className="icon image-icon" alt="add image"/>
+                    <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/img_icon.svg"} className="icon image-icon" alt="add image"/>
                 </button>
             </div>
             <div className='vertical-line'/>
