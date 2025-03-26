@@ -1,4 +1,5 @@
 .edit-header {
+    height: 86px;
     font-family: Merriweather, serif;
     display: flex;
     align-items: center;
@@ -12,7 +13,6 @@
     border-radius: 50px;
     margin-right: auto;
     margin-left: 9px;
-    margin-top: 6px;
 }
 
 .portfolio-name {
