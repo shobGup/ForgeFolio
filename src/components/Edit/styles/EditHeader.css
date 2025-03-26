@@ -1,0 +1,51 @@
+.edit-header {
+    height: 86px;
+    font-family: Merriweather, serif;
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
+    border-radius: 50px;
+    margin-right: auto;
+    margin-left: 9px;
+}
+
+.portfolio-name {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+}
+
+.view-button,
+.share-button {
+    width: 136px;
+    height: 47px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    font-family: Merriweather, serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: normal;
+    color: #000;
+}
+
+.view-button {
+    background: #EFEFEF;
+    margin-right: 25px;
+}
+
+.share-button {
+    background: #B6D6E0;
+    margin-right: 11px;
+}
