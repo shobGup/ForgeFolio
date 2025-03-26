@@ -4,7 +4,7 @@ import './styles/EditHeader.css';
 
 const EditHeader = ({ portfolioName }) => {
     return (
-        <div className="edit-header row">
+        <div className="edit-header">
             <img 
                 src={process.env.PUBLIC_URL + "/images/Logo_no_Text.png"}
                 className='logo'
