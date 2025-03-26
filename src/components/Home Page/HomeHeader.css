@@ -1,0 +1,30 @@
+.logo {
+    display: flex;
+    align-items: flex-start; 
+    justify-content: flex-start; 
+    width: 75px;
+    height: 75px;
+    margin: 10px;
+    border-radius: 50px;
+}
+
+.profile {
+    display: flex;
+    align-items: flex-end; 
+    justify-content: flex-end; 
+    width: 75px;
+    height: 75px;
+    margin: 10px;
+    border-radius: 50px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.title {
+    font-size: 50px;
+    font-family: 'Merriweather', serif;
+}
