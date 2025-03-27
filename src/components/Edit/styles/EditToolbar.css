@@ -4,4 +4,46 @@
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
     background: #EFEFEF;
+    display: flex;
+    align-items: center;
+
 }
+
+.item {
+    margin-right: 12px;
+}
+
+.item:hover {
+    background: #e2e2e2;
+}
+
+.button {
+    height: auto;
+    border: none;
+}
+
+.help-button, 
+.delete-button {
+    width: 91px;
+    /* text-align: left; */
+}
+
+.delete-button {
+    margin-left: 0px;
+    color: red;
+}
+
+.icon {
+    height: 25px;
+    width: 25px;
+    padding: 0;
+    border: none;
+}
+
+.vertical-line {
+    height: 22px;
+    width: 2px;
+    background-color: #000;
+    margin-right: 12px;
+}
+
