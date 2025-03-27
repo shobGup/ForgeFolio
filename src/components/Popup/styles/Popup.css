@@ -6,6 +6,7 @@
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -13,8 +14,8 @@
 .popup-inner{
     position: relative;
     padding: 32px;
-    width: 100%;
-    max-width: 640px;
+    width: 1271px;
+    height: 741px;
     background-color: white;
 }
 
