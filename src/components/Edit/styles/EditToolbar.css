@@ -25,6 +25,7 @@
 .help-button, 
 .delete-button {
     width: 91px;
+    /* text-align: left; */
 }
 
 .delete-button {
@@ -34,8 +35,8 @@
 
 .icon {
     height: 25px;
-    width: 29px;
-    padding: 0 2px;
+    width: 25px;
+    padding: 0;
     border: none;
 }
 
