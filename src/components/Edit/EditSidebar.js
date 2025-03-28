@@ -2,8 +2,9 @@ import React from 'react';
 import './styles/EditSidebar.css';
 import SidebarImage from './SidebarImage';
 
-
 const EditSidebar = ({ }) => {
+    
+    const [searchTerm, setSearchTerm] = React.useState('');
 
     const [allWorks, setAllWorks] = React.useState([
         { title: 'Mona Lisa', imageUrl: '/images/mona-lisa.png', description: 'A portrait of a woman.', tags: ['art', 'portrait'], score: 5 },
@@ -15,11 +16,13 @@ const EditSidebar = ({ }) => {
         { title: 'Starry Night', imageUrl: '/images/starrynight.png', description: 'Starry Night.', tags: ['art', 'nature', 'abstract'], score: 43 },
         { title: 'The Persistence of Memories', imageUrl: '/images/the-persistence-of-memories.jpg', description: 'Clocks and stuff.', tags: ['art', 'surrealism', 'abstract', 'nature'], score: 98 },
         { title: 'The Great Wave', imageUrl: '/images/great-wave.jpg', description: 'Big Wave.', tags: ['art', 'nature', 'japanese', 'nature'], score: 77 },
-
     ]);
 
-    const recentWorks = allWorks
-        .sort((a, b) => b.score - a.score)
+    const filteredWorks = allWorks
+        .filter(work =>
+            work.title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => b.score - a.score);
 
     return (
         <div className="sidebar">
@@ -27,11 +30,17 @@ const EditSidebar = ({ }) => {
                 <h3 className="header-box-title">Other Works</h3>
                 <div className="header-search">
                     <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/search.svg"} alt="Search Icon" className="search-icon"/>
-                    <input className="header-search-input" type="search" placeholder='Search' /> 
+                    <input 
+                        className="header-search-input" 
+                        type="search" 
+                        placeholder="Search"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    /> 
                 </div>
             </div>
             <div className="works-section">
-                {allWorks.map((work) => (
+                {filteredWorks.map((work) => (
                     <SidebarImage 
                         key={work.title} 
                         work={work} 
@@ -40,6 +49,6 @@ const EditSidebar = ({ }) => {
             </div>
         </div>
     );
-}
+};
 
 export default EditSidebar;
