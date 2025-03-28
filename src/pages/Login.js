@@ -1,30 +1,14 @@
-import React, {useState, useRef} from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import "../styles/Login.css";
-import Popup from "../components/Popup/Popup";
-import AddWorkPage1 from "../components/AddWork/AddWorkPage1";
-import AddWorkPage2 from "../components/AddWork/AddWorkPage2";
-
 const Login = () => {
     const navigate = useNavigate();
-    const ref = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         navigate("/home")
     }
-
-    const [buttonPopup, setButtonPopup] = useState(false);
-
-    {/* File Upload */}
-    {/* https://www.youtube.com/shorts/AmtAueCqDX4 */}
-    const [file, setFile] = useState(null);
-
-
-    const [addWorkPage, setAddWorkPage] = useState(0);
-
-
     return (
         <div className="container">
             {/* Top Row */}
@@ -61,22 +45,6 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <input type="file" ref={ref} hidden/>  
-            <button onClick={() => {
-                setFile(null);
-                ref.current.click();
-                ref.current.onchange = (e) => {
-                    setFile(ref.current.files[0]);
-                    setButtonPopup(true);
-                };
-            }}>CLICK ME FOR POPUP</button>
-
-
-            <Popup trigger={buttonPopup} closePopup={() => {setButtonPopup(false); setFile(null); ref.current.value = null; setAddWorkPage(0);}}>
-                {
-                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage}/>
-                }
-            </Popup>
         </div>
 
         
