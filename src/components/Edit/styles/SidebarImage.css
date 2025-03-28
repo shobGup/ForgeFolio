@@ -1,0 +1,35 @@
+.work {
+    display: flex;
+    width: 140px;
+    height: 210px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(30px);
+    margin-top: 10px;
+    text-align: center;
+    font-family: Merriweather;
+    font-size: 14px;
+    line-height: normal;
+    text-align: center;
+  }
+  
+  .work img {
+    max-width: 100%;
+    max-height: 150px;
+    object-fit: contain; 
+  }
+  
+  .work-title {
+    display: inline-block;
+    width: 140px;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    color: #000;
+  }
+
+  .percentage {
+    font-weight: 700;
+  }

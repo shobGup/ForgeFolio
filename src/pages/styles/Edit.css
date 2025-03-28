@@ -1,0 +1,27 @@
+.outer-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .header {
+    flex-shrink: 0; 
+  }
+  
+  .toolbar {
+    flex-shrink: 0;
+  }
+  
+  .main-content {
+    display: flex;
+    flex: 1; 
+  }
+  
+  .edit-sidebar {
+    width: 200px;             
+    background-color: #EDEDE0; 
+    max-height: calc(100vh - 86px - 30px); /* If this line changes, change .works-section EditSidebar.css */
+  }
+  
+  
