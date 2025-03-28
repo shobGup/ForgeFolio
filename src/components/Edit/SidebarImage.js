@@ -5,14 +5,14 @@ const SidebarImage = ({ work }) => {
 
     const { score } = work;
 
+    {/* Used ChatGPT for the following function */}
     function getColorForValue(value) {
         const clamped = Math.max(0, Math.min(100, value));
       
-        // Remap the hue to skip that “olive” range — curve the middle a bit
         const hue = 120 * Math.pow(clamped / 100, 1.1); // nonlinear blend (slows the shift near yellow)
       
-        const saturation = 60; // less neon
-        const lightness = 42;  // brighter for readability
+        const saturation = 60;
+        const lightness = 42;
       
         return `hsl(${hue.toFixed(1)}, ${saturation}%, ${lightness}%)`;
       }
