@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import Image from '../components/Image/Image.js';
 import HomeHeader from '../components/Home Page/HomeHeader.js';
+import Popup from "../components/Popup/Popup";
+import AddWorkPage1 from "../components/AddWork/AddWorkPage1";
+import AddWorkPage2 from "../components/AddWork/AddWorkPage2";
 import './styles/Home.css';
 
 
@@ -24,6 +27,13 @@ const Home = () => {
     const recentPortfolios = allPortfolios
         .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
         .slice(0, 2);
+    
+    const [addWorkPopup, setAddWorkPopup] = useState(false);
+    const [addWorkPage, setAddWorkPage] = useState(0);
+    {/* File Upload */}
+    {/* https://www.youtube.com/shorts/AmtAueCqDX4 */}
+    const ref = useRef();
+    const [file, setFile] = useState(null);
         
     return (
         <div>
@@ -31,7 +41,14 @@ const Home = () => {
             <div className="titles">Works</div>
             <div className='images-container'>
                 <div className="add-button-container">
-                    <button className="add-button">+</button>
+                <input type="file" ref={ref} hidden/> 
+                <button className="add-button" onClick={() => {
+                    setFile(null);
+                    ref.current.click();
+                    ref.current.onchange = (_) => {
+                        setFile(ref.current.files[0]);
+                        setAddWorkPopup(true);
+                };}}>+</button>
                     <div className="add-button-text">New Work</div>
                 </div>
                 {recentWorks.map((work) => (
@@ -48,8 +65,8 @@ const Home = () => {
             <div className="titles">Portfolios</div>
             <div className='images-container'>
                 <div className="add-button-container">
-                    <button className="add-button">+</button>
-                    <div className="add-button-text">New Portfolio</div>
+                <button className="add-button">+</button>
+                <div className="add-button-text">New Portfolio</div>
                 </div>
                 {recentPortfolios.map((portfolio) => (
                     <Image key={portfolio.title} work={portfolio} />
@@ -62,6 +79,11 @@ const Home = () => {
                     <div className="see-all-container"></div> 
                 )}
             </div>
+            <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = null; setAddWorkPage(0);}}>
+                {
+                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage}/>
+                }
+            </Popup>
         </div>
     );
 }
