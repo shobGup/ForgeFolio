@@ -40,12 +40,19 @@ const EditSidebar = ({ }) => {
                 </div>
             </div>
             <div className="works-section">
-                {filteredWorks.map((work) => (
-                    <SidebarImage 
-                        key={work.title} 
-                        work={work} 
-                    />
-                ))}
+                {filteredWorks.length === 0 ? (
+                    <div className="no-results">
+                        No works found
+                    </div>
+                ) : 
+                (
+                    filteredWorks.map((work) => (
+                        <SidebarImage 
+                            key={work.title} 
+                            work={work} 
+                        />
+                    ))
+                )}
             </div>
         </div>
     );

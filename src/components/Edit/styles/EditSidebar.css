@@ -59,3 +59,10 @@
         overflow-y: scroll;
         height: calc(100vh - 86px - 30px - 130px);
     }
+
+    .no-results {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 20px;
+        color: darkred;
+    }
