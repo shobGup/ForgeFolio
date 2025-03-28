@@ -9,14 +9,20 @@ const Edit = () => {
   return (
     <div className="outer-container">
       <div className="header">
-        <EditHeader />
+        <EditHeader 
+          portfolioName={"Shobhit's Portfolio"}
+        />
       </div>
       <div className="toolbar">
-        <EditToolbar />
+        <EditToolbar 
+        
+        />
       </div>
       <div className="main-content">
         <div className="edit-sidebar">
-          <EditSidebar />
+          <EditSidebar 
+            
+          />
         </div>
         <div className="some-other-panel">
           {/* Main page content */}
