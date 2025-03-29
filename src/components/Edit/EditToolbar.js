@@ -1,8 +1,12 @@
 import React from 'react';
 import './styles/EditToolbar.css';
+import { useCanvasStore } from '../../stores/canvasStore';
 
 
 const EditToolbar = () => {
+
+    const setPlacingTextbox = useCanvasStore((state) => state.setPlacingTextbox);
+
     return (
         <div className="edit-toolbar">
             <button className="item button delete-button">
@@ -23,7 +27,7 @@ const EditToolbar = () => {
             <button className="item icon select-button">
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/cursor_icon.png"} className="icon select-icon" alt="select"/>
             </button>
-            <button className="item icon textbox-button">
+            <button className="item icon textbox-button" onClick={() => setPlacingTextbox(true)}>
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/textbox_icon.png"} className="icon textbox-icon" alt="add textbox"/>
             </button>
             <button className="item icon image-button">

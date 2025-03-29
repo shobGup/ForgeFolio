@@ -1,0 +1,15 @@
+.canvas-wrapper {
+    width: calc(100vw - 200px);  /* subtract sidebar width */
+    height: calc(100vh - 116px); /* subtract header + toolbar */
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #f8f8f8;
+  }
+  
+  canvas {
+    border: 1px solid #ccc;
+  }
+  

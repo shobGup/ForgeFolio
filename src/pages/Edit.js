@@ -4,6 +4,7 @@ import EditHeader from '../components/Edit/EditHeader';
 import EditToolbar from '../components/Edit/EditToolbar';
 import EditSidebar from '../components/Edit/EditSidebar';
 import './styles/Edit.css';
+import CanvasArea from '../components/Edit/CanvasArea';
 
 const Edit = () => {
   return (
@@ -25,7 +26,7 @@ const Edit = () => {
           />
         </div>
         <div className="some-other-panel">
-          {/* Main page content */}
+          <CanvasArea />
         </div>
       </div>
     </div>
