@@ -9,7 +9,7 @@ const SeeAllHeader = () => {
                 <button className="back-button">Back</button>
                 <div className="search-wrapper">
                     <img 
-                        src={process.env.PUBLIC_URL + "/images/search.svg"} 
+                        src={process.env.PUBLIC_URL + "/images/work_all_symbols/search.svg"} 
                         alt="Search Icon" 
                         className="search-icon"
                     />
@@ -23,12 +23,12 @@ const SeeAllHeader = () => {
                         <option value="tags">Tags</option>
                     </select>
                     <img 
-                        src={process.env.PUBLIC_URL + "/images/sort_icon.png"} 
+                        src={process.env.PUBLIC_URL + "/images/work_all_symbols/sort_icon.png"} 
                         alt="Sort Icon" 
                         className="sort-icon"
                     />
                     <img 
-                        src={process.env.PUBLIC_URL + "/images/down_icon.png"} 
+                        src={process.env.PUBLIC_URL + "/images/work_all_symbols/down_icon.png"} 
                         alt="Dropdown Arrow" 
                         className="dropdown-arrow"
                     />
