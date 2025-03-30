@@ -24,7 +24,6 @@ const Works = () => {
     return (
         <div>
             <SeeAllHeader/>
-            <div className="titles">Works</div>
             <div className="images-grid">
                 {recentWorks.map((work) => (
                     <Image key={work.title} work={work} />

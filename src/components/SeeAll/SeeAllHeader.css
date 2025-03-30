@@ -1,31 +1,123 @@
-.logo {
+body {
+    font-family: 'Merriweather', serif;
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: flex-start; 
-    justify-content: flex-start; 
-    width: 75px;
-    height: 75px;
-    margin: 10px;
-    border-radius: 50px;
+    justify-content: center;
 }
 
-.profile {
+.header-wrapper {
+    width: 100%;
     display: flex;
-    align-items: flex-end; 
-    justify-content: flex-end; 
-    width: 75px;
-    height: 75px;
-    margin: 10px;
-    border-radius: 50px;
+    justify-content: center;
+}
+
+.header-background {
+    width: 100%;
+    max-width: 1440px;
+    height: 96px;
+    background: #EFEFEF;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
 .header-container {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 0px 25px; 
+    justify-content: center;
+    align-items: center;
+    gap: 75px;
+    position: relative;
+    height: 96px;
+    width: 100%;
+    max-width: 1440px;
 }
 
-.title {
-    font-size: 50px;
-    font-family: 'Merriweather', serif;
+.back-button {
+    display: flex;
+    width: 140px;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background: #FFF;
+    color: #000;
+    font-size: 22px;
+    font-weight: 400;
+    border-width: 0px;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 750px;
+    height: 45px;
+}
+
+.search-bar {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: #FFF;
+    color: #000;
+    font-size: 22px;
+    font-weight: 400;
+    padding-left: 45px;
+    border: none;
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+}
+.dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 45px;
+    border-radius: 10px;
+    background: #FFF;
+    border: none;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+.sort-dropdown {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: #000;
+    font-size: 18px;
+    font-weight: 400;
+    appearance: none;
+    text-align:left;
+    outline: none;
+    cursor: pointer;
+    padding: 0 30px;
+    
+}
+
+.sort-icon {
+    position: absolute;
+    left: 10px;
+    width: 18px;
+    height: 18px;
+    pointer-events: none; 
+}
+
+.dropdown-arrow {
+    position: absolute;
+    right: 10px;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
 }
