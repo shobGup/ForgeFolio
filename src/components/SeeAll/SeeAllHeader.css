@@ -1,4 +1,4 @@
-body {
+.works-body {
     font-family: 'Merriweather', serif;
     margin: 0;
     padding: 0;
@@ -6,13 +6,13 @@ body {
     justify-content: center;
 }
 
-.header-wrapper {
+.works-header-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-.header-background {
+.works-header-background {
     width: 100%;
     max-width: 1440px;
     height: 96px;
@@ -23,7 +23,7 @@ body {
     z-index: -1;
 }
 
-.header-container {
+.works-header-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,7 +34,7 @@ body {
     max-width: 1440px;
 }
 
-.back-button {
+.works-back-button {
     display: flex;
     width: 140px;
     height: 45px;
@@ -48,7 +48,7 @@ body {
     border-width: 0px;
 }
 
-.search-wrapper {
+.works-search-wrapper {
     position: relative;
     display: flex;
     align-items: center;
@@ -56,7 +56,7 @@ body {
     height: 45px;
 }
 
-.search-bar {
+.works-search-bar {
     width: 100%;
     height: 100%;
     border-radius: 10px;
@@ -69,14 +69,14 @@ body {
     outline: none;
 }
 
-.search-icon {
+.works-search-icon {
     position: absolute;
     left: 15px;
     width: 22px;
     height: 22px;
     pointer-events: none;
 }
-.dropdown-wrapper {
+.works-dropdown-wrapper {
     position: relative;
     display: flex;
     align-items: center;
@@ -90,7 +90,7 @@ body {
     padding: 0 10px;
 }
 
-.sort-dropdown {
+.works-sort-dropdown {
     width: 100%;
     height: 100%;
     border: none;
@@ -106,7 +106,7 @@ body {
     
 }
 
-.sort-icon {
+.works-sort-icon {
     position: absolute;
     left: 10px;
     width: 18px;
@@ -114,7 +114,7 @@ body {
     pointer-events: none; 
 }
 
-.dropdown-arrow {
+.works-dropdown-arrow {
     position: absolute;
     right: 10px;
     width: 14px;
