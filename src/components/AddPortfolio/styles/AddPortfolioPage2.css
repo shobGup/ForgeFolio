@@ -1,0 +1,41 @@
+.add-portfolio-detail-header {
+    margin-top: 34px;
+    margin-left: 195px;
+    color: #000;
+    font-family: Merriweather;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.add-portfolio-name-input {
+    margin-top: 10px;
+    margin-left: 195px;
+    border-radius: 10px;
+    background: #F3F3F3;
+    border: none;
+    width: 815px;
+    height: 52px;
+    flex-shrink: 0;
+    color: rgba(0, 0, 0, 0.50);
+    font-size: 24px;
+    font-weight: 400;
+    padding-left: 8px;
+}
+
+.add-portfolio-description-input {
+    margin-top: 10px;
+    margin-left: 195px;
+    border-radius: 10px;
+    background: #F3F3F3;
+    border: none;
+    width: 815px;
+    height: 184px;
+    flex-shrink: 0;
+    color: rgba(0, 0, 0, 0.50);
+    font-size: 24px;
+    font-weight: 400;
+    padding: 8px;
+}
+
