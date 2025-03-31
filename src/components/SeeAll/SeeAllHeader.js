@@ -18,7 +18,7 @@ const SeeAllHeader = () => {
                 <div className="dropdown-wrapper">
                     <select className="sort-dropdown">
                         <option value="default">Sort</option>
-                        <option value="name">Name</option>
+                        <option value="Title">Title</option>
                         <option value="date">Date</option>
                         <option value="tags">Tags</option>
                     </select>
