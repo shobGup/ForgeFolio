@@ -11,9 +11,9 @@ function AddPortfolioPage2({setNextPage}) {
             <div className="add-portfolio-detail-header">Name</div>
             <input className='add-portfolio-name-input' type='text'  placeholder="Name"></input>
             <div className="add-portfolio-detail-header">Description</div>
-            <input className='add-portfolio-description-input' type='text'  placeholder="Description"></input>
+            <textarea className='add-portfolio-description-input' type='text'  placeholder="Description"></textarea>
             <div className="add-portfolio-detail-header">Media Count</div>
-            <input type='number'></input>
+            <input type='number' className="add-portfolio-number-input" placeholder="0"></input>
                 
             <div className='add-portfolio-button-bar'>
                 <button className='add-next-button' onClick={() => setNextPage(2)}>Next</button>
