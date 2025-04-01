@@ -20,8 +20,8 @@ const Home = () => {
         .slice(0, 2);
 
     const [allPortfolios, setAllPortfolios] = React.useState([
-        { title: 'Dreamworks', imageUrl: '/images/portfolio2.png', createdDate: '03/01/2025', description: 'A portfolio for dreamworks.', tags: ['art', 'paintings', 'cartoon'] },
-        { title: 'Cellos at Texas', imageUrl: '/images/portfolio1.png', createdDate: '02/25/2025', description: 'A portfolio for cellos at texas.', tags: ['audio', 'expressionism'] },
+        { title: 'Dreamworks', imageUrl: '/images/portfolio2.png', createdDate: '03/01/2025', description: 'A portfolio for dreamworks.', tags: ['art', 'paintings', 'cartoon'], link : 30},
+        { title: 'Cellos at Texas', imageUrl: '/images/portfolio1.png', createdDate: '02/25/2025', description: 'A portfolio for cellos at texas.', tags: ['audio', 'expressionism'], link : 7},
     ]);
 
     const recentPortfolios = allPortfolios
@@ -52,7 +52,7 @@ const Home = () => {
                     <div className="add-button-text">New Work</div>
                 </div>
                 {recentWorks.map((work) => (
-                    <Image key={work.title} work={work} />
+                    <Image key={work.title} work={work} type = "work" />
                 ))}
                 {allWorks.length > 2 ? (
                     <div className='see-all-container'>
@@ -69,7 +69,7 @@ const Home = () => {
                 <div className="add-button-text">New Portfolio</div>
                 </div>
                 {recentPortfolios.map((portfolio) => (
-                    <Image key={portfolio.title} work={portfolio} />
+                    <Image key={portfolio.title} work={portfolio} type = "portfolio" />
                 ))}
                 {allPortfolios.length > 2 ? (
                     <div className='see-all-container'>

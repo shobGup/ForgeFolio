@@ -26,7 +26,7 @@ const Works = () => {
             <SeeAllHeader/>
             <div className="images-grid">
                 {recentWorks.map((work) => (
-                    <Image key={work.title} work={work} />
+                    <Image key={work.title} work={work} type = "work" />
                 ))}
             </div>
         </div>
