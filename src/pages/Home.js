@@ -4,6 +4,7 @@ import HomeHeader from '../components/Home Page/HomeHeader.js';
 import Popup from "../components/Popup/Popup";
 import AddWorkPage1 from "../components/AddWork/AddWorkPage1";
 import AddWorkPage2 from "../components/AddWork/AddWorkPage2";
+import { useNavigate } from "react-router-dom";
 import './styles/Home.css';
 
 
@@ -14,6 +15,9 @@ const Home = () => {
         { title: 'Impression Sunrise', imageUrl: '/images/impression-sunrise.png', createdDate: '12/15/2022', description: 'A beautiful sunset.', tags: ['art', 'nature', 'painting'] },
         { title: 'The Artist\'s Garden at Giverny', imageUrl: '/images/irises-in-monets-garden.png', createdDate: '07/10/2021', description: 'A garden.', tags: ['art', 'nature', 'flowers', 'garden'] },
     ]);
+
+    const navigate = useNavigate();
+    
 
     const recentWorks = allWorks
         .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
@@ -34,7 +38,16 @@ const Home = () => {
     {/* https://www.youtube.com/shorts/AmtAueCqDX4 */}
     const ref = useRef();
     const [file, setFile] = useState(null);
-        
+
+    const handleWorkAll = (e) => {
+        e.preventDefault();
+        navigate("/works")
+    }
+
+    const handlePortAll = (e) => {
+        e.preventDefault();
+        navigate("/portfolios")
+    }
     return (
         <div>
             <HomeHeader/>
@@ -54,13 +67,15 @@ const Home = () => {
                 {recentWorks.map((work) => (
                     <Image key={work.title} work={work} type = "work" />
                 ))}
-                {allWorks.length > 2 ? (
-                    <div className='see-all-container'>
-                        <button className='see-all-button'>See All {allWorks.length}</button>
-                    </div>
-                ) : (
-                    <div className="see-all-container"></div> 
-                )}
+                <form onSubmit={handleWorkAll}>
+                    {allWorks.length > 2 ? (
+                        <div className='see-all-container'>
+                            <button className='see-all-button'>See All {allWorks.length}</button>
+                        </div>
+                    ) : (
+                        <div className="see-all-container"></div> 
+                    )}
+                </form>
             </div>
             <div className="titles">Portfolios</div>
             <div className='images-container'>
@@ -71,13 +86,15 @@ const Home = () => {
                 {recentPortfolios.map((portfolio) => (
                     <Image key={portfolio.title} work={portfolio} type = "portfolio" />
                 ))}
-                {allPortfolios.length > 2 ? (
-                    <div className='see-all-container'>
-                        <button className='see-all-button'>See All {allPortfolios.length}</button>
-                    </div>
-                ) : (
-                    <div className="see-all-container"></div> 
-                )}
+                <form onSubmit={handlePortAll}>
+                    {allPortfolios.length > 2 ? (
+                        <div className='see-all-container'>
+                            <button type="submit" className='see-all-button'>See All {allPortfolios.length}</button>
+                        </div>
+                    ) : (
+                        <div className="see-all-container"></div>
+                    )}
+                </form>
             </div>
             <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = null; setAddWorkPage(0);}}>
                 {

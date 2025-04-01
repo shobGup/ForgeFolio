@@ -3,7 +3,6 @@ import Image from '../components/Image/Image.js';
 import SeeAllHeader from '../components/SeeAll/SeeAllHeader.js';
 import './styles/Portfolios.css';
 
-
 const Portfolios = () => {
     const [allPorts, setAllPorts] = React.useState([
         { title: 'Dreamworks', imageUrl: '/images/portfolio2.png', createdDate: '03/01/2025', description: 'A portfolio for dreamworks.', tags: ['art', 'paintings', 'cartoon'], link : 30},
