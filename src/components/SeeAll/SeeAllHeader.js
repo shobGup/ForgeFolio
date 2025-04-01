@@ -30,6 +30,11 @@ const SeeAllHeader = ({ sortState, setSortState, setWorks }) => {
                     <input className="works-search-bar" type="text" placeholder="Search by name" />
                 </div>
                 <div className="works-dropdown-wrapper">
+                <img 
+                        src={process.env.PUBLIC_URL + "/images/work_all_symbols/down_icon.png"} 
+                        alt="down Icon" 
+                        className="works-dropdown-arrow"
+                    />
                     <select 
                         className="works-sort-dropdown" 
                         value={sortState} 
@@ -41,6 +46,11 @@ const SeeAllHeader = ({ sortState, setSortState, setWorks }) => {
                         <option value="tags">tags</option>
 
                     </select>
+                    <img 
+                        src={process.env.PUBLIC_URL + "/images/work_all_symbols/sort_icon.png"} 
+                        alt="sort Icon" 
+                        className="works-sort-icon"
+                    />
                 </div>
             </div>
         </div>
