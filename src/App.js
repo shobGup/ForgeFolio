@@ -26,6 +26,7 @@ const App = () => {
                 <Routes>
                     <Route path="/ForgeFolio" element={<Login />} />
                     <Route path="/home" element={<Home />} />
+                    <Route path="/home?" element={<Home />} />
                     <Route path="/works" element={<Works />} />
                     <Route path="/portfolios" element={<Portfolios />} />
                     <Route path="/edit" element={<Edit />} />
