@@ -1,0 +1,12 @@
+.tag-box {
+    display: inline-flex;
+    padding: 10px 10px 10px 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;    border-radius: 30px;
+    background: #E8E8E8;
+}
+
+.tag-box.selected {
+    background: #DDF0FF;
+}

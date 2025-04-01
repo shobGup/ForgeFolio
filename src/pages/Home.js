@@ -1,9 +1,12 @@
 import React, {useState, useRef} from 'react';
 import Image from '../components/Image/Image.js';
-import HomeHeader from '../components/Home Page/HomeHeader.js';
+import HomeHeader from '../components/HomeHeader/HomeHeader.js';
 import Popup from "../components/Popup/Popup";
 import AddWorkPage1 from "../components/AddWork/AddWorkPage1";
 import AddWorkPage2 from "../components/AddWork/AddWorkPage2";
+import AddPortfolioPage1 from "../components/AddPortfolio/AddPortfolioPage1.js";
+import AddPortfolioPage2 from "../components/AddPortfolio/AddPortfolioPage2.js";
+import AddPortfolioPage3 from "../components/AddPortfolio/AddPortfolioPage3.js";
 import { useNavigate } from "react-router-dom";
 import './styles/Home.css';
 
@@ -34,6 +37,9 @@ const Home = () => {
     
     const [addWorkPopup, setAddWorkPopup] = useState(false);
     const [addWorkPage, setAddWorkPage] = useState(0);
+    const [addPortfolioPopup, setAddPortfolioPopup] = useState(false);
+    const [addPortfolioPage, setAddPortfolioPage] = useState(0);
+    
     {/* File Upload */}
     {/* https://www.youtube.com/shorts/AmtAueCqDX4 */}
     const ref = useRef();
@@ -80,7 +86,10 @@ const Home = () => {
             <div className="titles">Portfolios</div>
             <div className='images-container'>
                 <div className="add-button-container">
-                <button className="add-button">+</button>
+                <button className="add-button" 
+                    onClick={() => {
+                        setAddPortfolioPopup(true);
+                ;}}>+</button>
                 <div className="add-button-text">New Portfolio</div>
                 </div>
                 {recentPortfolios.map((portfolio) => (
@@ -101,6 +110,16 @@ const Home = () => {
                     addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage}/>
                 }
             </Popup>
+            <Popup trigger={addPortfolioPopup} closePopup={() =>{setAddPortfolioPopup(false); setAddPortfolioPage(0)}}>
+                {
+                    addPortfolioPage === 0 
+                        ? <AddPortfolioPage1 setNextPage={setAddPortfolioPage} />
+                        : addPortfolioPage === 1 
+                            ? <AddPortfolioPage2 setNextPage={setAddPortfolioPage} />
+                            : <AddPortfolioPage3 setNextPage={setAddPortfolioPage} />
+                }
+            </Popup>
+
         </div>
     );
 }
