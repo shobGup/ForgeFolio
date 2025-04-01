@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Textbox } from 'fabric';
+import { FabricImage, Textbox } from 'fabric';
 
 export const useCanvasStore = create((set, get) => ({
   canvas: null,
@@ -10,6 +10,13 @@ export const useCanvasStore = create((set, get) => ({
 
   selectedObject: null,
   setSelectedObject: (obj) => set({ selectedObject: obj }),
+
+  placingImage: false,
+  setPlacingImage: (val) => set({ placingImage: val }),
+
+  imageUrl: '',
+  setImageUrl: (url) => set({ imageUrl: url }),
+  
 
   addTextboxAt: (x, y) => {
     const canvas = get().canvas;
@@ -25,6 +32,29 @@ export const useCanvasStore = create((set, get) => ({
 
     canvas.requestRenderAll();
     set({ placingTextbox: false, selectedObject: textbox });
+  },
+
+  addImageAt: (url, x, y) => {
+    const canvas = get().canvas;
+
+    const image = new Image();
+    image.src = url;
+    
+    image.onload = () => { 
+      const fabricImg = new FabricImage(image, {
+        left: x,
+        top: y,
+        width: 500,
+        height: 400,
+        selectable: true,
+        hasControls: true,
+        hasBorders: true,
+      });
+      canvas.add(fabricImg);
+      canvas.setActiveObject(fabricImg);
+      canvas.requestRenderAll();
+      set({ placingImage: false, selectedObject: fabricImg, imageUrl: '' });
+    };
   },
 
   deleteSelected: () => {

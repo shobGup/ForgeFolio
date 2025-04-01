@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import './styles/EditToolbar.css';
 import { useCanvasStore } from '../../stores/canvasStore';
 
@@ -6,6 +6,9 @@ import { useCanvasStore } from '../../stores/canvasStore';
 const EditToolbar = () => {
 
     const setPlacingTextbox = useCanvasStore((state) => state.setPlacingTextbox);
+    const setPlacingImage = useCanvasStore((state) => state.setPlacingImage);
+    const setImageUrl = useCanvasStore((state) => state.setImageUrl);
+    const ref = useRef();
 
     return (
         <div className="edit-toolbar">
@@ -30,7 +33,21 @@ const EditToolbar = () => {
             <button className="item icon textbox-button" onClick={() => setPlacingTextbox(true)}>
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/textbox_icon.png"} className="icon textbox-icon" alt="add textbox"/>
             </button>
-            <button className="item icon image-button">
+            
+            <input type="file" ref={ref} accept='.png,.jpeg'hidden/> 
+            <button className="item icon image-button" onClick={() => {
+                ref.current.click();
+                ref.current.onchange = (_) => {
+                    const file = ref.current.files[0];
+                    if (file){
+                        setImageUrl(URL.createObjectURL(ref.current.files[0]));
+                        setPlacingImage(true);
+                    }
+                    else{
+                        console.log("No file selected");
+                    }
+                };
+                }}>
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt*/}
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/img_icon.svg"} className="icon image-icon" alt="add image"/>
             </button>
