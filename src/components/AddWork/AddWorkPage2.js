@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles/AddWork.css";
 
-function AddWorkPage2({file, setNextPage, close}) {
+function AddWorkPage2({file, setNextPage}) {
     return (
         <div className='w-100 h-100 m-0 p-0'>
             {/* copoliot type beat*/}
@@ -16,13 +16,15 @@ function AddWorkPage2({file, setNextPage, close}) {
                         <img src={URL.createObjectURL(file)} alt="Uploaded Work" className="img-fluid" /> 
                     </div>  
                     <div className="col-8 h-100">
+                    <form>
                             <label>Tags</label>
                             <input className="form-control mb-3"></input>
                             
                             <div className="d-flex justify-content-end">
                                 <button className="btn btn-secondary me-2" onClick={() => setNextPage(0)}>Back</button>
-                                <button className="btn btn-primary" onClick={close}>Next</button>
+                                <button className="btn btn-primary" onClick={() => setNextPage(1)}>Next</button>
                             </div>
+                        </form>
                     </div>
                 </div>
             </div>

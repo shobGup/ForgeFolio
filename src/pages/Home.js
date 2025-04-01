@@ -26,10 +26,6 @@ const Home = () => {
     const ref = useRef();
     const [file, setFile] = useState(null);
 
-    const removeAddWorkPopup = () => {
-        setAddWorkPopup(false); setFile(null); ref.current.value = null; setAddWorkPage(0);
-    }
-
     const handleWorkAll = (e) => {
         e.preventDefault();
         navigate("/works")
@@ -92,7 +88,7 @@ const Home = () => {
             </div>
             <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = null; setAddWorkPage(0);}}>
                 {
-                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage} close={removeAddWorkPopup}/>
+                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage}/>
                 }
             </Popup>
             <Popup trigger={addPortfolioPopup} closePopup={() =>{setAddPortfolioPopup(false); setAddPortfolioPage(0)}}>
