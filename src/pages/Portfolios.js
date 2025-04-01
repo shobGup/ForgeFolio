@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from '../components/Image/Image.js';
 import SeeAllHeader from '../components/SeeAll/SeeAllHeader.js';
+import { usePortfoliosStore } from '../stores/portfoliosStore.js';
 import './styles/Portfolios.css';
 
 const Portfolios = () => {
@@ -11,8 +12,7 @@ const Portfolios = () => {
 
     ]);
 
-    const recentPortfolios = allPorts
-        .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
+    const recentPortfolios = usePortfoliosStore.getState().getSortedByDate()
         
     return (
         <div>

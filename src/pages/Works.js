@@ -1,32 +1,34 @@
 import React from 'react';
+import {useState} from 'react';
 import Image from '../components/Image/Image.js';
 import SeeAllHeader from '../components/SeeAll/SeeAllHeader.js';
 import './styles/Works.css';
-
+import { useWorksStore } from '../stores/worksStore.js';
 
 const Works = () => {
-    const [allWorks, setAllWorks] = React.useState([
-        { title: 'Mona Lisa', imageUrl: '/images/mona-lisa.png', createdDate: '09/01/2025', description: 'A portrait of a woman.', tags: ['art', 'portrait'] },
-        { title: 'Red Boats at Argenteuil', imageUrl: '/images/boat.png', createdDate: '03/25/2025', description: 'Red boats at Argenteuil.', tags: ['art', 'nature', 'realism'] },
-        { title: 'Impression Sunrise', imageUrl: '/images/impression-sunrise.png', createdDate: '12/15/2022', description: 'A beautiful sunset.', tags: ['art', 'nature', 'painting'] },
-        { title: 'The Artist\'s Garden at Giverny', imageUrl: '/images/irises-in-monets-garden.png', createdDate: '07/10/2021', description: 'A garden.', tags: ['art', 'nature', 'flowers', 'garden'] },
-        { title: 'Girl with the Pearl Earrings', imageUrl: '/images/girl-with the-pearl-earings.png', createdDate: '08/29/2024', description: 'Girl with pearl hearings.', tags: ['art', 'portrait', 'human', 'realism'] },        
-        { title: 'Scream', imageUrl: '/images/scream.png', createdDate: '03/27/2025', description: 'Guy screaming.', tags: ['art', 'abstract', 'portrait', 'human'] },        
-        { title: 'Starry Night', imageUrl: '/images/starrynight.png', createdDate: '09/02/2025', description: 'Starry Night.', tags: ['art', 'nature', 'abstract'] },
-        { title: 'The Persistence of Memories', imageUrl: '/images/the-persistence-of-memories.jpg', createdDate: '07/16/2024', description: 'Clocks and stuff.', tags: ['art', 'surrealism', 'abstract', 'nature'] },
-        { title: 'The Great Wave', imageUrl: '/images/great-wave.jpg', createdDate: '07/16/2025', description: 'Big Wave.', tags: ['art', 'nature', 'japanese', 'nature'] },
+    const [sortState, setSortState] = useState("default");
+    const worksStore = useWorksStore.getState();
 
-    ]);
+    const sortedWorks = () => {
+        if (sortState === "name") {
+            return worksStore.getSortedByName();
+        } else if (sortState === "date") {
+            return worksStore.getSortedByDate();
+        } else {
+            return worksStore.getSortedByDate();
+        }
+    };
 
-    const recentWorks = allWorks
-        .sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))
-        
+    const [works, setWorks] = useState(worksStore.getSortedByDate());
+
+
+
     return (
         <div>
-            <SeeAllHeader/>
+            <SeeAllHeader sortState={sortState} setSortState={setSortState} setWorks={setWorks} />           
             <div className="images-grid">
-                {recentWorks.map((work) => (
-                    <Image key={work.title} work={work} type = "work" />
+                {works.map((work) => (
+                    <Image key={work.title} work={work} type="work" />
                 ))}
             </div>
         </div>

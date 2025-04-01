@@ -1,8 +1,6 @@
 import React from 'react';
 import './Image.css';
 
-
-
 const Image = ({ work, type }) => {
     return (
         <div className="works">
