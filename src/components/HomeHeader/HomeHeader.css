@@ -31,4 +31,6 @@
     display: flex;
     font-size: 50px;
     font-family: 'Merriweather', serif;
+    left: 50%;
+    transform: translateX(-50%);
 }

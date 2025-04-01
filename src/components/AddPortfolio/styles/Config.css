@@ -1,0 +1,24 @@
+.config-container {
+    display: flex;
+    gap: 20px;
+    text-align: center;
+    margin: 27px 0;
+}
+
+.config-button {
+    height: 45px;
+    width: 45px;
+    background: white;
+}
+
+.name {
+    align-items: center;
+    text-align: center;
+    display: flex;
+    color: #000;
+    font-family: Merriweather;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
