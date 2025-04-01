@@ -1,12 +1,25 @@
 import React from 'react';
 import './SeeAllHeader.css';
+import { useNavigate } from "react-router-dom";
 
 const SeeAllHeader = () => {
+
+    
+    
+    const navigate = useNavigate();
+    
+    const handleBack = (e) => {
+        e.preventDefault();
+        navigate("/home")
+       }
+    
     return (
         <div className="works-body" style={{ position: 'relative' }}>
             <div className="works-header-background"></div>
             <div className="works-header-container">
-                <button className="works-back-button">Back</button>
+                <form onSubmit={handleBack}>
+                    <button className="works-back-button">Back</button>
+                </form>
                 <div className="works-search-wrapper">
                     <img 
                         src={process.env.PUBLIC_URL + "/images/work_all_symbols/search.svg"} 

@@ -13,8 +13,8 @@
 }
 
 .works-header-background {
-    width: 100%;
-    max-width: 1440px;
+    width: 100vw;
+    max-width: none;    
     height: 96px;
     background: #EFEFEF;
     position: absolute;
