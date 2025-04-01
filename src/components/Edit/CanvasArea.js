@@ -27,6 +27,10 @@ const CanvasArea = () => {
         const { x, y } = e.pointer;
         state.addTextboxAt(x, y);
       }
+      if (state.placingImage && e.pointer) {
+        const { x, y } = e.pointer;
+        state.addImageAt(state.imageUrl, x, y);
+      }
     });
 
     // Grow canvas height as needed during drag
