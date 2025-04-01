@@ -16,7 +16,7 @@ const App = () => {
         <div className="app">
             <Router>
                 <nav>
-                    <Link to="/">Login</Link>
+                    <Link to="/ForgeFolio">Login</Link>
                     <Link to="/home">Home</Link>
                     <Link to="/works">Works</Link>
                     <Link to="/portfolios">Portfolios</Link>
@@ -24,7 +24,7 @@ const App = () => {
                 </nav>
 
                 <Routes>
-                    <Route path="/" element={<Login />} />
+                    <Route path="/ForgeFolio" element={<Login />} />
                     <Route path="/home" element={<Home />} />
                     <Route path="/works" element={<Works />} />
                     <Route path="/portfolios" element={<Portfolios />} />
