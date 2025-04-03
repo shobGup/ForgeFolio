@@ -5,6 +5,7 @@ import EditToolbar from '../components/Edit/EditToolbar';
 import EditSidebar from '../components/Edit/EditSidebar';
 import './styles/Edit.css';
 import CanvasArea from '../components/Edit/CanvasArea';
+import { usePortfoliosStore } from '../stores/portfoliosStore.js';
 
 const Edit = () => {
   return (

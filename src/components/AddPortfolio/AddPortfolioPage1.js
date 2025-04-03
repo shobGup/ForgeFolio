@@ -4,7 +4,18 @@ import Tag from "../Tags/Tag";
 import {useTagsStore} from "../../stores/tagsStore.js";
 
 function AddPortfolioPage1({setNextPage, newPortfolio, setNewPortfolio}) {
-    
+    const updateTags = (tagName) => {
+        setNewPortfolio((prevPortfolio) => {
+            const isTagSelected = prevPortfolio.tags.includes(tagName);
+            return {
+                ...prevPortfolio,
+                tags: isTagSelected
+                    ? prevPortfolio.tags.filter((tag) => tag !== tagName) 
+                    : [...prevPortfolio.tags, tagName],
+            };
+        });
+    };
+
     return (
         <div>
             <div className="add-portfolio-header">
@@ -16,7 +27,7 @@ function AddPortfolioPage1({setNextPage, newPortfolio, setNewPortfolio}) {
                 <div className='add-tags-type'>Your tags</div>
                 <div className='add-tags-component'>
                     {useTagsStore.getState().getUsedSortedByCount().map(({ name, count }) => (
-                        <Tag name={name} count={count} />
+                        <Tag name={name} count={count} onClick={updateTags} currSelected={newPortfolio.tags.includes(name)}/>
                     ))} 
                 </div>
                 <div className='add-tags-type'>Usused tags</div>
@@ -24,7 +35,7 @@ function AddPortfolioPage1({setNextPage, newPortfolio, setNewPortfolio}) {
                     If you select one of those, we will do our best to match to related tags.</div>
                 <div className='add-tags-component'>
                     {useTagsStore.getState().getUnusedTags().map(({ name, count }) => (
-                        <Tag name={name} count={count} />
+                        <Tag name={name} count={count} onClick={updateTags} currSelected={newPortfolio.tags.includes(name)}/>
                     ))}
                 </div>
             </div>
