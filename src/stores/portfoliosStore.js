@@ -74,4 +74,18 @@ export const usePortfoliosStore = create((set, get) => ({
             portfolios: [...state.portfolios, newPortfolio],
         }));
     },    
+
+    updatePortfolio: (index, key, newValue) => {
+        set((state) => {
+            const portfolios = [...state.portfolios];
+            const portfolioToUpdate = portfolios[index];
+    
+            portfolios[index] = {
+                ...portfolioToUpdate,
+                [key]: newValue,
+            };
+    
+            return { portfolios };
+        });
+    },
 }));
