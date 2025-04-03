@@ -6,8 +6,20 @@ import Config from "./Config";
 const configurations = ['Headshot', 'Media Descriptions', 'Media Creation Date', 
                         'Resume', 'Contact Information', 'Social Links']
 
-function AddPortfolioPage3({setNextPage}) {
+function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
     const navigate = useNavigate();
+    
+    const updateConfigurations = (configName) => {
+        setNewPortfolio((prevPortfolio) => {
+            const isConfigSelected = prevPortfolio.configurations.includes(configName);
+            return {
+                ...prevPortfolio,
+                configurations: isConfigSelected
+                    ? prevPortfolio.configurations.filter((config) => config !== configName) 
+                    : [...prevPortfolio.configurations, configName],
+            };
+        });
+    };
     return (
         <div>
             <div className="add-portfolio-header">
@@ -16,10 +28,16 @@ function AddPortfolioPage3({setNextPage}) {
             </div>
             <div className='portfolio-configurations-container'>
                 <div className="portfolio-layout-title">Layout Configurations</div>
-                <div className='portfolio-items-container'>{configurations.map((configName) => <Config name={configName}></Config>)}</div>
+                <div className='portfolio-items-container'>{
+                    configurations.map((configName) => 
+                        <Config 
+                            name={configName} 
+                            onClick={updateConfigurations}
+                            currSelected={newPortfolio.configurations.includes(configName)}>
+                        </Config>)}</div>
             </div>
             <div className='add-portfolio-button-bar'>
-                <button className='add-next-button' onClick={() => {navigate('/edit')}}>Create</button>
+                <button className='add-next-button' onClick={() => {console.log(newPortfolio); navigate('/edit')}}>Create</button>
                 <button className='add-back-button' onClick={() => setNextPage(1)}>Back</button>
             </div>
         </div>

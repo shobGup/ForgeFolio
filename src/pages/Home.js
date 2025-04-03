@@ -41,6 +41,19 @@ const Home = () => {
         e.preventDefault();
         navigate("/portfolios")
     }
+    
+    const [newPortfolio, setNewPortfolio] = useState({
+        title: "",
+        imageUrl: "",
+        createdDate: new Date(),
+        description: "",
+        tags: [],
+        canvas: null,
+        mediaCount: 0,
+        link: 30,
+        configurations: [],
+    });
+    
     return (
         <div>
             <HomeHeader/>
@@ -100,13 +113,37 @@ const Home = () => {
                     addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage} setFile={setFile} workTitle={workTitle} workDate={workDate} workDescription={workDescription} setWorkTitle={setWorkTitle} setWorkDate={setWorkDate} setWorkDescription={setWorkDescription}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage} workTitle={workTitle} workDate={workDate} workDescription={workDescription} workTags={workTags} setWorkTags={setWorkTags} setAddWorkPopup={setAddWorkPopup}/>
                 }
             </Popup>
-            <Popup trigger={addPortfolioPopup} closePopup={() =>{setAddPortfolioPopup(false); setAddPortfolioPage(0)}}>
-                {
-                    addPortfolioPage === 0 
-                        ? <AddPortfolioPage1 setNextPage={setAddPortfolioPage} />
+            <Popup 
+                trigger={addPortfolioPopup}
+                closePopup={() =>{
+                    setAddPortfolioPopup(false); 
+                    setAddPortfolioPage(0);
+                    setNewPortfolio({
+                        title: "",
+                        imageUrl: "",
+                        createdDate: new Date(),
+                        description: "",
+                        tags: [],
+                        canvas: null,
+                        mediaCount: 0,
+                        link: 30,
+                        configurations: [],
+                    })
+            }}>
+                {addPortfolioPage === 0 
+                        ? <AddPortfolioPage1 
+                            setNextPage={setAddPortfolioPage}
+                            newPortfolio={newPortfolio}
+                            setNewPortfolio={setNewPortfolio}/>
                         : addPortfolioPage === 1 
-                            ? <AddPortfolioPage2 setNextPage={setAddPortfolioPage} />
-                            : <AddPortfolioPage3 setNextPage={setAddPortfolioPage} />
+                            ? <AddPortfolioPage2 
+                                setNextPage={setAddPortfolioPage}
+                                newPortfolio={newPortfolio}
+                                setNewPortfolio={setNewPortfolio} />
+                            : <AddPortfolioPage3 
+                                setNextPage={setAddPortfolioPage}
+                                newPortfolio={newPortfolio}
+                                setNewPortfolio={setNewPortfolio}/>
                 }
             </Popup>
 
