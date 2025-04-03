@@ -2,8 +2,8 @@ import { create } from 'zustand';
 
 export const useWorksStore = create((set, get) => ({
     works: [
-        { title: 'Mona Lisa', imageUrl: '/images/mona-lisa.png', createdDate: new Date('09/01/2025'), description: 'A portrait of a woman.', tags: ['art', 'portrait'] },
-        { title: 'Red Boats at Argenteuil', imageUrl: '/images/boat.png', createdDate: new Date('03/25/2025'), description: 'Red boats at Argenteuil.', tags: ['art', 'nature', 'realism'] },
+        { title: 'Mona Lisa', imageUrl: '/images/mona-lisa.png', createdDate: new Date('01/01/2025'), description: 'A portrait of a woman.', tags: ['art', 'portrait'] },
+        { title: 'Red Boats at Argenteuil', imageUrl: '/images/boat.png', createdDate: new Date('01/25/2025'), description: 'Red boats at Argenteuil.', tags: ['art', 'nature', 'realism'] },
         { title: 'Impression Sunrise', imageUrl: '/images/impression-sunrise.png', createdDate: new Date('12/15/2022'), description: 'A beautiful sunset.', tags: ['art', 'nature', 'painting'] },
         { title: 'The Artist\'s Garden at Giverny', imageUrl: '/images/irises-in-monets-garden.png', createdDate: new Date('07/10/2021'), description: 'A garden.', tags: ['art', 'nature', 'flowers', 'garden'] },
         { title: 'Girl with the Pearl Earrings', imageUrl: '/images/girl-with the-pearl-earings.png', createdDate: new Date('08/29/2024'), description: 'Girl with pearl hearings.', tags: ['art', 'portrait', 'human', 'realism'] },        
