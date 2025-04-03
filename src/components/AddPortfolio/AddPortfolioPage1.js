@@ -3,7 +3,7 @@ import "./styles/AddPortfolioPage1.css";
 import Tag from "../Tags/Tag";
 import {useTagsStore} from "../../stores/tagsStore.js";
 
-function AddPortfolioPage1({setNextPage}) {
+function AddPortfolioPage1({setNextPage, newPortfolio, setNewPortfolio}) {
     
     return (
         <div>
