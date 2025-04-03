@@ -82,7 +82,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                                         <li key={index} className="suggestion-item" onClick={() => handleSuggestionClick(tag)}>{tag}</li>
                                     ))}
                                     {inputValue.trim() !== "" && !filteredTags.includes(inputValue.trim()) && (
-                                        <li className="create-new-option" onClick={handleCreateNewTag}>Create new "{inputValue.trim()}"</li>
+                                        <li className="create-new-option" onClick={handleCreateNewTag}>{"Create new tag " + "\"" + inputValue.trim() + "\""}</li>
                                     )}
                                 </ul>
                             )}
