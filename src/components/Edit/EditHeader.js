@@ -4,10 +4,6 @@ import './styles/EditHeader.css';
 
 const EditHeader = ({ portfolioName }) => {
     const navigate = useNavigate();
-    const savePortfolio = () => {
-        // Implement save functionality here
-        // add new { title: 'Dreamworks', imageUrl: '/images/portfolio2.png', createdDate: new Date('03/01/2025'), description: 'A portfolio for dreamworks.', tags: ['art', 'paintings', 'cartoon'], link: 30 },
-    };
 
     return (
         <div className="edit-header">

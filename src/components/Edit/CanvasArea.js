@@ -1,12 +1,22 @@
 import React, { useEffect, useRef } from 'react';
 import { Canvas } from 'fabric';
 import { useCanvasStore } from '../../stores/canvasStore';
+import { usePortfoliosStore } from '../../stores/portfoliosStore';
 import './styles/CanvasArea.css';
 
 const CanvasArea = () => {
   const canvasRef = useRef(null);
   const placingTextbox = useCanvasStore((state) => state.placingTextbox);
   const placingImage = useCanvasStore((state) => state.placingImage);
+
+  const updatePortfolioImage = () => {
+    const canvas = useCanvasStore.getState().canvas;
+    if (!canvas) return;
+
+    const index = usePortfoliosStore.getState().getPortfoliosLength() - 1;
+    const newImg = canvas.toDataURL('png');
+    usePortfoliosStore.getState().updatePortfolio(index, 'imageUrl', newImg);
+  };
 
   useEffect(() => {
     const wrapper = document.querySelector('.canvas-wrapper');
@@ -21,6 +31,14 @@ const CanvasArea = () => {
     });
 
     useCanvasStore.getState().setCanvas(canvas);
+
+    const handleCanvasChange = () => {
+      updatePortfolioImage();
+    };
+
+    canvas.on('object:modified', handleCanvasChange);
+    canvas.on('object:added', handleCanvasChange);
+    canvas.on('object:removed', handleCanvasChange);
 
     // Handle textbox placement on click
     canvas.on('mouse:down', function (e) {
