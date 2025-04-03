@@ -20,7 +20,7 @@ function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
             };
         });
     };
-    
+
     return (
         <div>
             <div className="add-portfolio-header">
@@ -38,7 +38,7 @@ function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
                         </Config>)}</div>
             </div>
             <div className='add-portfolio-button-bar'>
-                <button className='add-next-button' onClick={() => {console.log(newPortfolio); navigate('/edit')}}>Create</button>
+                <button className='add-next-button' onClick={() => { navigate('/edit')}}>Create</button>
                 <button className='add-back-button' onClick={() => setNextPage(1)}>Back</button>
             </div>
         </div>
