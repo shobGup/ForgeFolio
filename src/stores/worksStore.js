@@ -7,10 +7,10 @@ export const useWorksStore = create((set, get) => ({
         { title: 'Impression Sunrise', imageUrl: '/images/impression-sunrise.png', createdDate: new Date('12/15/2022'), description: 'A beautiful sunset.', tags: ['art', 'nature', 'painting'] },
         { title: 'The Artist\'s Garden at Giverny', imageUrl: '/images/irises-in-monets-garden.png', createdDate: new Date('07/10/2021'), description: 'A garden.', tags: ['art', 'nature', 'flowers', 'garden'] },
         { title: 'Girl with the Pearl Earrings', imageUrl: '/images/girl-with the-pearl-earings.png', createdDate: new Date('08/29/2024'), description: 'Girl with pearl hearings.', tags: ['art', 'portrait', 'human', 'realism'] },        
-        { title: 'Scream', imageUrl: '/images/scream.png', createdDate: new Date('03/27/2025'), description: 'Guy screaming.', tags: ['art', 'abstract', 'portrait', 'human'] },        
-        { title: 'Starry Night', imageUrl: '/images/starrynight.png', createdDate: new Date('09/02/2025'), description: 'Starry Night.', tags: ['art', 'nature', 'abstract'] },
+        { title: 'Scream', imageUrl: '/images/scream.png', createdDate: new Date('01/27/2025'), description: 'Guy screaming.', tags: ['art', 'abstract', 'portrait', 'human'] },        
+        { title: 'Starry Night', imageUrl: '/images/starrynight.png', createdDate: new Date('01/02/2025'), description: 'Starry Night.', tags: ['art', 'nature', 'abstract'] },
         { title: 'The Persistence of Memories', imageUrl: '/images/the-persistence-of-memories.jpg', createdDate: new Date('07/16/2024'), description: 'Clocks and stuff.', tags: ['art', 'surrealism', 'abstract', 'nature'] },
-        { title: 'The Great Wave', imageUrl: '/images/great-wave.jpg', createdDate: new Date('07/16/2025'), description: 'Big Wave.', tags: ['art', 'nature', 'japanese', 'nature'] },
+        { title: 'The Great Wave', imageUrl: '/images/great-wave.jpg', createdDate: new Date('01/16/2025'), description: 'Big Wave.', tags: ['art', 'nature', 'japanese', 'nature'] },
     ],
     getWorksLength: () => { 
         return get().works.length;
