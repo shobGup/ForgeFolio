@@ -10,3 +10,24 @@
 .tag-box.selected {
     background: #DDF0FF;
 }
+
+.tag-delete-button-container{
+    width: max-content;
+    max-width: max-content;
+}
+
+.delete-button{
+    width: fit-content;
+    max-width: fit-content;
+    height: fit-content;
+    max-height: fit-content;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: #E8E8E8;
+}
+
+.delete-button img{
+    width: 25px;
+    height: 25px;
+}

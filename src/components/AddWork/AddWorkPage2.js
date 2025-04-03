@@ -3,10 +3,12 @@ import Tag from "../Tags/Tag";
 import "./styles/AddWork.css";
 
 import { useWorksStore } from "../../stores/worksStore";
+import { useTagsStore } from "../../stores/tagsStore";
 
 const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, workTags, setWorkTags, setAddWorkPopup}) => {
 
     const worksStore = useWorksStore();
+    const tagsStore = useTagsStore();
     const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     // State to manage the input value and filtered tags
@@ -44,6 +46,8 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
             setInputValue("");
             setFilteredTags([]);
             setWorkTags((prev) => [...prev, inputValue]);
+            tagsStore.addNewTag(inputValue);
+            setShowErrorMessage(false);
         }
     }
 
@@ -63,6 +67,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
         worksStore.addWork(newWork);
         setAddWorkPopup(false); 
     }
+
 
     return (
         <div className='w-100 h-100 m-0 p-0'>
@@ -96,9 +101,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                         {workTags.length > 0 && (
                             <div className="selected-tags-container d-flex flex-wrap">
                                 {workTags.map((tag, index) => (
-                                    <Tag key={index} name={tag} onDelete={true} onClick={() => {
-                                            setWorkTags((prev) => prev.filter((t) => t !== tag));
-                                    }} />
+                                    <Tag key={index} name={tag} selectable={false} onDelete={() => {setWorkTags((prevTags) => prevTags.filter((t) => t !== tag))}} />
                                 ))}
                             </div>
                         )}
