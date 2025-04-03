@@ -23,14 +23,16 @@ export const useWorksStore = create((set, get) => ({
         });
     },
 
-    getSortedByName: (ascending=false) => {
-        return get().works.sort((a, b) => {
-            return ascending ? a.title - b.title : b.title - a.title;
+    getSortedByName: (ascending=true) => {
+        return [...get().works].sort((a, b) => {
+            return ascending 
+                ? a.title.localeCompare(b.title) 
+                : b.title.localeCompare(a.title);
         });
     },
 
     getFilterByTags: (tags) => {
-       return get().works.filter(work => tags.some(tag => work.tags.includes(tag)))
+       return get().works.filter(work => tags.every(tag => work.tags.includes(tag)))
     },
     
     getFilteredByName: (name) => {

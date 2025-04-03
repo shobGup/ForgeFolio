@@ -2,8 +2,14 @@ import React from 'react';
 import './SeeAllHeader.css';
 import { useNavigate } from "react-router-dom";
 
-const SeeAllHeader = ({ sortState, setSortState, setWorks }) => {
-    const navigate = useNavigate();    
+const SeeAllHeader = ({ 
+    sortState, 
+    setSortState, 
+    searchQuery, 
+    setSearchQuery,
+    setSelectedTags,
+}) => {
+    const navigate = useNavigate();
 
     const handleBack = (e) => {
         e.preventDefault();
@@ -14,6 +20,16 @@ const SeeAllHeader = ({ sortState, setSortState, setWorks }) => {
         setSortState(e.target.value);
     };
 
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+        
+        const tags = value.match(/#(\w+)/g) || [];
+        const cleanedTags = tags.map(tag => tag.substring(1).toLowerCase());
+        
+        setSelectedTags(cleanedTags);
+    };
+
     return (
         <div className="works-body" style={{ position: 'relative' }}>
             <div className="works-header-background"></div>
@@ -21,16 +37,25 @@ const SeeAllHeader = ({ sortState, setSortState, setWorks }) => {
                 <form onSubmit={handleBack}>
                     <button className="works-back-button">Back</button>
                 </form>
+                
                 <div className="works-search-wrapper">
                     <img 
                         src={process.env.PUBLIC_URL + "/images/work_all_symbols/search.svg"} 
                         alt="Search Icon" 
                         className="works-search-icon"
                     />
-                    <input className="works-search-bar" type="text" placeholder="Search by name" />
+                    <input 
+                        className="works-search-bar" 
+                        type="text" 
+                        placeholder="Search by name or #tags" 
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                    />
                 </div>
+                
+                {/* Sort dropdown */}
                 <div className="works-dropdown-wrapper">
-                <img 
+                    <img 
                         src={process.env.PUBLIC_URL + "/images/work_all_symbols/down_icon.png"} 
                         alt="down Icon" 
                         className="works-dropdown-arrow"
@@ -40,11 +65,8 @@ const SeeAllHeader = ({ sortState, setSortState, setWorks }) => {
                         value={sortState} 
                         onChange={handleSortChange}
                     >
-                        <option value="default">Sort</option>
                         <option value="name">Name</option>
                         <option value="date">Date</option>
-                        <option value="tags">tags</option>
-
                     </select>
                     <img 
                         src={process.env.PUBLIC_URL + "/images/work_all_symbols/sort_icon.png"} 
