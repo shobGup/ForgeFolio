@@ -24,8 +24,8 @@ function Tag({ name, count = 0, onDelete = null}) {
                 )}
                 { onDelete !== null && (
                     <div>
-                        <button className="delete-button">
-                            <img src='/images/tags-icons/delete-tag.png'/>
+                        <button className="delete-button" onClick={onDelete}>
+                            <img src={process.env.PUBLIC_URL + '/images/tags-icons/delete-tag.png'}/>
                         </button>
                     </div>
                 )}
