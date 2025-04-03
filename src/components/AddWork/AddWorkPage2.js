@@ -7,6 +7,7 @@ import { useWorksStore } from "../../stores/worksStore";
 const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, workTags, setWorkTags, setAddWorkPopup}) => {
 
     const worksStore = useWorksStore();
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     // State to manage the input value and filtered tags
     const [inputValue, setInputValue] = useState("");
@@ -31,6 +32,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
         if (!workTags.includes(tag)) {
             setWorkTags((prev) => [...prev, tag]);
         }
+        setShowErrorMessage(false);
         setInputValue("");
         setFilteredTags([]);
     }
@@ -47,6 +49,10 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
 
     // function to handle upload
     const handleUpload = () => {
+        if (workTags.length === 0){
+            setShowErrorMessage(true);
+            return;
+        }
         const newWork = {
             title: workTitle,
             imageUrl: URL.createObjectURL(file),
@@ -74,8 +80,8 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                     {/* Form Container */}
                     <div className="col h-100 form-container">
                         <form className="w-100 form">
-                            <label className="form-header">Tags</label>
-                            <input className="form-control mb-3 form-input" value={inputValue} onChange={handleInputChange} placeholder="Type to search or create a new tag"></input>
+                            <label className={"form-header" + (showErrorMessage ? " error-header" : "")}>{"Tags" + (showErrorMessage ? " *" : "")}</label>
+                            <input className={"form-control mb-3 form-input" + (showErrorMessage ? " error-input" : "")} value={inputValue} onChange={handleInputChange} placeholder="Type to search or create a new tag"></input>
                             {inputValue.trim() !== "" && (
                                 <ul className="suggestions-dropdown">
                                     {filteredTags.map((tag, index) => (
@@ -96,8 +102,11 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                                 ))}
                             </div>
                         )}
+                        <p className="error-message" id="add-work-error-message" hidden={!showErrorMessage}>* Please add at least one tag to your work</p>
                     </div>
+                    
                 </div>
+                
             </div>
 
             <div className="add-work-buttons">
