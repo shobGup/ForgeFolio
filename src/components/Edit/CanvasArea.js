@@ -5,6 +5,8 @@ import './styles/CanvasArea.css';
 
 const CanvasArea = () => {
   const canvasRef = useRef(null);
+  const placingTextbox = useCanvasStore((state) => state.placingTextbox);
+  const placingImage = useCanvasStore((state) => state.placingImage);
 
   useEffect(() => {
     const wrapper = document.querySelector('.canvas-wrapper');
@@ -23,12 +25,12 @@ const CanvasArea = () => {
     // Handle textbox placement on click
     canvas.on('mouse:down', function (e) {
       const state = useCanvasStore.getState();
-      if (state.placingTextbox && e.pointer) {
-        const { x, y } = e.pointer;
+      if (state.placingTextbox && e.viewportPoint) {
+        const { x, y } = e.viewportPoint;
         state.addTextboxAt(x, y);
       }
-      if (state.placingImage && e.pointer) {
-        const { x, y } = e.pointer;
+      if (state.placingImage && e.viewportPoint) {
+        const { x, y } = e.viewportPoint;
         state.addImageAt(state.imageUrl, x, y);
       }
     });
@@ -65,16 +67,53 @@ const CanvasArea = () => {
             canvas.requestRenderAll();
         }
     };
-      
+
+    /* ------- Drag and Drop for Sidebar -------*/
+    const handleDragOver = (e) => {
+      e.preventDefault(); // Necessary to allow drop
+    };
+    
+    // Drop handler
+    const handleDrop = (e) => {
+      e.preventDefault();
+      const imageUrl = e.dataTransfer.getData('image-url');
+      if (!imageUrl) return;
+    
+      const rect = wrapper.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+    
+      useCanvasStore.getState().addImageAt(imageUrl, x, y);
+    };
+  /* ------------------------------------*/
+    
+  wrapper.addEventListener('dragover', handleDragOver);
+  wrapper.addEventListener('drop', handleDrop);
   
   window.addEventListener('keydown', handleKeyDown);
   
   // Cleanup on unmount
   return () => {
     window.removeEventListener('keydown', handleKeyDown);
+    wrapper.removeEventListener('dragover', handleDragOver);
+    wrapper.removeEventListener('drop', handleDrop);
     canvas.dispose();
   };
   }, []);
+
+  /* Effect to change the cursor and show the user what they are doing */
+  useEffect(() => {
+    const canvas = useCanvasStore.getState().canvas;
+    if (!canvas) return;
+  
+    if (placingTextbox) {
+      canvas.defaultCursor = 'crosshair';
+    } else if (placingImage) {
+      canvas.defaultCursor = 'copy';
+    } else {
+      canvas.defaultCursor = 'default';
+    }
+  }, [placingTextbox, placingImage]);
 
   return (
     <div className="canvas-wrapper">
