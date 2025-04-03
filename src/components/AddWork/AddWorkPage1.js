@@ -2,20 +2,76 @@ import React, { useState, useRef} from 'react';
 import "./styles/AddWork.css";
 
 function AddWorkPage1({file, setNextPage, setFile}) {
-
-
    const ref = useRef();
 
-   const [workTitle, setWorkTitle] = useState("");
-   const [workDate, setWorkDate] = useState("");
+   const [workTitle, setWorkTitle] = useState(file.name);
+   const [workDate, setWorkDate] = useState(new Date(file.lastModified).toISOString().split("T")[0]);
    const [workDescription, setWorkDescription] = useState("");
+   const [errors, setErrors] = useState([false, false, false])
 
 
    const handleSubmit = () => {
-    if (workTitle.trim() !== "") {
-        
-        return;
+    if (workTitle.trim() === "") {
+        // set the error
+        setErrors((prev) => {
+            const newErrors = [...prev];
+            newErrors[0] = true;
+            return newErrors;
+        });
+        console.log("error!!!");
     }
+    else{
+        // set the error message
+        setErrors((prev) => {
+            const newErrors = [...prev];
+            newErrors[0] = false;
+            return newErrors;
+        });
+    }
+    if (workDate.trim() === "") {
+        // set the error message
+        setErrors((prev) => {
+            const newErrors = [...prev];
+            newErrors[1] = true;
+            return newErrors;
+        });
+    }
+    else{
+        // set the error message
+        setErrors((prev) => {
+            const newErrors = [...prev];
+            newErrors[1] = false;
+            return newErrors;
+        });
+    }
+    if (workDescription.trim() === "") {
+        // set the error message
+        setErrors((prev) => {
+            const newErrors = [...prev];
+            newErrors[2] = true;
+            return newErrors;
+        });
+    }
+    else{
+        // set the error message
+        setErrors((prev) => {
+            const newErrors = [...prev];
+            newErrors[2] = false;
+            return newErrors;
+        });
+    }
+
+    if (workTitle.trim() !== "" && workDate.trim() !== "" && workDescription.trim() !== "") {
+        document.getElementById("add-work-error-message").hidden = false;
+        setNextPage(1);
+        
+    }
+    else{
+        document.getElementById("add-work-error-message").hidden = false;
+    }
+
+
+
    }
 
    return (
@@ -42,22 +98,23 @@ function AddWorkPage1({file, setNextPage, setFile}) {
                    {/* Form Container */}
                    <div className="col h-100 form-container">
                        <form className="w-100 form m-0 p-0">
-                           <label className="form-header m-0 p-0">Title</label>
-                           <input className="form-control mb-3 form-input" onChange={(event) => {setWorkTitle(event.target.value)}}></input>
+                           <label className={"form-header m-0 p-0 " + (errors[0] ? "error-header" : "")}>{"Title" + (errors[0] ? " *" : "")}</label>
+                           <input className={"form-control mb-3 form-input" + (errors[0] ? " error-input" : "")} onChange={(event) => {setWorkTitle(event.target.value)}} defaultValue={workTitle}></input>
 
-                           <label className="form-header">Created Date</label>
-                           <input className="form-control mb-3 form-input" type="date"></input>
+                           <label className={"form-header " + (errors[1] ? "error-header" : "")}>{"Created Date" + (errors[1] ? " *" : "")}</label>
+                           <input className={"form-control mb-3 form-input" + (errors[1] ? " error-input" : "")} type="date" defaultValue={workDate} onChange={(event) => {setWorkDate(event.target.value)}}></input>
 
-                           <label className="form-header">Description</label>
-                           <textarea className="form-control mb-3 form-textarea" rows={8}></textarea>
+                           <label className={"form-header " + (errors[2] ? "error-header" : "")}>{"Description" + (errors[2] ? " *": "")}</label>
+                           <textarea className={"form-control mb-3 form-textarea" + (errors[2] ? " error-input" : "")} rows={8} defaultValue="Describe your masterpiece..." onChange={(event) => {setWorkDescription(event.target.value)}} ></textarea>
                        </form>
+                       <p className="error-message" id="add-work-error-message" hidden>* Please fill out these fields to continue</p>
                    </div>
                </div>
            </div>
 
            <div className="add-work-buttons">
                <button className="btn btn-secondary back-button" onClick={() => setNextPage(0)}>Back</button>
-               <button className="btn btn-primary next-button" onClick={() => setNextPage(1)}>Next</button>
+               <button className="btn btn-primary next-button" onClick={handleSubmit}>Next</button>
            </div>
        </div>
    );
