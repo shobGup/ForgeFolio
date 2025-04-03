@@ -162,4 +162,25 @@
  .create-new-option:hover {
     background-color: #f8f9fa;
  }
+
+ .error-header{
+    color: red;
+ }
+
+ .error-input{
+    outline: 1px solid red;
+ }
+
+ .error-message{
+    color: #000;
+    font-family: Merriweather;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    flex: 0 0 auto;
+ }
+ 
+ .hidden{
+    display: none;
+ }
  
