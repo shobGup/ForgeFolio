@@ -21,10 +21,16 @@ const Home = () => {
     const [addPortfolioPopup, setAddPortfolioPopup] = useState(false);
     const [addPortfolioPage, setAddPortfolioPage] = useState(0);
     
-    {/* File Upload */}
-    {/* https://www.youtube.com/shorts/AmtAueCqDX4 */}
+    // File Upload
+    // https://www.youtube.com/shorts/AmtAueCqDX4
     const ref = useRef();
     const [file, setFile] = useState(null);
+
+    // Work Upload
+    const [workTitle, setWorkTitle] = useState("");
+    const [workDate, setWorkDate] = useState("");
+    const [workDescription, setWorkDescription] = useState("");
+    const [workTags, setWorkTags] = useState([]);
 
     const handleWorkAll = (e) => {
         e.preventDefault();
@@ -45,8 +51,11 @@ const Home = () => {
                 <button className="add-button" onClick={() => {
                     setFile(null);
                     ref.current.click();
+                    // File Upload
                     ref.current.onchange = (_) => {
                         setFile(ref.current.files[0]);
+                        setWorkTitle(ref.current.files[0].name);
+                        setWorkDate(new Date(ref.current.files[0].lastModified).toISOString().split("T")[0]);
                         setAddWorkPopup(true);
                 };}}>+</button>
                     <div className="add-button-text">New Work</div>
@@ -86,9 +95,9 @@ const Home = () => {
                     )}
                 </form>
             </div>
-            <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = null; setAddWorkPage(0);}}>
+            <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = ""; setAddWorkPage(0); setWorkDate(""); setWorkDescription(""); setWorkTitle(""); setWorkTags([]);}}>
                 {
-                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage} setFile={setFile}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage}/>
+                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage} setFile={setFile} workTitle={workTitle} workDate={workDate} workDescription={workDescription} setWorkTitle={setWorkTitle} setWorkDate={setWorkDate} setWorkDescription={setWorkDescription}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage} workTitle={workTitle} workDate={workDate} workDescription={workDescription} workTags={workTags} setWorkTags={setWorkTags} setAddWorkPopup={setAddWorkPopup}/>
                 }
             </Popup>
             <Popup trigger={addPortfolioPopup} closePopup={() =>{setAddPortfolioPopup(false); setAddPortfolioPage(0)}}>

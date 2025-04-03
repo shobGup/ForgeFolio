@@ -1,86 +1,39 @@
 import React, { useState, useRef} from 'react';
 import "./styles/AddWork.css";
 
-function AddWorkPage1({file, setNextPage, setFile}) {
-   const ref = useRef();
+function AddWorkPage1({file, setNextPage, setFile, workTitle, workDate, workDescription, setWorkTitle, setWorkDate, setWorkDescription}) {
+    const ref = useRef();
 
-   const [workTitle, setWorkTitle] = useState(file.name);
-   const [workDate, setWorkDate] = useState(new Date(file.lastModified).toISOString().split("T")[0]);
-   const [workDescription, setWorkDescription] = useState("");
-   const [errors, setErrors] = useState([false, false, false])
+    // error handling states
+    const [errors, setErrors] = useState([false, false, false]);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
+    // handle next button click
+    const handleSubmit = () => {
+        const hasErrors = workTitle.trim() === "" || workDate.trim() === "" || workDescription.trim() === "";
 
-   const handleSubmit = () => {
-    if (workTitle.trim() === "") {
-        // set the error
-        setErrors((prev) => {
-            const newErrors = [...prev];
-            newErrors[0] = true;
-            return newErrors;
-        });
-        console.log("error!!!");
-    }
-    else{
-        // set the error message
-        setErrors((prev) => {
-            const newErrors = [...prev];
-            newErrors[0] = false;
-            return newErrors;
-        });
-    }
-    if (workDate.trim() === "") {
-        // set the error message
-        setErrors((prev) => {
-            const newErrors = [...prev];
-            newErrors[1] = true;
-            return newErrors;
-        });
-    }
-    else{
-        // set the error message
-        setErrors((prev) => {
-            const newErrors = [...prev];
-            newErrors[1] = false;
-            return newErrors;
-        });
-    }
-    if (workDescription.trim() === "") {
-        // set the error message
-        setErrors((prev) => {
-            const newErrors = [...prev];
-            newErrors[2] = true;
-            return newErrors;
-        });
-    }
-    else{
-        // set the error message
-        setErrors((prev) => {
-            const newErrors = [...prev];
-            newErrors[2] = false;
-            return newErrors;
-        });
-    }
-
-    if (workTitle.trim() !== "" && workDate.trim() !== "" && workDescription.trim() !== "") {
-        document.getElementById("add-work-error-message").hidden = false;
-        setNextPage(1);
-        
-    }
-    else{
-        document.getElementById("add-work-error-message").hidden = false;
-    }
-
-
-
-   }
-
+        if (hasErrors) {
+            setShowErrorMessage(true);
+            setErrors([
+                workTitle.trim() === "",
+                workDate.trim() === "",
+                workDescription.trim() === "",
+            ]);
+        } else {
+            setShowErrorMessage(false);
+            setNextPage(1);
+        }
+    };
+    
    return (
        <div className='w-100 h-100 m-0 p-0'>
+            {/* Header */}
            <div className="add-work-header">
                <div className='add-pages-status'>Page 1/2</div>
                <div className='add-create-a-work'>Upload Work</div>
            </div>
 
+              {/* Describe Work */}
            <div className="add-work-container m-0 p-0">
                <div className="row h-100 w-100 p-0 m-0">
                    {/* Media Container */}
@@ -90,7 +43,10 @@ function AddWorkPage1({file, setNextPage, setFile}) {
                        <button className="btn btn-secondary" onClick={() => {
                            ref.current.click();
                            ref.current.onchange = (_) => {
-                               setFile(ref.current.files[0]);
+                                setFile(ref.current.files[0]);
+                                setWorkTitle(ref.current.files[0].name);
+                                setWorkDate(new Date(ref.current.files[0].lastModified).toISOString().split("T")[0]);
+                                setWorkDescription("");
                            };
                        }}
                        >Replace File</button>
@@ -99,15 +55,16 @@ function AddWorkPage1({file, setNextPage, setFile}) {
                    <div className="col h-100 form-container">
                        <form className="w-100 form m-0 p-0">
                            <label className={"form-header m-0 p-0 " + (errors[0] ? "error-header" : "")}>{"Title" + (errors[0] ? " *" : "")}</label>
-                           <input className={"form-control mb-3 form-input" + (errors[0] ? " error-input" : "")} onChange={(event) => {setWorkTitle(event.target.value)}} defaultValue={workTitle}></input>
+                           <input className={"form-control mb-3 form-input" + (errors[0] ? " error-input" : "")} onChange={(event) => {setWorkTitle(event.target.value)}} value={workTitle}></input>
 
                            <label className={"form-header " + (errors[1] ? "error-header" : "")}>{"Created Date" + (errors[1] ? " *" : "")}</label>
-                           <input className={"form-control mb-3 form-input" + (errors[1] ? " error-input" : "")} type="date" defaultValue={workDate} onChange={(event) => {setWorkDate(event.target.value)}}></input>
+                           <input className={"form-control mb-3 form-input" + (errors[1] ? " error-input" : "")} type="date" value={workDate} onChange={(event) => {setWorkDate(event.target.value)}}></input>
 
                            <label className={"form-header " + (errors[2] ? "error-header" : "")}>{"Description" + (errors[2] ? " *": "")}</label>
-                           <textarea className={"form-control mb-3 form-textarea" + (errors[2] ? " error-input" : "")} rows={8} defaultValue="Describe your masterpiece..." onChange={(event) => {setWorkDescription(event.target.value)}} ></textarea>
+                           <textarea className={"form-control mb-3 form-textarea" + (errors[2] ? " error-input" : "")} rows={8} value={workDescription.trim() === "" ? "Describe your masterpiece..." : workDescription} onChange={(event) => {
+                            setWorkDescription(event.target.value)}} ></textarea>
                        </form>
-                       <p className="error-message" id="add-work-error-message" hidden>* Please fill out these fields to continue</p>
+                       <p className="error-message" id="add-work-error-message" hidden={!showErrorMessage}>* Please fill out these fields to continue</p>
                    </div>
                </div>
            </div>
