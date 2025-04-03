@@ -5,7 +5,7 @@ const Image = ({ work, type }) => {
     return (
         <div className="works">
             <div className="image-container">
-                <img src={process.env.PUBLIC_URL + work.imageUrl} alt={work.description} />
+                <img src={work.imageUrl.startsWith("/images") ? process.env.PUBLIC_URL + work.imageUrl : work.imageUrl} alt={work.description} />
                 <div className="overlay">
                     <div className="icon-box">
                         {type === "work" ? (
