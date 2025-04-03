@@ -37,10 +37,6 @@ const Works = () => {
                 return getSortedByName(true).filter(work => 
                     filteredWorks.some(fw => fw.title === work.title)
                 );
-            case "tags":
-                return [...filteredWorks].sort((a, b) => 
-                    (a.tags[0] || '').localeCompare(b.tags[0] || '')
-                );
             case "date":
             default:
                 return getSortedByDate().filter(work => 

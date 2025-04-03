@@ -37,10 +37,6 @@ const Portfolios = () => {
                 return getSortedByName(true).filter(portfolio => 
                     filteredPortfolios.some(fp => fp.title === portfolio.title)
                 );
-            case "tags":
-                return [...filteredPortfolios].sort((a, b) => 
-                    (a.tags[0] || '').localeCompare(b.tags[0] || '')
-                );
             case "date":
             default:
                 return getSortedByDate().filter(portfolio => 
