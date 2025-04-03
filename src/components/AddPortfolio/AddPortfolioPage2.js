@@ -8,6 +8,7 @@ function AddPortfolioPage2({setNextPage, newPortfolio, setNewPortfolio}) {
             [field]: value,
         }));
     };
+    console.log(newPortfolio)
     return (
         <div>
             <div className="add-portfolio-header">

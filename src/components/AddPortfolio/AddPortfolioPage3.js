@@ -20,6 +20,7 @@ function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
             };
         });
     };
+    
     return (
         <div>
             <div className="add-portfolio-header">

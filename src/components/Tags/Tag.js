@@ -3,16 +3,16 @@ import "./styles/Tag.css";
 
 
 
-function Tag({ name, count = 0, onDelete = null}) {
+function Tag({ name, count = 0, onDelete = null, onClick=null, currSelected = null}) {
     const [selected, setSelected] = useState(false);
 
-    const toggleSelected = () => setSelected(prev => !prev);
+    // const toggleSelected = () => setSelected(prev => !prev);
 
     return (
         <div>
             <button 
-                className={`tag-box ${selected ? 'selected' : ''}`} 
-                onClick={toggleSelected} 
+                className={`tag-box ${currSelected ? 'selected' : ''}`} 
+                onClick={() => onClick && onClick(name)} 
             >
                 <div className="tag-name">
                     {name}
