@@ -101,7 +101,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                         {workTags.length > 0 && (
                             <div className="selected-tags-container d-flex flex-wrap">
                                 {workTags.map((tag, index) => (
-                                    <Tag key={index} name={tag} selectable={false} onDelete={() => {setWorkTags((prevTags) => prevTags.filter((t) => t !== tag))}} />
+                                    <Tag key={index} name={tag} onDelete={() => {setWorkTags((prevTags) => prevTags.filter((t) => t !== tag))}} />
                                 ))}
                             </div>
                         )}
