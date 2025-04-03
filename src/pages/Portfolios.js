@@ -1,29 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from '../components/Image/Image.js';
 import SeeAllHeader from '../components/SeeAll/SeeAllHeader.js';
 import { usePortfoliosStore } from '../stores/portfoliosStore.js';
 import './styles/Portfolios.css';
 
 const Portfolios = () => {
-    const [allPorts, setAllPorts] = React.useState([
-        { title: 'Dreamworks', imageUrl: '/images/portfolio2.png', createdDate: '03/01/2025', description: 'A portfolio for dreamworks.', tags: ['art', 'paintings', 'cartoon'], link : 30},
-        { title: 'Cellos at Texas', imageUrl: '/images/portfolio1.png', createdDate: '02/25/2025', description: 'A portfolio for cellos at texas.', tags: ['audio', 'expressionism'], link : 7},
-        { title: 'Impressionism', imageUrl: '/images/monet_port.png', createdDate: '02/25/2024', description: 'A portfolio for impressionism.', tags: ['art', 'impressionism'], link : 10},
+    const [sortState, setSortState] = useState("date");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedTags, setSelectedTags] = useState([]);
+    
+    const {
+        portfolios,
+        getSortedByDate,
+        getSortedByName,
+        getFilterByTags,
+        getFilteredByName,
+    } = usePortfoliosStore();
 
-    ]);
 
-    const recentPortfolios = usePortfoliosStore.getState().getSortedByDate()
+    const getFilteredAndSortedPortfolios = () => {
+        let filteredPortfolios = [...portfolios];
         
+        if (selectedTags.length > 0) {
+            filteredPortfolios = getFilterByTags(selectedTags);
+        }
+        
+        const nameSearch = searchQuery.replace(/#\w+/g, '').trim();
+        if (nameSearch) {
+            filteredPortfolios = getFilteredByName(nameSearch).filter(portfolio => 
+                filteredPortfolios.some(fp => fp.title === portfolio.title)
+            );
+        }
+        
+        switch (sortState) {
+            case "name":
+                return getSortedByName(true).filter(portfolio => 
+                    filteredPortfolios.some(fp => fp.title === portfolio.title)
+                );
+            case "tags":
+                return [...filteredPortfolios].sort((a, b) => 
+                    (a.tags[0] || '').localeCompare(b.tags[0] || '')
+                );
+            case "date":
+            default:
+                return getSortedByDate().filter(portfolio => 
+                    filteredPortfolios.some(fp => fp.title === portfolio.title)
+                );
+        }
+    };
+    
+    const [displayedPortfolios, setDisplayedPortfolios] = useState(getSortedByDate());
+    
+    useEffect(() => {
+        setDisplayedPortfolios(getFilteredAndSortedPortfolios());
+    }, [sortState, searchQuery, selectedTags, portfolios]);
+
     return (
         <div>
-            <SeeAllHeader/>
-            <div className="images-grid-port ">
-                {recentPortfolios.map((work) => (
-                    <Image key={work.title} work={work} type = "portfolio" />
+            <SeeAllHeader 
+                sortState={sortState}
+                setSortState={setSortState}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                setSelectedTags={setSelectedTags}
+            />
+            <div className="images-grid-port">
+                {displayedPortfolios.map((portfolio) => (
+                    <Image key={portfolio.title} work={portfolio} type="portfolio" />
                 ))}
             </div>
         </div>
     );
-}
+};
 
 export default Portfolios;
