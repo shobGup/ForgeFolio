@@ -41,6 +41,19 @@ export const useCanvasStore = create((set, get) => ({
     set({ placingTextbox: false, selectedObject: textbox });
   },
 
+  setCanvas: (canvas) => {
+    canvas.on('selection:cleared', () => {
+      set({ selectedObject: null });
+    });
+    canvas.on('selection:created', (e) => {
+      set({ selectedObject: e.selected[0] || null });
+    });
+    canvas.on('selection:updated', (e) => {
+      set({ selectedObject: e.selected[0] || null });
+    });
+    set({ canvas });
+  },
+
   addImageAt: (url, x, y) => {
     const canvas = get().canvas;
   
