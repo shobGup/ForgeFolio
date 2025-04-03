@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles/AddPortfolioPage3.css";
 import Config from "./Config";
+import { usePortfoliosStore } from "../../stores/portfoliosStore";
 
 const configurations = ['Headshot', 'Media Descriptions', 'Media Creation Date', 
                         'Resume', 'Contact Information', 'Social Links']
@@ -38,7 +39,7 @@ function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
                         </Config>)}</div>
             </div>
             <div className='add-portfolio-button-bar'>
-                <button className='add-next-button' onClick={() => { navigate('/edit')}}>Create</button>
+                <button className='add-next-button' onClick={() => { usePortfoliosStore.getState().addPortfolio(newPortfolio); navigate('/edit')}}>Create</button>
                 <button className='add-back-button' onClick={() => setNextPage(1)}>Back</button>
             </div>
         </div>
