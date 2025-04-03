@@ -8,6 +8,7 @@ const EditToolbar = () => {
     const setPlacingTextbox = useCanvasStore((state) => state.setPlacingTextbox);
     const setPlacingImage = useCanvasStore((state) => state.setPlacingImage);
     const setImageUrl = useCanvasStore((state) => state.setImageUrl);
+    const resetAllSelection = useCanvasStore((state) => state.resetAllSelection);
     const ref = useRef();
 
     return (
@@ -30,12 +31,13 @@ const EditToolbar = () => {
             <button className="item icon select-button">
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/cursor_icon.png"} className="icon select-icon" alt="select"/>
             </button>
-            <button className="item icon textbox-button" onClick={() => setPlacingTextbox(true)}>
+            <button className="item icon textbox-button" onClick={() => {resetAllSelection(); setPlacingTextbox(true)}}>
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/textbox_icon.png"} className="icon textbox-icon" alt="add textbox"/>
             </button>
             
             <input type="file" ref={ref} accept='.png,.jpeg'hidden/> 
             <button className="item icon image-button" onClick={() => {
+                resetAllSelection();
                 ref.current.click();
                 ref.current.onchange = (_) => {
                     const file = ref.current.files[0];

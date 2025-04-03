@@ -16,6 +16,13 @@ export const useCanvasStore = create((set, get) => ({
 
   imageUrl: '',
   setImageUrl: (url) => set({ imageUrl: url }),
+
+  resetAllSelection: () => {
+    get().setPlacingImage(false);
+    get().setImageUrl('');
+    get().setSelectedObject(null);
+    get().setPlacingTextbox(false);
+  },
   
 
   addTextboxAt: (x, y) => {
@@ -36,26 +43,38 @@ export const useCanvasStore = create((set, get) => ({
 
   addImageAt: (url, x, y) => {
     const canvas = get().canvas;
-
+  
     const image = new Image();
     image.src = url;
-    
-    image.onload = () => { 
+  
+    image.onload = () => {
+      const maxWidth = 500;
+      const maxHeight = 400;
+  
+      let { width, height } = image;
+  
+      // scale proportionally if needed
+      const widthRatio = maxWidth / width;
+      const heightRatio = maxHeight / height;
+      const scale = Math.min(1, widthRatio, heightRatio);
+  
       const fabricImg = new FabricImage(image, {
         left: x,
         top: y,
-        width: 500,
-        height: 400,
+        scaleX: scale,
+        scaleY: scale,
         selectable: true,
         hasControls: true,
         hasBorders: true,
       });
+  
       canvas.add(fabricImg);
       canvas.setActiveObject(fabricImg);
       canvas.requestRenderAll();
+  
       set({ placingImage: false, selectedObject: fabricImg, imageUrl: '' });
     };
-  },
+  },  
 
   deleteSelected: () => {
     const canvas = get().canvas;

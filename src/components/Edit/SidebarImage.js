@@ -23,7 +23,14 @@ const SidebarImage = ({ work }) => {
 
     return (
         <div className="work">
-            <img src={process.env.PUBLIC_URL + work.imageUrl} alt={work.description} />
+            <img 
+                src={process.env.PUBLIC_URL + work.imageUrl} 
+                alt={work.description} 
+                draggable
+                onDragStart={(e) => {
+                    e.dataTransfer.setData('image-url', process.env.PUBLIC_URL + work.imageUrl);
+                }}
+            />
             <div className='work-title' title={work.title}>{work.title}</div>
             <div 
                 className='percentage'
