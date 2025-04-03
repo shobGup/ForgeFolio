@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import "../styles/Login.css";
+import "./styles/Login.css";
 const Login = () => {
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const Login = () => {
 
             <div className="row">
                 <div className="col">
-                    <div className="form-container">
+                    <div className="login-form-container">
                         <h1 className="text-center">Login</h1>
 
                         <form onSubmit={handleSubmit}>

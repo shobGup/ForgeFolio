@@ -88,7 +88,7 @@ const Home = () => {
             </div>
             <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = null; setAddWorkPage(0);}}>
                 {
-                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage}/>
+                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage} setFile={setFile}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage}/>
                 }
             </Popup>
             <Popup trigger={addPortfolioPopup} closePopup={() =>{setAddPortfolioPopup(false); setAddPortfolioPage(0)}}>
