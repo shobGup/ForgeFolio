@@ -68,4 +68,33 @@ export const useWorksStore = create((set, get) => ({
             works: [...state.works, newWork],
         }));
     },    
+
+    scoreWorksByTags: (portfolioTags) => {
+        set(state => {
+          const works = state.works;
+      
+          // Get min and max dates for normalization
+          const dates = works.map(work => new Date(work.createdDate).getTime());
+          const minDate = Math.min(...dates);
+          const maxDate = Math.max(...dates);
+          const dateRange = maxDate - minDate || 1; // Avoid divide-by-zero
+      
+          const scoredWorks = works.map(work => {
+            const tagMatches = work.tags.filter(tag => portfolioTags.includes(tag));
+            const tagScore = (tagMatches.length / portfolioTags.length) * 100;
+      
+            // Normalize recency from 0 to 100
+            const recencyRaw = new Date(work.createdDate).getTime();
+            const recencyScore = ((recencyRaw - minDate) / dateRange) * 100;
+      
+            // Weighted total score: 90% tags, 10% recency
+            const score = Math.round(tagScore * 0.9 + recencyScore * 0.1);
+            console.log({...work, score})
+            return { ...work, score };
+          });
+      
+          return { works: scoredWorks };
+        });
+    },
+      
 }));

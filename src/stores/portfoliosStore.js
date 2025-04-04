@@ -1,6 +1,15 @@
 import { create } from 'zustand';
 
 export const usePortfoliosStore = create((set, get) => ({
+    currentPorfolio: null, 
+    setCurrentPortfolio: (portfolio) => {
+        set({currentPortfolio : portfolio});
+    },
+    
+    getCurrentPortfolio: () => {
+        return get().currentPortfolio;
+    },  
+
     portfolios: [
         { 
             title: 'Dreamworks', 
@@ -77,17 +86,31 @@ export const usePortfoliosStore = create((set, get) => ({
         set((state) => ({
             portfolios: [...state.portfolios, newPortfolio],
         }));
-    },    
+    },  
 
-    updatePortfolio: (index, key, newValue) => {
+    updatePortfolio: (key, newValue) => {
         set((state) => {
             const portfolios = [...state.portfolios];
-            const portfolioToUpdate = portfolios[index];
-    
+            const portfolioToUpdate = get().getCurrentPortfolio();
+            const index = portfolios.findIndex(portfolio => portfolio.title === portfolioToUpdate.title);
+            console.log(index);
             portfolios[index] = {
                 ...portfolioToUpdate,
                 [key]: newValue,
             };
+            console.log(portfolios);
+    
+            return { portfolios };
+        });
+    },
+
+    deletePortfolio: () => {
+        set((state) => {
+            const portfolios = [...state.portfolios];
+            const portfolioToUpdate = get().getCurrentPortfolio();
+            const index = portfolios.findIndex(portfolio => portfolio.title === portfolioToUpdate.title);
+    
+            portfolios.splice(index, index);
     
             return { portfolios };
         });

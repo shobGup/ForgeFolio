@@ -44,6 +44,8 @@ const Home = () => {
         configurations: [],
     });
     
+    console.log("portfolios: ", usePortfoliosStore.getState().getSortedByDate());
+
     return (
         <div>
             <HomeHeader/>

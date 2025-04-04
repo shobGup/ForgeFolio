@@ -13,9 +13,8 @@ const CanvasArea = () => {
     const canvas = useCanvasStore.getState().canvas;
     if (!canvas) return;
 
-    const index = usePortfoliosStore.getState().getPortfoliosLength() - 1;
     const newImg = canvas.toDataURL('png');
-    usePortfoliosStore.getState().updatePortfolio(index, 'imageUrl', newImg);
+    usePortfoliosStore.getState().updatePortfolio('imageUrl', newImg);
   };
 
   useEffect(() => {
@@ -135,6 +134,7 @@ const CanvasArea = () => {
 
   return (
     <div className="canvas-wrapper">
+      {updatePortfolioImage()}
       <canvas id="portfolio-canvas" ref={canvasRef}></canvas>
     </div>
   );

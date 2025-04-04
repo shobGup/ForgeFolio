@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/EditSidebar.css';
 import SidebarImage from './SidebarImage';
 import { useWorksStore } from '../../stores/worksStore';
+import { usePortfoliosStore } from '../../stores/portfoliosStore';
 
 const EditSidebar = () => {
     const [searchTerm, setSearchTerm] = React.useState('');
