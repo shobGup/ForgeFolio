@@ -33,8 +33,15 @@ export const useWorksStore = create((set, get) => ({
     },
 
     getFilterByTags: (tags) => {
-       return get().works.filter(work => tags.every(tag => work.tags.includes(tag)))
+        return get().works.filter(work =>
+            tags.every(searchTag =>
+                work.tags.some(workTag =>
+                    workTag.toLowerCase().includes(searchTag.toLowerCase())
+                )
+            )
+        );
     },
+    
     
     getFilteredByName: (name) => {
         return get().works

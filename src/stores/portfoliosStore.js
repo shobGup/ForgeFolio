@@ -59,7 +59,11 @@ export const usePortfoliosStore = create((set, get) => ({
 
     getFilterByTags: (tags) => {
         return get().portfolios.filter(portfolio => 
-            tags.every(tag => portfolio.tags.includes(tag))
+            tags.every(searchTag =>
+                portfolio.tags.some(portfolioTag =>
+                    portfolioTag.toLowerCase().includes(searchTag.toLowerCase())
+                )
+            )
         );
     },
     
