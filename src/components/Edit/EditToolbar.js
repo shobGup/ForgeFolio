@@ -13,10 +13,10 @@ const EditToolbar = () => {
 
     return (
         <div className="edit-toolbar">
-            <button className="item button delete-button">
+            <button className="item edit-button edit-delete-button">
                 Delete
             </button>
-            <button className="item button help-button">
+            <button className="item edit-button edit-help-button">
                 Help
             </button>
             <button className="item icon print-button">
@@ -54,15 +54,15 @@ const EditToolbar = () => {
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/img_icon.svg"} className="icon image-icon" alt="add image"/>
             </button>
             <div className='vertical-line'/>
-            <button className="item button background-button">
+            <button className="item edit-button background-button">
                 Background
             </button>
             <div className='vertical-line'/> 
-            <button className="item button layout-button">
+            <button className="item edit-button layout-button">
                 Layout
             </button> 
             <div className='vertical-line'/>
-            <button className="item button edit-tags-button">
+            <button className="item edit-button edit-tags-button">
                 Edit Tags
             </button>         
         </div>
