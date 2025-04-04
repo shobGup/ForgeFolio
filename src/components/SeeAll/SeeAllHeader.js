@@ -23,13 +23,20 @@ const SeeAllHeader = ({
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearchQuery(value);
-        
-        const tags = value.match(/#(\w+)/g) || [];
-        const cleanedTags = tags.map(tag => tag.substring(1).toLowerCase());
-        
-        setSelectedTags(cleanedTags);
+    
+        // Split on '#' and take everything after, skipping empty results
+        const rawSplits = value.split('#');
+        const tags = rawSplits
+            .slice(1) // first item is before any '#'
+            .map(chunk => chunk.split('#')[0].trim()) // take until next '#' just in case
+            .filter(tag => tag.length > 0)
+            .map(tag => tag.toLowerCase());
+        console.log(tags)
+        setSelectedTags(tags);
     };
-
+    
+        
+    
     return (
         <div className="works-body" style={{ position: 'relative' }}>
             <div className="works-header-background"></div>
