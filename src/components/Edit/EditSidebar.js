@@ -8,7 +8,12 @@ const EditSidebar = () => {
     const [searchTerm, setSearchTerm] = React.useState('');
     const works = useWorksStore(state => state.works);
 
-    const filteredWorks = works
+    const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
+    const tagWorks = currPortfolio?.tags
+        ? useWorksStore.getState().scoreWorksByTags(currPortfolio.tags)
+        : [];
+
+    const filteredWorks = tagWorks
         .filter(work =>
             work.title.toLowerCase().includes(searchTerm.toLowerCase())
         )

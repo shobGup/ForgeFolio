@@ -10,6 +10,7 @@ export const usePortfoliosStore = create((set, get) => ({
     getCurrentPortfolio: () => {
         return get().currentPortfolio;
     },  
+    
     portfolios: [
         { 
             title: 'Dreamworks', 
