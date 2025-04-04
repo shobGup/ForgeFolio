@@ -29,7 +29,8 @@ const SidebarImage = ({ work }) => {
                 alt={work.description} 
                 draggable
                 onDragStart={(e) => {
-                    e.dataTransfer.setData('image-url', work.imageUrl);
+                    const url = work.imageUrl.startsWith('blob:') ? work.imageUrl : process.env.PUBLIC_URL + work.imageUrl;
+                    e.dataTransfer.setData('image-url', url);
                     const imageUrl = e.dataTransfer.getData('image-url');
                     const canvas = useCanvasStore.getState().canvas;
                     if (canvas && imageUrl) {
