@@ -26,6 +26,7 @@ function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
 
     return (
         <div>
+            {console.log(usePortfoliosStore.getState().portfolios)}
             <div className="add-portfolio-header">
                 <div className='add-pages-status'>Page 3/3</div>
                 <div className='add-create-a-portfolio'>Create a Portfolio</div>
@@ -41,7 +42,7 @@ function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
                         </Config>)}</div>
             </div>
             <div className='add-portfolio-button-bar'>
-                <button className='add-next-button' onClick={() => { addPortfolio(...newPortfolio); setCurrentPortfolio(newPortfolio); navigate('/edit')}}>Create</button>
+                <button className='add-next-button' onClick={() => { addPortfolio(newPortfolio); setCurrentPortfolio(newPortfolio); navigate('/edit')}}>Create</button>
                 <button className='add-back-button' onClick={() => setNextPage(1)}>Back</button>
             </div>
         </div>

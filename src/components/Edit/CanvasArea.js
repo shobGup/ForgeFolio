@@ -134,9 +134,9 @@ const CanvasArea = () => {
 
   return (
     <div className="canvas-wrapper">
-      {updatePortfolioImage()}
       <canvas id="portfolio-canvas" ref={canvasRef}></canvas>
     </div>
+
   );
 };
 

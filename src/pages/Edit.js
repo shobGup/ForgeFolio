@@ -10,6 +10,7 @@ import { usePortfoliosStore } from '../stores/portfoliosStore.js';
 const Edit = () => {
   return (
     <div className="outer-container">
+      {console.log(usePortfoliosStore.getState().portfolios)}
       <div className="header">
         <EditHeader 
           portfolioName={"Shobhit's Portfolio"}
