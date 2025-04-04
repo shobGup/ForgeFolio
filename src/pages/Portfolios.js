@@ -20,26 +20,21 @@ const Portfolios = () => {
 
     const getFilteredAndSortedPortfolios = () => {
         let filteredPortfolios = [...portfolios];
-        
+    
         if (selectedTags.length > 0) {
             filteredPortfolios = getFilterByTags(selectedTags);
         }
-        
-        const nameSearch = searchQuery.replace(/#\w+/g, '').trim();
+    
+        const nameSearch = searchQuery.replace(/#([^#]*)/g, '').trim();
         if (nameSearch) {
-            filteredPortfolios = getFilteredByName(nameSearch).filter(portfolio => 
+            filteredPortfolios = getFilteredByName(nameSearch).filter(portfolio =>
                 filteredPortfolios.some(fp => fp.title === portfolio.title)
             );
-        }
-        
+        }        
         switch (sortState) {
             case "name":
                 return getSortedByName(true).filter(portfolio => 
                     filteredPortfolios.some(fp => fp.title === portfolio.title)
-                );
-            case "tags":
-                return [...filteredPortfolios].sort((a, b) => 
-                    (a.tags[0] || '').localeCompare(b.tags[0] || '')
                 );
             case "date":
             default:
