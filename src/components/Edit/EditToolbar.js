@@ -35,7 +35,7 @@ const EditToolbar = () => {
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/textbox_icon.png"} className="icon textbox-icon" alt="add textbox"/>
             </button>
             
-            <input type="file" ref={ref} accept='.png,.jpeg'hidden/> 
+            <input type="file" ref={ref} accept='.png,.jpeg,.jpg' hidden/> 
             <button className="item icon image-button" onClick={() => {
                 resetAllSelection();
                 ref.current.click();

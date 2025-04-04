@@ -39,7 +39,7 @@ function AddWorkPage1({file, setNextPage, setFile, workTitle, workDate, workDesc
                    {/* Media Container */}
                    <div className="col-auto d-flex flex-column align-items-center media-container p-0 m-0">
                        <img src={URL.createObjectURL(file)} alt="Uploaded Work" className="img-fluid add-work-image mb-2" />
-                       <input type="file" ref={ref} hidden></input>
+                       <input type="file" ref={ref} accept='.png,.jpeg,.jpg' hidden></input>
                        <button className="btn btn-secondary" onClick={() => {
                            ref.current.click();
                            ref.current.onchange = (_) => {

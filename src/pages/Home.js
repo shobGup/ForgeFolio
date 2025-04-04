@@ -58,7 +58,7 @@ const Home = () => {
                     }
                 }}
             >
-                <input type="file" ref={ref} hidden
+                <input type="file" ref={ref} accept='.png,.jpeg,.jpg' hidden
         />
                 <button className="add-button" onClick={() => {
                     setFile(null);
