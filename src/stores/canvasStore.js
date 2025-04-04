@@ -4,6 +4,15 @@ import { FabricImage, Textbox } from 'fabric';
 export const useCanvasStore = create((set, get) => ({
   canvas: null,
   setCanvas: (canvas) => set({ canvas }),
+  setCanvasFromJSON: (canvasJSON) => {
+    const canvas = get().canvas;
+    if (!canvas) return;
+  
+    canvas.loadFromJSON(canvasJSON, () => {
+      canvas.renderAll();
+    });
+  },
+  
 
   placingTextbox: false,
   setPlacingTextbox: (val) => set({ placingTextbox: val }),

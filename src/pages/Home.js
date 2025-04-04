@@ -43,8 +43,9 @@ const Home = () => {
         link: 30,
         configurations: [],
     });
+
+    console.log(usePortfoliosStore.getState().getSortedByDate());
     
-    console.log("portfolios: ", usePortfoliosStore.getState().getSortedByDate());
 
     return (
         <div>

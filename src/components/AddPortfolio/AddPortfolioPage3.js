@@ -26,7 +26,6 @@ function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
 
     return (
         <div>
-            {console.log(usePortfoliosStore.getState().portfolios)}
             <div className="add-portfolio-header">
                 <div className='add-pages-status'>Page 3/3</div>
                 <div className='add-create-a-portfolio'>Create a Portfolio</div>

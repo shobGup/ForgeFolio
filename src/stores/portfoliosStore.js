@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { Canvas } from 'fabric';
 
 export const usePortfoliosStore = create((set, get) => ({
     currentPorfolio: null, 
@@ -9,7 +10,6 @@ export const usePortfoliosStore = create((set, get) => ({
     getCurrentPortfolio: () => {
         return get().currentPortfolio;
     },  
-
     portfolios: [
         { 
             title: 'Dreamworks', 
@@ -93,13 +93,11 @@ export const usePortfoliosStore = create((set, get) => ({
             const portfolios = [...state.portfolios];
             const portfolioToUpdate = get().getCurrentPortfolio();
             const index = portfolios.findIndex(portfolio => portfolio.title === portfolioToUpdate.title);
-            console.log(index);
             portfolios[index] = {
                 ...portfolioToUpdate,
                 [key]: newValue,
             };
-            console.log(portfolios);
-    
+            get().setCurrentPortfolio(portfolios[index])
             return { portfolios };
         });
     },

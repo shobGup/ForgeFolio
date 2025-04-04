@@ -31,7 +31,6 @@ const SeeAllHeader = ({
             .map(chunk => chunk.split('#')[0].trim()) // take until next '#' just in case
             .filter(tag => tag.length > 0)
             .map(tag => tag.toLowerCase());
-        console.log(tags)
         setSelectedTags(tags);
     };
     

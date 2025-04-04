@@ -14,6 +14,10 @@ const CanvasArea = () => {
     if (!canvas) return;
 
     const newImg = canvas.toDataURL('png');
+    const canvasJSON = canvas.toJSON();
+    console.log(canvasJSON)
+
+    usePortfoliosStore.getState().updatePortfolio('canvas', canvasJSON);
     usePortfoliosStore.getState().updatePortfolio('imageUrl', newImg);
   };
 
