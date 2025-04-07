@@ -114,4 +114,35 @@ export const usePortfoliosStore = create((set, get) => ({
             return { portfolios };
         });
     },
+
+    getInitialCanvasHeight: () => {
+        const currentPortfolio = get().getCurrentPortfolio();
+        let height = 0;
+        if (currentPortfolio["configurations"].includes('Headshot')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Media Descriptions')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Media Creation Date')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Resume')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Contact Information')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Social Links')) {
+            height += 0;
+        }
+        
+        height += currentPortfolio["mediaCount"] * 500;
+        return height;
+    }
 }));

@@ -42,10 +42,7 @@ const Home = () => {
         mediaCount: 0,
         link: 30,
         configurations: [],
-    });
-
-    console.log(usePortfoliosStore.getState().getSortedByDate());
-    
+    });    
 
     return (
         <div>
