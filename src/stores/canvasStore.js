@@ -13,6 +13,10 @@ export const useCanvasStore = create((set, get) => ({
     });
   },
 
+  viewMode: false, // Add this state
+  setViewMode: (val) => set({ viewMode: val }),
+  toggleViewMode: () => set((state) => ({ viewMode: !state.viewMode })),
+
   setInitialCanvas: (
     bestWorks,
     headshot, 
@@ -157,5 +161,5 @@ export const useCanvasStore = create((set, get) => ({
       canvas.remove(active);
       canvas.requestRenderAll();
     }
-  },
+  },  
 }));

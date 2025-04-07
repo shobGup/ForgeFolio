@@ -4,11 +4,16 @@ import { useCanvasStore } from '../../stores/canvasStore';
 import { usePortfoliosStore } from '../../stores/portfoliosStore';
 import { useWorksStore } from '../../stores/worksStore';
 import './styles/CanvasArea.css';
+import EscHintPopup from './EscHintPopup.js';
 
 const CanvasArea = () => {
   const canvasRef = useRef(null);
-  const placingTextbox = useCanvasStore((state) => state.placingTextbox);
-  const placingImage = useCanvasStore((state) => state.placingImage);
+  const { 
+    setViewMode, 
+    viewMode, 
+    placingImage, 
+    placingTextbox 
+  } = useCanvasStore();
 
   const updatePortfolioImage = () => {
     const canvas = useCanvasStore.getState().canvas;
@@ -158,10 +163,50 @@ const CanvasArea = () => {
     }
   }, [placingTextbox, placingImage]);
 
+  /* Effect to toggle canvas size and scale for viewMode */
+  useEffect(() => {
+    const { canvas } = useCanvasStore.getState();
+    if (!canvas) return;
+
+    const wrapper = document.querySelector('.canvas-wrapper');
+    if (!wrapper) return;
+
+    const width = wrapper.clientWidth;
+    const height = wrapper.clientHeight;
+
+    if (viewMode) {
+      const scaleFactor = width / canvas.getWidth();
+      canvas.setZoom(scaleFactor);
+      canvas.setWidth(width);
+      canvas.setHeight(Math.max(canvas.getHeight(), height));
+    } else {
+      canvas.setZoom(1);
+      canvas.setWidth(width);
+    }
+
+    canvas.renderAll();
+  }, [viewMode]);
+
+  /* Lets the escape key exit view mode */
+  useEffect(() => {
+    const handleExitViewMode = (e) => {
+      if (e.key === 'Escape') {
+        setViewMode(false);
+      }
+    };
+  
+    if (viewMode) {
+      window.addEventListener('keydown', handleExitViewMode);
+    }
+  
+    return () => window.removeEventListener('keydown', handleExitViewMode);
+  }, [viewMode]);
+
   return (
-    <div className="canvas-wrapper">
+    <div className={`canvas-wrapper ${viewMode ? 'view-mode' : ''}`}>
       <canvas id="portfolio-canvas" ref={canvasRef}></canvas>
-    </div>
+      {viewMode && <EscHintPopup />} {/* Show only in view mode */}
+    </div> 
 
   );
 };

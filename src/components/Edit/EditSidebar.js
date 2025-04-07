@@ -6,7 +6,7 @@ import { usePortfoliosStore } from '../../stores/portfoliosStore';
 
 const EditSidebar = () => {
     const [searchTerm, setSearchTerm] = React.useState('');
-    const works = useWorksStore(state => state.works);
+    const { works } = useWorksStore();
 
     const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
     const tagWorks = currPortfolio?.tags

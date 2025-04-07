@@ -10,6 +10,18 @@ export const usePortfoliosStore = create((set, get) => ({
     getCurrentPortfolio: () => {
         return get().currentPortfolio;
     },  
+
+    setCurrentPortfolioName: (name) => {
+        const currentPortfolio = get().getCurrentPortfolio();
+        set((state) => {
+            currentPortfolio['title'] = name;
+        })
+    },
+
+    getCurrentPortfolioName: () => {
+        const currentPortfolio = get().getCurrentPortfolio()
+        return currentPortfolio['title']
+    },
     
     portfolios: [
         { 
