@@ -3,16 +3,12 @@ import "./styles/Tag.css";
 
 
 
-function Tag({ name, count = 0, onDelete = null}) {
-    const [selected, setSelected] = useState(false);
-
-    const toggleSelected = () => setSelected(prev => !prev);
-
+function Tag({ name, count = 0, onDelete = null, onClick=null, currSelected = null}) {
     return (
         <div>
             <button 
-                className={`tag-box ${selected ? 'selected' : ''}`} 
-                onClick={toggleSelected} 
+                className={`tag-box ${currSelected ? 'selected' : ''}`} 
+                onClick={() => onClick && onClick(name)} 
             >
                 <div className="tag-name">
                     {name}
@@ -23,7 +19,7 @@ function Tag({ name, count = 0, onDelete = null}) {
                     </div>
                 )}
                 { onDelete !== null && (
-                    <div>
+                    <div className="p-0 m-0 tag-delete-button-container">
                         <button className="delete-button" onClick={onDelete}>
                             <img src={process.env.PUBLIC_URL + '/images/tags-icons/delete-tag.png'}/>
                         </button>

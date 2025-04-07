@@ -28,7 +28,7 @@ const Login = () => {
                             <input className="form-control mb-3"></input>
 
                             <label>Password</label>
-                            <input className="form-control mb-3"></input>
+                            <input className="form-control mb-3" type="password"></input>
                             
                             {/* Checkbox */}
                             <div className="form-check mb-3">

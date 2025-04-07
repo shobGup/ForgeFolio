@@ -18,10 +18,10 @@ const EditToolbar = () => {
 
     return (
         <div className="edit-toolbar">
-            <button className="item button delete-button">
+            <button className="item edit-button edit-delete-button">
                 Delete
             </button>
-            <button className="item button help-button">
+            <button className="item edit-button edit-help-button">
                 Help
             </button>
             <button className="item icon print-button">
@@ -59,25 +59,21 @@ const EditToolbar = () => {
                 />
             </button>
             
-            <input type="file" ref={ref} accept='.png,.jpeg'hidden/> 
-            <button 
-                className="item icon image-button" 
-                onClick={() => {
-                    resetAllSelection();
-                    ref.current.click();
-                    ref.current.onchange = (_) => {
-                        const file = ref.current.files[0];
-                        if (file){
-                            setImageUrl(URL.createObjectURL(ref.current.files[0]));
-                            setPlacingImage(true);
-                        }
-                        else{
-                            console.log("No file selected");
-                        }
-                    };
-                    }}
-                style={{backgroundColor: placingImage === true ? "#BBE3FF" : "inherit"}}
-            >
+            <input type="file" ref={ref} accept='.png,.jpeg,.jpg' hidden/> 
+            <button className="item icon image-button" onClick={() => {
+                resetAllSelection();
+                ref.current.click();
+                ref.current.onchange = (_) => {
+                    const file = ref.current.files[0];
+                    if (file){
+                        setImageUrl(URL.createObjectURL(ref.current.files[0]));
+                        setPlacingImage(true);
+                    }
+                    else{
+                        console.log("No file selected");
+                    }
+                };
+                }}>
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt*/}
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/img_icon.svg"} className="icon image-icon" alt="add image"/>
             </button>
@@ -85,15 +81,15 @@ const EditToolbar = () => {
                 <>
                     <div className='vertical-line'/>
                     <button className="item button background-button">
-                    Background
+                        Background
                     </button>
                     <div className='vertical-line'/> 
                     <button className="item button layout-button">
-                    Layout
+                        Layout
                     </button> 
                     <div className='vertical-line'/>
                     <button className="item button edit-tags-button">
-                    Edit Tags
+                        Edit Tags
                     </button>
                 </>
             )}
@@ -110,8 +106,7 @@ const EditToolbar = () => {
                         }}/>
                     </div>
                 </>
-            )}
-  
+            )}      
         </div>
     );
 }

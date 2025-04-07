@@ -31,23 +31,35 @@ const Home = () => {
     const [workDate, setWorkDate] = useState("");
     const [workDescription, setWorkDescription] = useState("");
     const [workTags, setWorkTags] = useState([]);
+    
+    const [newPortfolio, setNewPortfolio] = useState({
+        title: "",
+        imageUrl: "",
+        createdDate: new Date(),
+        description: "",
+        tags: [],
+        canvas: null,
+        mediaCount: 0,
+        link: 30,
+        configurations: [],
+    });    
 
-    const handleWorkAll = (e) => {
-        e.preventDefault();
-        navigate("/works")
-    }
-
-    const handlePortAll = (e) => {
-        e.preventDefault();
-        navigate("/portfolios")
-    }
     return (
         <div>
             <HomeHeader/>
             <div className="titles">Works</div>
             <div className='images-container'>
-                <div className="add-button-container">
-                <input type="file" ref={ref} hidden/>
+            <div
+                className="add-button-container"
+                onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                        event.stopPropagation(); 
+                    }
+                }}
+            >
+                <input type="file" ref={ref} accept='.png,.jpeg,.jpg' hidden
+        />
                 <button className="add-button" onClick={() => {
                     setFile(null);
                     ref.current.click();
@@ -57,21 +69,21 @@ const Home = () => {
                         setWorkTitle(ref.current.files[0].name);
                         setWorkDate(new Date(ref.current.files[0].lastModified).toISOString().split("T")[0]);
                         setAddWorkPopup(true);
-                };}}>+</button>
+                    };
+                    ref.current.blur();
+                }}>+</button>
                     <div className="add-button-text">New Work</div>
                 </div>
                 {useWorksStore.getState().getSortedByDate().slice(0, 2).map((work) => (
                     <Image key={work.title} work={work} type = "work" />
                 ))}
-                <form onSubmit={handleWorkAll}>
-                    {useWorksStore.getState().getWorksLength() > 2 ? (
+                {useWorksStore.getState().getWorksLength() > 2 ? (
                         <div className='see-all-container'>
-                            <button className='see-all-button'>See All {useWorksStore.getState().getWorksLength()}</button>
+                            <button className='see-all-button' onClick={() => {navigate("/works")}}>See All {useWorksStore.getState().getWorksLength()}</button>
                         </div>
                     ) : (
                         <div className="see-all-container"></div> 
                     )}
-                </form>
             </div>
             <div className="titles">Portfolios</div>
             <div className='images-container'>
@@ -85,28 +97,50 @@ const Home = () => {
                 {usePortfoliosStore.getState().getSortedByDate().slice(0, 2).map((portfolio) => (
                     <Image key={portfolio.title} work={portfolio} type = "portfolio" />
                 ))}
-                <form onSubmit={handlePortAll}>
-                    {usePortfoliosStore.getState().getPortfoliosLength() > 2 ? (
+                {usePortfoliosStore.getState().getPortfoliosLength() > 2 ? (
                         <div className='see-all-container'>
-                            <button type="submit" className='see-all-button'>See All {usePortfoliosStore.getState().getPortfoliosLength()}</button>
+                            <button className='see-all-button' onClick={() => {navigate("/portfolios")}}>See All {usePortfoliosStore.getState().getPortfoliosLength()}</button>
                         </div>
                     ) : (
                         <div className="see-all-container"></div>
                     )}
-                </form>
             </div>
             <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = ""; setAddWorkPage(0); setWorkDate(""); setWorkDescription(""); setWorkTitle(""); setWorkTags([]);}}>
                 {
                     addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage} setFile={setFile} workTitle={workTitle} workDate={workDate} workDescription={workDescription} setWorkTitle={setWorkTitle} setWorkDate={setWorkDate} setWorkDescription={setWorkDescription}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage} workTitle={workTitle} workDate={workDate} workDescription={workDescription} workTags={workTags} setWorkTags={setWorkTags} setAddWorkPopup={setAddWorkPopup}/>
                 }
             </Popup>
-            <Popup trigger={addPortfolioPopup} closePopup={() =>{setAddPortfolioPopup(false); setAddPortfolioPage(0)}}>
-                {
-                    addPortfolioPage === 0 
-                        ? <AddPortfolioPage1 setNextPage={setAddPortfolioPage} />
+            <Popup 
+                trigger={addPortfolioPopup}
+                closePopup={() =>{
+                    setAddPortfolioPopup(false); 
+                    setAddPortfolioPage(0);
+                    setNewPortfolio({
+                        title: "",
+                        imageUrl: "",
+                        createdDate: new Date(),
+                        description: "",
+                        tags: [],
+                        canvas: null,
+                        mediaCount: 0,
+                        link: 30,
+                        configurations: [],
+                    })
+            }}>
+                {addPortfolioPage === 0 
+                        ? <AddPortfolioPage1 
+                            setNextPage={setAddPortfolioPage}
+                            newPortfolio={newPortfolio}
+                            setNewPortfolio={setNewPortfolio}/>
                         : addPortfolioPage === 1 
-                            ? <AddPortfolioPage2 setNextPage={setAddPortfolioPage} />
-                            : <AddPortfolioPage3 setNextPage={setAddPortfolioPage} />
+                            ? <AddPortfolioPage2 
+                                setNextPage={setAddPortfolioPage}
+                                newPortfolio={newPortfolio}
+                                setNewPortfolio={setNewPortfolio} />
+                            : <AddPortfolioPage3 
+                                setNextPage={setAddPortfolioPage}
+                                newPortfolio={newPortfolio}
+                                setNewPortfolio={setNewPortfolio}/>
                 }
             </Popup>
 

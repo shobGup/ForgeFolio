@@ -1,5 +1,6 @@
 import React from 'react';
 import './styles/SidebarImage.css'
+import { useCanvasStore } from '../../stores/canvasStore';
 
 const SidebarImage = ({ work }) => {
 
@@ -24,11 +25,18 @@ const SidebarImage = ({ work }) => {
     return (
         <div className="work">
             <img 
-                src={process.env.PUBLIC_URL + work.imageUrl} 
+                src={work.imageUrl.startsWith('blob:') ? work.imageUrl : process.env.PUBLIC_URL + work.imageUrl}
                 alt={work.description} 
                 draggable
                 onDragStart={(e) => {
-                    e.dataTransfer.setData('image-url', process.env.PUBLIC_URL + work.imageUrl);
+                    const url = work.imageUrl.startsWith('blob:') ? work.imageUrl : process.env.PUBLIC_URL + work.imageUrl;
+                    e.dataTransfer.setData('image-url', url);
+                    const imageUrl = e.dataTransfer.getData('image-url');
+                    const canvas = useCanvasStore.getState().canvas;
+                    if (canvas && imageUrl) {
+                        useCanvasStore.getState().setImageUrl(imageUrl);
+                        useCanvasStore.getState().setPlacingImage(true);
+                    }
                 }}
             />
             <div className='work-title' title={work.title}>{work.title}</div>
@@ -38,7 +46,7 @@ const SidebarImage = ({ work }) => {
                     color: textColor
                 }}
             >
-                {score}% match
+                {score}% tag match
             </div>
         </div>
     );

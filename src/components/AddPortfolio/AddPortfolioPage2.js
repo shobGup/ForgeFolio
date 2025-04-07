@@ -1,7 +1,14 @@
 import React from "react";
 import "./styles/AddPortfolioPage2.css";
 
-function AddPortfolioPage2({setNextPage}) {
+function AddPortfolioPage2({setNextPage, newPortfolio, setNewPortfolio}) {
+    const handleInputChange = (field, value) => {
+        setNewPortfolio((prevPortfolio) => ({
+            ...prevPortfolio,
+            [field]: value,
+        }));
+    };
+
     return (
         <div>
             <div className="add-portfolio-header">
@@ -9,11 +16,29 @@ function AddPortfolioPage2({setNextPage}) {
                 <div className='add-create-a-portfolio'>Create a Portfolio</div>
             </div>
             <div className="add-portfolio-detail-header">Name</div>
-            <input className='add-portfolio-name-input' type='text'  placeholder="Name"></input>
+            <input 
+                className='add-portfolio-name-input' 
+                type='text' 
+                placeholder="Name" 
+                value={newPortfolio.title} 
+                onChange={(e) => handleInputChange("title", e.target.value)}>
+            </input>
             <div className="add-portfolio-detail-header">Description</div>
-            <textarea className='add-portfolio-description-input' type='text'  placeholder="Description"></textarea>
+            <textarea 
+                className='add-portfolio-description-input' 
+                type='text'  
+                placeholder="Description"
+                value={newPortfolio.description}
+                onChange={(e) => handleInputChange("description", e.target.value)}>
+            </textarea>
             <div className="add-portfolio-detail-header">Media Count</div>
-            <input type='number' className="add-portfolio-number-input" placeholder="0"></input>
+            <input 
+                className="add-portfolio-number-input" 
+                type='number' 
+                placeholder="0"
+                value={newPortfolio.mediaCount}
+                onChange={(e) => handleInputChange("mediaCount", e.target.value)}>
+            </input>
                 
             <div className='add-portfolio-button-bar'>
                 <button className='add-next-button' onClick={() => setNextPage(2)}>Next</button>

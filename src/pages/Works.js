@@ -20,26 +20,23 @@ const Works = () => {
 
     const getFilteredAndSortedWorks = () => {
         let filteredWorks = [...works];
-        
+    
         if (selectedTags.length > 0) {
             filteredWorks = getFilterByTags(selectedTags);
         }
-        
-        const nameSearch = searchQuery.replace(/#\w+/g, '').trim();
+    
+        const nameSearch = searchQuery.replace(/#([^#]*)/g, '').trim();
         if (nameSearch) {
-            filteredWorks = getFilteredByName(nameSearch).filter(work => 
+            filteredWorks = getFilteredByName(nameSearch).filter(work =>
                 filteredWorks.some(fw => fw.title === work.title)
             );
         }
+    
         
         switch (sortState) {
             case "name":
                 return getSortedByName(true).filter(work => 
                     filteredWorks.some(fw => fw.title === work.title)
-                );
-            case "tags":
-                return [...filteredWorks].sort((a, b) => 
-                    (a.tags[0] || '').localeCompare(b.tags[0] || '')
                 );
             case "date":
             default:

@@ -1,28 +1,28 @@
 import React from 'react';
 import './styles/EditSidebar.css';
 import SidebarImage from './SidebarImage';
+import { useWorksStore } from '../../stores/worksStore';
+import { usePortfoliosStore } from '../../stores/portfoliosStore';
 
-const EditSidebar = ({ }) => {
-    
+const EditSidebar = () => {
     const [searchTerm, setSearchTerm] = React.useState('');
+    const { works } = useWorksStore();
 
-    const [allWorks, setAllWorks] = React.useState([
-        { title: 'Mona Lisa', imageUrl: '/images/mona-lisa.png', description: 'A portrait of a woman.', tags: ['art', 'portrait'], score: 5 },
-        { title: 'Red Boats at Argenteuil', imageUrl: '/images/boat.png', description: 'Red boats at Argenteuil.', tags: ['art', 'nature', 'realism'], score: 80},
-        { title: 'Impression Sunrise', imageUrl: '/images/impression-sunrise.png', description: 'A beautiful sunset.', tags: ['art', 'nature', 'painting'], score: 84 },
-        { title: 'The Artist\'s Garden at Giverny', imageUrl: '/images/irises-in-monets-garden.png', description: 'A garden.', tags: ['art', 'nature', 'flowers', 'garden'], score: 72 },
-        { title: 'Girl with the Pearl Earrings', imageUrl: '/images/girl-with the-pearl-earings.png', description: 'Girl with pearl hearings.', tags: ['art', 'portrait', 'human', 'realism'], score: 23 },        
-        { title: 'Scream', imageUrl: '/images/scream.png', description: 'Guy screaming.', tags: ['art', 'abstract', 'portrait', 'human'], score: 62 },        
-        { title: 'Starry Night', imageUrl: '/images/starrynight.png', description: 'Starry Night.', tags: ['art', 'nature', 'abstract'], score: 43 },
-        { title: 'The Persistence of Memories', imageUrl: '/images/the-persistence-of-memories.jpg', description: 'Clocks and stuff.', tags: ['art', 'surrealism', 'abstract', 'nature'], score: 98 },
-        { title: 'The Great Wave', imageUrl: '/images/great-wave.jpg', description: 'Big Wave.', tags: ['art', 'nature', 'japanese', 'nature'], score: 77 },
-    ]);
+    const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
+    const tagWorks = currPortfolio?.tags
+        ? useWorksStore.getState().scoreWorksByTags(currPortfolio.tags)
+        : [];
 
-    const filteredWorks = allWorks
+    const filteredWorks = tagWorks
         .filter(work =>
             work.title.toLowerCase().includes(searchTerm.toLowerCase())
         )
-        .sort((a, b) => b.score - a.score);
+        .sort((a, b) => {
+            if (a.score !== undefined && b.score !== undefined) {
+                return b.score - a.score;
+            }
+            return b.createdDate - a.createdDate;
+        });
 
     return (
         <div className="sidebar">
@@ -44,8 +44,7 @@ const EditSidebar = ({ }) => {
                     <div className="no-results">
                         No works found
                     </div>
-                ) : 
-                (
+                ) : (
                     filteredWorks.map((work) => (
                         <SidebarImage 
                             key={work.title} 

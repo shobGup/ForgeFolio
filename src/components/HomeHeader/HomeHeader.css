@@ -29,6 +29,7 @@
 
 .title {
     display: flex;
+    position: absolute;
     font-size: 50px;
     font-family: 'Merriweather', serif;
     left: 50%;

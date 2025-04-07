@@ -39,7 +39,7 @@ function AddWorkPage1({file, setNextPage, setFile, workTitle, workDate, workDesc
                    {/* Media Container */}
                    <div className="col-auto d-flex flex-column align-items-center media-container p-0 m-0">
                        <img src={URL.createObjectURL(file)} alt="Uploaded Work" className="img-fluid add-work-image mb-2" />
-                       <input type="file" ref={ref} hidden></input>
+                       <input type="file" ref={ref} accept='.png,.jpeg,.jpg' hidden></input>
                        <button className="btn btn-secondary" onClick={() => {
                            ref.current.click();
                            ref.current.onchange = (_) => {
@@ -53,7 +53,7 @@ function AddWorkPage1({file, setNextPage, setFile, workTitle, workDate, workDesc
                    </div> 
                    {/* Form Container */}
                    <div className="col h-100 form-container">
-                       <form className="w-100 form m-0 p-0">
+                       <div className="w-100 form m-0 p-0">
                            <label className={"form-header m-0 p-0 " + (errors[0] ? "error-header" : "")}>{"Title" + (errors[0] ? " *" : "")}</label>
                            <input className={"form-control mb-3 form-input" + (errors[0] ? " error-input" : "")} onChange={(event) => {setWorkTitle(event.target.value)}} value={workTitle}></input>
 
@@ -61,9 +61,9 @@ function AddWorkPage1({file, setNextPage, setFile, workTitle, workDate, workDesc
                            <input className={"form-control mb-3 form-input" + (errors[1] ? " error-input" : "")} type="date" value={workDate} onChange={(event) => {setWorkDate(event.target.value)}}></input>
 
                            <label className={"form-header " + (errors[2] ? "error-header" : "")}>{"Description" + (errors[2] ? " *": "")}</label>
-                           <textarea className={"form-control mb-3 form-textarea" + (errors[2] ? " error-input" : "")} rows={8} value={workDescription.trim() === "" ? "Describe your masterpiece..." : workDescription} onChange={(event) => {
+                           <textarea className={"form-control mb-3 form-textarea" + (errors[2] ? " error-input" : "")} rows={8} placeholder={workDescription.trim() === "" ? "Describe your masterpiece..." : workDescription} onChange={(event) => {
                             setWorkDescription(event.target.value)}} ></textarea>
-                       </form>
+                       </div>
                        <p className="error-message" id="add-work-error-message" hidden={!showErrorMessage}>* Please fill out these fields to continue</p>
                    </div>
                </div>

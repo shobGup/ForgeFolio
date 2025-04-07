@@ -13,3 +13,7 @@
     border: 1px solid #ccc;
   }
   
+  .view-mode .canvas-wrapper {
+    width: 100vw;
+    height: 100vh;
+  }

@@ -1,17 +1,36 @@
 import React, { useEffect, useRef } from 'react';
 import { Canvas } from 'fabric';
 import { useCanvasStore } from '../../stores/canvasStore';
+import { usePortfoliosStore } from '../../stores/portfoliosStore';
+import { useWorksStore } from '../../stores/worksStore';
 import './styles/CanvasArea.css';
+import EscHintPopup from './EscHintPopup.js';
 
 const CanvasArea = () => {
   const canvasRef = useRef(null);
-  const placingTextbox = useCanvasStore((state) => state.placingTextbox);
-  const placingImage = useCanvasStore((state) => state.placingImage);
+  const { 
+    setViewMode, 
+    viewMode, 
+    placingImage, 
+    placingTextbox 
+  } = useCanvasStore();
+
+  const updatePortfolioImage = () => {
+    const canvas = useCanvasStore.getState().canvas;
+    if (!canvas) return;
+
+    const newImg = canvas.toDataURL('png');
+    const canvasJSON = canvas.toJSON();
+
+    usePortfoliosStore.getState().updatePortfolio('canvas', canvasJSON);
+    usePortfoliosStore.getState().updatePortfolio('imageUrl', newImg);
+  };
 
   useEffect(() => {
     const wrapper = document.querySelector('.canvas-wrapper');
     const width = wrapper.clientWidth;
-    const height = wrapper.clientHeight;
+    let height = wrapper.clientHeight;
+    height = Math.max(usePortfoliosStore.getState().getInitialCanvasHeight(), height);
 
     const canvas = new Canvas('portfolio-canvas', {
       width,
@@ -22,12 +41,41 @@ const CanvasArea = () => {
 
     useCanvasStore.getState().setCanvas(canvas);
 
+    // Set Initial Generation: 
+    const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
+    const tagWorks = currPortfolio?.tags
+        ? useWorksStore.getState().scoreWorksByTags(currPortfolio.tags)
+        : [];
+    tagWorks.sort((a, b) => {
+          if (a.score !== undefined && b.score !== undefined) {
+              return b.score - a.score;
+          }
+          return b.createdDate - a.createdDate;
+    });
+    let bestWorks = tagWorks.slice(0, currPortfolio['mediaCount'])
+    useCanvasStore.getState().setInitialCanvas(
+      bestWorks, 
+      currPortfolio['configurations'].includes('Headshot'),
+      currPortfolio['configurations'].includes('Media Descriptions'),
+      currPortfolio['configurations'].includes('Media Creation Date'),
+      currPortfolio['configurations'].includes('Resume'),
+      currPortfolio['configurations'].includes('Contact Information'),
+      currPortfolio['configurations'].includes('Social Links'));
+
+    const handleCanvasChange = () => {
+      updatePortfolioImage();
+    };
+
+    canvas.on('object:modified', handleCanvasChange);
+    canvas.on('object:added', handleCanvasChange);
+    canvas.on('object:removed', handleCanvasChange);
+
     // Handle textbox placement on click
     canvas.on('mouse:down', function (e) {
       const state = useCanvasStore.getState();
       if (state.placingTextbox && e.viewportPoint) {
         const { x, y } = e.viewportPoint;
-        state.addTextboxAt(x, y);
+        state.addTextboxAt(x, y, 20, 200);
       }
       if (state.placingImage && e.viewportPoint) {
         const { x, y } = e.viewportPoint;
@@ -115,10 +163,51 @@ const CanvasArea = () => {
     }
   }, [placingTextbox, placingImage]);
 
+  /* Effect to toggle canvas size and scale for viewMode */
+  useEffect(() => {
+    const { canvas } = useCanvasStore.getState();
+    if (!canvas) return;
+
+    const wrapper = document.querySelector('.canvas-wrapper');
+    if (!wrapper) return;
+
+    const width = wrapper.clientWidth;
+    const height = wrapper.clientHeight;
+
+    if (viewMode) {
+      const scaleFactor = width / canvas.getWidth();
+      canvas.setZoom(scaleFactor);
+      canvas.setWidth(width);
+      canvas.setHeight(Math.max(canvas.getHeight(), height));
+    } else {
+      canvas.setZoom(1);
+      canvas.setWidth(width);
+    }
+
+    canvas.renderAll();
+  }, [viewMode]);
+
+  /* Lets the escape key exit view mode */
+  useEffect(() => {
+    const handleExitViewMode = (e) => {
+      if (e.key === 'Escape') {
+        setViewMode(false);
+      }
+    };
+  
+    if (viewMode) {
+      window.addEventListener('keydown', handleExitViewMode);
+    }
+  
+    return () => window.removeEventListener('keydown', handleExitViewMode);
+  }, [viewMode]);
+
   return (
-    <div className="canvas-wrapper">
+    <div className={`canvas-wrapper ${viewMode ? 'view-mode' : ''}`}>
       <canvas id="portfolio-canvas" ref={canvasRef}></canvas>
-    </div>
+      {viewMode && <EscHintPopup />} {/* Show only in view mode */}
+    </div> 
+
   );
 };
 

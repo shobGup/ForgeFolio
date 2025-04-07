@@ -17,18 +17,18 @@
     background: #e2e2e2;
 }
 
-.button {
+.edit-button {
     height: auto;
     border: none;
 }
 
-.help-button, 
-.delete-button {
+.edit-help-button, 
+.edit-delete-button {
     width: 91px;
     /* text-align: left; */
 }
 
-.delete-button {
+.edit-delete-button {
     margin-left: 0px;
     color: red;
 }
