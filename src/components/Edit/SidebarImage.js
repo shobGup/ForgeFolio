@@ -46,7 +46,7 @@ const SidebarImage = ({ work }) => {
                     color: textColor
                 }}
             >
-                {score}% match
+                {score}% tag match
             </div>
         </div>
     );

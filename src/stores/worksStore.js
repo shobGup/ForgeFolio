@@ -68,4 +68,26 @@ export const useWorksStore = create((set, get) => ({
             works: [...state.works, newWork],
         }));
     },    
+
+    scoreWorksByTags: (portfolioTags) => {
+        portfolioTags = portfolioTags.map(tag => tag.toLowerCase());
+    
+        const works = get().works;
+        const dates = works.map(work => new Date(work.createdDate).getTime());
+        const minDate = Math.min(...dates);
+        const maxDate = Math.max(...dates);
+        const dateRange = maxDate - minDate || 1;
+    
+        return works.map(work => {
+            const workTags = work.tags.map(tag => tag.toLowerCase());
+            const tagMatches = workTags.filter(tag => portfolioTags.includes(tag));
+            const tagScore = (tagMatches.length / portfolioTags.length) * 100;
+    
+            const recencyRaw = new Date(work.createdDate).getTime();
+            const recencyScore = ((recencyRaw - minDate) / dateRange) * 100;
+    
+            const score = Math.round(tagScore * 0.9 + recencyScore * 0.1);
+            return { ...work, score };
+        });
+    },      
 }));

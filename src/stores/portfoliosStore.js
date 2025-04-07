@@ -1,6 +1,16 @@
 import { create } from 'zustand';
+import { Canvas } from 'fabric';
 
 export const usePortfoliosStore = create((set, get) => ({
+    currentPorfolio: null, 
+    setCurrentPortfolio: (portfolio) => {
+        set({currentPortfolio : portfolio});
+    },
+    
+    getCurrentPortfolio: () => {
+        return get().currentPortfolio;
+    },  
+    
     portfolios: [
         { 
             title: 'Dreamworks', 
@@ -77,19 +87,62 @@ export const usePortfoliosStore = create((set, get) => ({
         set((state) => ({
             portfolios: [...state.portfolios, newPortfolio],
         }));
-    },    
+    },  
 
-    updatePortfolio: (index, key, newValue) => {
+    updatePortfolio: (key, newValue) => {
         set((state) => {
             const portfolios = [...state.portfolios];
-            const portfolioToUpdate = portfolios[index];
-    
+            const portfolioToUpdate = get().getCurrentPortfolio();
+            const index = portfolios.findIndex(portfolio => portfolio.title === portfolioToUpdate.title);
             portfolios[index] = {
                 ...portfolioToUpdate,
                 [key]: newValue,
             };
+            get().setCurrentPortfolio(portfolios[index])
+            return { portfolios };
+        });
+    },
+
+    deletePortfolio: () => {
+        set((state) => {
+            const portfolios = [...state.portfolios];
+            const portfolioToUpdate = get().getCurrentPortfolio();
+            const index = portfolios.findIndex(portfolio => portfolio.title === portfolioToUpdate.title);
+    
+            portfolios.splice(index, index);
     
             return { portfolios };
         });
     },
+
+    getInitialCanvasHeight: () => {
+        const currentPortfolio = get().getCurrentPortfolio();
+        let height = 0;
+        if (currentPortfolio["configurations"].includes('Headshot')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Media Descriptions')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Media Creation Date')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Resume')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Contact Information')) {
+            height += 0;
+        }
+
+        if (currentPortfolio["configurations"].includes('Social Links')) {
+            height += 0;
+        }
+        
+        height += currentPortfolio["mediaCount"] * 500;
+        return height;
+    }
 }));

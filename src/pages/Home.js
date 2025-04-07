@@ -42,8 +42,8 @@ const Home = () => {
         mediaCount: 0,
         link: 30,
         configurations: [],
-    });
-    
+    });    
+
     return (
         <div>
             <HomeHeader/>

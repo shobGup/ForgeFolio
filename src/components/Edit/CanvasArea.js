@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Canvas } from 'fabric';
 import { useCanvasStore } from '../../stores/canvasStore';
 import { usePortfoliosStore } from '../../stores/portfoliosStore';
+import { useWorksStore } from '../../stores/worksStore';
 import './styles/CanvasArea.css';
 
 const CanvasArea = () => {
@@ -13,15 +14,18 @@ const CanvasArea = () => {
     const canvas = useCanvasStore.getState().canvas;
     if (!canvas) return;
 
-    const index = usePortfoliosStore.getState().getPortfoliosLength() - 1;
     const newImg = canvas.toDataURL('png');
-    usePortfoliosStore.getState().updatePortfolio(index, 'imageUrl', newImg);
+    const canvasJSON = canvas.toJSON();
+
+    usePortfoliosStore.getState().updatePortfolio('canvas', canvasJSON);
+    usePortfoliosStore.getState().updatePortfolio('imageUrl', newImg);
   };
 
   useEffect(() => {
     const wrapper = document.querySelector('.canvas-wrapper');
     const width = wrapper.clientWidth;
-    const height = wrapper.clientHeight;
+    let height = wrapper.clientHeight;
+    height = Math.max(usePortfoliosStore.getState().getInitialCanvasHeight(), height);
 
     const canvas = new Canvas('portfolio-canvas', {
       width,
@@ -31,6 +35,27 @@ const CanvasArea = () => {
     });
 
     useCanvasStore.getState().setCanvas(canvas);
+
+    // Set Initial Generation: 
+    const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
+    const tagWorks = currPortfolio?.tags
+        ? useWorksStore.getState().scoreWorksByTags(currPortfolio.tags)
+        : [];
+    tagWorks.sort((a, b) => {
+          if (a.score !== undefined && b.score !== undefined) {
+              return b.score - a.score;
+          }
+          return b.createdDate - a.createdDate;
+    });
+    let bestWorks = tagWorks.slice(0, currPortfolio['mediaCount'])
+    useCanvasStore.getState().setInitialCanvas(
+      bestWorks, 
+      currPortfolio['configurations'].includes('Headshot'),
+      currPortfolio['configurations'].includes('Media Descriptions'),
+      currPortfolio['configurations'].includes('Media Creation Date'),
+      currPortfolio['configurations'].includes('Resume'),
+      currPortfolio['configurations'].includes('Contact Information'),
+      currPortfolio['configurations'].includes('Social Links'));
 
     const handleCanvasChange = () => {
       updatePortfolioImage();
@@ -45,7 +70,7 @@ const CanvasArea = () => {
       const state = useCanvasStore.getState();
       if (state.placingTextbox && e.viewportPoint) {
         const { x, y } = e.viewportPoint;
-        state.addTextboxAt(x, y);
+        state.addTextboxAt(x, y, 20, 200);
       }
       if (state.placingImage && e.viewportPoint) {
         const { x, y } = e.viewportPoint;
@@ -137,6 +162,7 @@ const CanvasArea = () => {
     <div className="canvas-wrapper">
       <canvas id="portfolio-canvas" ref={canvasRef}></canvas>
     </div>
+
   );
 };
 

@@ -2,12 +2,18 @@ import React from 'react';
 import './styles/EditSidebar.css';
 import SidebarImage from './SidebarImage';
 import { useWorksStore } from '../../stores/worksStore';
+import { usePortfoliosStore } from '../../stores/portfoliosStore';
 
 const EditSidebar = () => {
     const [searchTerm, setSearchTerm] = React.useState('');
     const works = useWorksStore(state => state.works);
 
-    const filteredWorks = works
+    const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
+    const tagWorks = currPortfolio?.tags
+        ? useWorksStore.getState().scoreWorksByTags(currPortfolio.tags)
+        : [];
+
+    const filteredWorks = tagWorks
         .filter(work =>
             work.title.toLowerCase().includes(searchTerm.toLowerCase())
         )
