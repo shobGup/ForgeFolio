@@ -58,7 +58,6 @@ const CanvasArea = () => {
       currPortfolio['configurations'].includes('Headshot'),
       currPortfolio['configurations'].includes('Media Descriptions'),
       currPortfolio['configurations'].includes('Media Creation Date'),
-      currPortfolio['configurations'].includes('Resume'),
       currPortfolio['configurations'].includes('Contact Information'),
       currPortfolio['configurations'].includes('Social Links'));
 

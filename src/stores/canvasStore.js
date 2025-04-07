@@ -22,7 +22,6 @@ export const useCanvasStore = create((set, get) => ({
     headshot, 
     mediaDescriptions, 
     mediaCreationDate, 
-    resume, 
     contactInformation, 
     socialLinks,
   ) => {

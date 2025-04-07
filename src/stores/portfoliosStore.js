@@ -142,10 +142,6 @@ export const usePortfoliosStore = create((set, get) => ({
             height += 0;
         }
 
-        if (currentPortfolio["configurations"].includes('Resume')) {
-            height += 0;
-        }
-
         if (currentPortfolio["configurations"].includes('Contact Information')) {
             height += 0;
         }
