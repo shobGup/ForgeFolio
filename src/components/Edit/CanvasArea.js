@@ -165,7 +165,7 @@ const CanvasArea = () => {
 
   /* Effect to toggle canvas size and scale for viewMode */
   useEffect(() => {
-    const { canvas } = useCanvasStore.getState().canvas;
+    const { canvas } = useCanvasStore.getState();
     if (!canvas) return;
 
     const wrapper = document.querySelector('.canvas-wrapper');
