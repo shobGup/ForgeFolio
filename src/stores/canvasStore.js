@@ -96,6 +96,10 @@ export const useCanvasStore = create((set, get) => ({
   imageUrl: '',
   setImageUrl: (url) => set({ imageUrl: url }),
 
+  canvasRenderAll: () => {
+    get().canvas?.requestRenderAll();
+  },
+
   resetAllSelection: () => {
     get().setPlacingImage(false);
     get().setImageUrl('');

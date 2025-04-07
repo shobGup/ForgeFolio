@@ -4,15 +4,17 @@ import { useCanvasStore } from '../../stores/canvasStore';
 
 
 const EditToolbar = () => {
-
-    const setPlacingTextbox = useCanvasStore((state) => state.setPlacingTextbox);
-    const setPlacingImage = useCanvasStore((state) => state.setPlacingImage);
-    const setImageUrl = useCanvasStore((state) => state.setImageUrl);
-    const resetAllSelection = useCanvasStore((state) => state.resetAllSelection);
-    const setSelectedObject = useCanvasStore((state) => state.setSelectedObject);
-    const selectedObject = useCanvasStore((state) => state.selectedObject);
-    const placingTextbox = useCanvasStore((state) => state.placingTextbox);
-    const placingImage = useCanvasStore((state) => state.placingImage);
+    const { 
+        setPlacingTextbox, 
+        canvasRenderAll,
+        setPlacingImage,
+        setImageUrl,
+        resetAllSelection,
+        setSelectedObject,
+        selectedObject,
+        placingTextbox
+     } = useCanvasStore();
+     
     const isTextboxSelected = selectedObject?.type === 'textbox';
     const ref = useRef();
 
@@ -80,15 +82,15 @@ const EditToolbar = () => {
             {!isTextboxSelected && (
                 <>
                     <div className='vertical-line'/>
-                    <button className="item button background-button">
+                    <button className="item edit-button background-button">
                         Background
                     </button>
                     <div className='vertical-line'/> 
-                    <button className="item button layout-button">
+                    <button className="item edit-button layout-button">
                         Layout
                     </button> 
                     <div className='vertical-line'/>
-                    <button className="item button edit-tags-button">
+                    <button className="item edit-button edit-tags-button">
                         Edit Tags
                     </button>
                 </>
@@ -97,11 +99,12 @@ const EditToolbar = () => {
                 <>
                     <div className='vertical-line'/>
                     <div className='edit-font-size'>
-                        <input type="number" min="1" max="100" defaultValue="20" className="slider" 
+                        <input type="number" min="1" max="100" defaultValue={selectedObject.fontSize} className="item edit-font-input" 
                         onChange={(e) => {
                             const newSize = parseInt(e.target.value);
                             if (!isNaN(newSize) && selectedObject) {
-                            selectedObject.set({ fontSize: newSize }); // assumes Fabric.js object
+                            selectedObject.set({ fontSize: newSize });
+                            canvasRenderAll();
                             }
                         }}/>
                     </div>
