@@ -7,6 +7,8 @@ import { usePortfoliosStore } from '../../stores/portfoliosStore';
 const EditHeader = ({ portfolioName }) => {
     const navigate = useNavigate();
 
+    const { getCurrentPortfolioName } = usePortfoliosStore();
+
     const updatePortfolioImage = () => {
         const canvas = useCanvasStore.getState().canvas;
         if (!canvas) return;
@@ -17,6 +19,8 @@ const EditHeader = ({ portfolioName }) => {
         usePortfoliosStore.getState().updatePortfolio('canvas', canvasJSON);
         usePortfoliosStore.getState().updatePortfolio('imageUrl', newImg);
     };
+
+    const { toggleViewMode } = useCanvasStore();
 
     return (
         <div className="edit-header">
@@ -29,8 +33,13 @@ const EditHeader = ({ portfolioName }) => {
                 }} /* Add on click button */
                 style={{ cursor: 'pointer' }}
             />
-            <h1 className='portfolio-name'>{portfolioName}</h1>
-            <button className='view-button'>View</button>
+            <h1 className='portfolio-name'>{getCurrentPortfolioName()}</h1>
+            <button 
+                className='view-button'
+                onClick={toggleViewMode}
+            >
+                View
+            </button>
             <button className='share-button'>Share</button> {/* Add on click button */}
         </div>
     );
