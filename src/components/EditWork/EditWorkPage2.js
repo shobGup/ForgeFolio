@@ -71,7 +71,7 @@ const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage, r
                 <div className="row h-100 w-100 p-0 m-0">
                     {/* Media Container */}
                     <div className="col-auto d-flex flex-column align-items-center media-container p-0 m-0">
-                        <img src={newWork.imageUrl} alt="Uploaded Work" className="img-fluid add-work-image mb-2" />
+                        <img src={work.imageUrl.startsWith("/images/") ? process.env.PUBLIC_URL + work.imageUrl : work.imageUrl} alt="Uploaded Work" className="img-fluid add-work-image mb-2" />
                     </div> 
                     {/* Form Container */}
                     <div className="col h-100 form-container">
