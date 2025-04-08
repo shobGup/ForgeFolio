@@ -15,13 +15,13 @@ const App = () => {
     return (
         <div className="app">
             <Router>
-                <nav>
+                {/* <nav>
                     <Link to="/ForgeFolio">Login</Link>
                     <Link to="/home">Home</Link>
                     <Link to="/works">Works</Link>
                     <Link to="/portfolios">Portfolios</Link>
                     <Link to="/edit">Edit</Link>
-                </nav>
+                </nav> */}
 
                 <Routes>
                     <Route path="/ForgeFolio" element={<Login />} />
