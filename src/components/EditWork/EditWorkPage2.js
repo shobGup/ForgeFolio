@@ -4,8 +4,7 @@ import Tag from "../Tags/Tag";
 import { useWorksStore } from "../../stores/worksStore";
 import { useTagsStore } from "../../stores/tagsStore";
 
-const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage}) => {
-    console.log(newWork);
+const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage, resetAddWorkState}) => {
     const worksStore = useWorksStore();
         const tagsStore = useTagsStore();
         const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -58,6 +57,7 @@ const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage}) 
             }
             worksStore.editWork(work, newWork);
             setShowEditPopup(false); 
+            resetAddWorkState();
             goToPage(0);
         }
     return (
