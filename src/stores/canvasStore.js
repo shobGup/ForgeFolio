@@ -18,7 +18,7 @@ export const useCanvasStore = create((set, get) => ({
   setViewMode: (val) => set({ viewMode: val }),
   toggleViewMode: () => set((state) => ({ viewMode: !state.viewMode })),
 
-  setInitialCanvas: (
+  setInitialCanvas: async (
     bestWorks,
     headshot, 
     mediaDescriptions, 
@@ -29,25 +29,79 @@ export const useCanvasStore = create((set, get) => ({
     let x = 50;
     let y = 50;
 
-    const canvas = get().canvas;
-    if (!canvas) return;
-
+    if (!get().canvas) return;
+    if (socialLinks) {
+      get().getOptionalSocialLinks();
+    }
     if (headshot) {
-      let headshotImg = new Image();
+      y = await get().getOptionalHeadshot(x, y)
+    }
+    y = await get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+    // get().setContactInformation(contactInformation, x, y + 50); 
+  },
+
+  getOptionalSocialLinks: () => {
+
+    const canvas = get().canvas;
+
+    const icons = [
+        { src: '/images/social-icons/instagram-icon.png', name: 'Instagram', hyperlink: 'https://www.instagram.com/claude._.monet/?hl=en' },
+        { src: '/images/social-icons/facebook-icon.png', name: 'Facebook', hyperlink: 'https://www.facebook.com/ClaudeMonet9' },
+        { src: '/images/social-icons/linkedin-icon.png', name: 'LinkedIn', hyperlink: 'https://www.linkedin.com/in/claude-monet-044371224/' },
+    ];
+
+    const iconSize = 30; 
+    const iconSpacing = 10; 
+    let x = 1300;
+
+    icons.forEach((icon, index) => {
+        const img = new Image();
+        img.src = process.env.PUBLIC_URL + icon.src;
+
+        img.onload = () => {
+            const fabricImg = new FabricImage(img, {
+                left: x + index * (iconSize + iconSpacing),
+                top: 20,
+                scaleX: iconSize / img.width, 
+                scaleY: iconSize / img.height,
+                selectable: true, 
+                hasControls: true,
+                hasBorders: true,
+                hyperlink: { url: icon.hyperlink },
+            });
+
+            canvas.add(fabricImg);
+            canvas.requestRenderAll();
+        };
+    });
+
+    canvas.on('mouse:down', (e) => {
+      const target = e.target;
+      if (target && target.hyperlink && target.hyperlink.url) {
+          window.open(target.hyperlink.url);
+      }
+    });
+  },
+
+  getOptionalHeadshot: (x, y) => {
+    return new Promise((resolve) => {
+  
+      const canvas = get().canvas;
+      const headshotImg = new Image();
       headshotImg.src = process.env.PUBLIC_URL + '/images/monet-profile.png';
-      
+  
       headshotImg.onload = () => {
         const maxWidth = 500;
         const maxHeight = 400;
-    
+  
         let { width, height } = headshotImg;
-    
+
         const widthRatio = maxWidth / width;
         const heightRatio = maxHeight / height;
         const scale = Math.min(1, widthRatio, heightRatio);
         const scaledWidth = width * scale;
         const scaledHeight = height * scale;
-    
+  
         const fabricImg = new FabricImage(headshotImg, {
           left: 250,
           top: y,
@@ -57,7 +111,7 @@ export const useCanvasStore = create((set, get) => ({
           hasControls: true,
           hasBorders: true,
         });
-
+  
         const circleClipPath = new Circle({
           radius: (Math.min(fabricImg.width, fabricImg.height) / 2 * scale) * 2.5, // Increase radius by 1.5x
           originX: 'center',
@@ -66,8 +120,9 @@ export const useCanvasStore = create((set, get) => ({
         });
 
         fabricImg.clipPath = circleClipPath;
-        
         canvas.add(fabricImg);
+        canvas.requestRenderAll();
+
         let centerY = y + (scaledHeight / 2);
 
         let userName = 'Oscar-Claude Monet';
@@ -75,15 +130,11 @@ export const useCanvasStore = create((set, get) => ({
     
         let userDescription = 'I’m passionate about capturing the way light and color shape how we see the world. My work focuses on creating immersive, dynamic visuals that bring everyday scenes to life. With a strong understanding of atmosphere and movement, I aim to push artistic boundaries and find new ways to blend creativity with technology.';
         get().addTextboxAt(x + 600, centerY - 70, 20, 500, userDescription);
-    
-        y += scaledHeight + 100;
-    
-        get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
-        canvas.requestRenderAll();
+      
+        const newY = y + scaledHeight + 100;
+        resolve(newY);
       };
-    } else {
-      get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
-    }    
+    });
   },
 
   loadBestWorks: async (bestWorks, x, y, mediaDescriptions, mediaCreationDate) => {
