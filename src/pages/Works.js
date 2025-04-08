@@ -77,7 +77,6 @@ const Works = () => {
         setEditWorkPage(0);
     }
 
-    // Work Delete
     const [refresh, setRefresh] = useState(false);
 
     const handleDeleteWork = (title) => {

@@ -44,6 +44,13 @@ const Portfolios = () => {
         }
     };
     
+    const [refresh, setRefresh] = useState(false);
+
+    const handleDeletePortfolio = (title) => {
+        usePortfoliosStore.getState().deletePortfolio(title);
+        setRefresh(prev => !prev);
+    };
+
     const [displayedPortfolios, setDisplayedPortfolios] = useState(getSortedByDate());
     
     useEffect(() => {
@@ -61,7 +68,7 @@ const Portfolios = () => {
             />
             <div className="images-grid-port">
                 {displayedPortfolios.map((portfolio) => (
-                    <Image key={portfolio.title} work={portfolio} type="portfolio" />
+                    <Image key={portfolio.title} work={portfolio} type="portfolio" deletePortfolio={handleDeletePortfolio}/>
                 ))}
             </div>
         </div>
