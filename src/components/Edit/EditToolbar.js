@@ -132,7 +132,7 @@ const EditToolbar = () => {
                     <div className="edit-font-family">
                         <select
                             value={fontFamily}
-                            className="font-dropdown"
+                            className="item font-dropdown"
                             onChange={(e) => {
                             const newFont = e.target.value;
                             setFontFamily(newFont);
