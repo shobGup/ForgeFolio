@@ -30,14 +30,6 @@ function AddPortfolioPage1({setNextPage, newPortfolio, setNewPortfolio}) {
                         <Tag name={name} count={count} onClick={updateTags} currSelected={newPortfolio.tags.includes(name)}/>
                     ))} 
                 </div>
-                <div className='add-tags-type'>Usused tags</div>
-                <div className='add-warning'>WARNING: These tags are not associated with any media yet. 
-                    If you select one of those, we will do our best to match to related tags.</div>
-                <div className='add-tags-component'>
-                    {useTagsStore.getState().getUnusedTags().map(({ name, count }) => (
-                        <Tag name={name} count={count} onClick={updateTags} currSelected={newPortfolio.tags.includes(name)}/>
-                    ))}
-                </div>
             </div>
             <div className='add-portfolio-button-bar'>
                 <button className='add-next-button' onClick={() => setNextPage(1)}>Next</button>

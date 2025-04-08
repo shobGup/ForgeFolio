@@ -97,6 +97,10 @@ export const useTagsStore = create((set, get) => ({
         .map(([name, count]) => ({ name, count }));
     },
 
+    getAllTags: () => {
+        return get().tags;
+    },
+
     addNewTag: (newTag) => {
         set((state) => ({
             tags: { ...state.tags, [newTag]: 1 },

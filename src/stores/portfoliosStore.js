@@ -131,19 +131,7 @@ export const usePortfoliosStore = create((set, get) => ({
         const currentPortfolio = get().getCurrentPortfolio();
         let height = 0;
         if (currentPortfolio["configurations"].includes('Headshot')) {
-            height += 0;
-        }
-
-        if (currentPortfolio["configurations"].includes('Media Descriptions')) {
-            height += 0;
-        }
-
-        if (currentPortfolio["configurations"].includes('Media Creation Date')) {
-            height += 0;
-        }
-
-        if (currentPortfolio["configurations"].includes('Resume')) {
-            height += 0;
+            height += 500;
         }
 
         if (currentPortfolio["configurations"].includes('Contact Information')) {
