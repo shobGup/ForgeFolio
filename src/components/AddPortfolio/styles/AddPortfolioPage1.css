@@ -63,7 +63,6 @@
     column-gap: 20px;
     row-gap: 20px;
     flex-wrap: wrap;
-    max-height: 125px;
     overflow-y: scroll;
 }
 

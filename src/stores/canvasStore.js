@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { FabricImage, Textbox } from 'fabric';
+import { Circle, FabricImage, Textbox } from 'fabric';
+import { fabric } from 'fabric';
 
 export const useCanvasStore = create((set, get) => ({
   canvas: null,
@@ -27,31 +28,27 @@ export const useCanvasStore = create((set, get) => ({
   ) => {
     let x = 50;
     let y = 50;
+
     const canvas = get().canvas;
-    
     if (!canvas) return;
-    for (let i = 0; i < bestWorks.length; i++) {
-      const { imageUrl, description, createdDate, title } = bestWorks[i];
 
-      let image = new Image();
-      image.src = imageUrl.startsWith('blob:') ? imageUrl : process.env.PUBLIC_URL + imageUrl;
-
-      let scaledWidth = 0;
-      let scaledHeight = 0;
-      image.onload = () => {
+    if (headshot) {
+      let headshotImg = new Image();
+      headshotImg.src = process.env.PUBLIC_URL + '/images/monet-profile.png';
+      
+      headshotImg.onload = () => {
         const maxWidth = 500;
         const maxHeight = 400;
-
-        let { width, height } = image;
-
-        // scale proportionally if needed
+    
+        let { width, height } = headshotImg;
+    
         const widthRatio = maxWidth / width;
         const heightRatio = maxHeight / height;
         const scale = Math.min(1, widthRatio, heightRatio);
-        scaledWidth = width * scale;
-        scaledHeight = height * scale;
-
-        const fabricImg = new FabricImage(image, {
+        const scaledWidth = width * scale;
+        const scaledHeight = height * scale;
+    
+        const fabricImg = new FabricImage(headshotImg, {
           left: x,
           top: y,
           scaleX: scale,
@@ -60,27 +57,77 @@ export const useCanvasStore = create((set, get) => ({
           hasControls: true,
           hasBorders: true,
         });
+        
         canvas.add(fabricImg);
         canvas.requestRenderAll();
-
-        get().addTextboxAt(x + 550, y, 36, 700, title);
-
-        if (mediaCreationDate) {
-          const formattedDate = createdDate
-              ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(createdDate))
-              : 'No date';
-          get().addTextboxAt(x + 550, y + 50, 16, 200, formattedDate);
-        }
-
-        if (mediaDescriptions) {
-          get().addTextboxAt(x + 550, y + 100, 20, 500, description);
-        };
-        
+    
+        let userDescription = 'I’m passionate about capturing the way light and color shape how we see the world. My work focuses on creating immersive, dynamic visuals that bring everyday scenes to life. With a strong understanding of atmosphere and movement, I aim to push artistic boundaries and find new ways to blend creativity with technology.';
+        get().addTextboxAt(x + 550, y, 20, 500, userDescription);
+    
         y += scaledHeight + 100;
-      }
-      
-    }
+    
+        get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+      };
+    } else {
+      get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+    }    
   },
+
+  loadBestWorks: async (bestWorks, x, y, mediaDescriptions, mediaCreationDate) => {
+    const canvas = useCanvasStore.getState().canvas;
+    const addTextboxAt = useCanvasStore.getState().addTextboxAt;
+  
+    const maxWidth = 500;
+    const maxHeight = 400;
+  
+    for (let i = 0; i < bestWorks.length; i++) {
+      const { imageUrl, description, createdDate, title } = bestWorks[i];
+  
+      const image = await new Promise((resolve) => {
+        const img = new Image();
+        img.src = imageUrl.startsWith('blob:') ? imageUrl : process.env.PUBLIC_URL + imageUrl;
+        img.onload = () => resolve(img);
+      });
+  
+      const { width, height } = image;
+  
+      const widthRatio = maxWidth / width;
+      const heightRatio = maxHeight / height;
+      const scale = Math.min(1, widthRatio, heightRatio);
+      const scaledWidth = width * scale;
+      const scaledHeight = height * scale;
+  
+      const fabricImg = new FabricImage(image, {
+        left: x,
+        top: y,
+        scaleX: scale,
+        scaleY: scale,
+        selectable: true,
+        hasControls: true,
+        hasBorders: true,
+      });
+  
+      canvas.add(fabricImg);
+      canvas.requestRenderAll();
+  
+      addTextboxAt(x + 550, y, 36, 700, title);
+  
+      if (mediaCreationDate) {
+        const formattedDate = createdDate
+          ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(createdDate))
+          : 'No date';
+        addTextboxAt(x + 550, y + 50, 16, 200, formattedDate);
+      }
+  
+      if (mediaDescriptions) {
+        addTextboxAt(x + 550, y + 100, 20, 500, description);
+      }
+      get().resetAllSelection()
+      canvas.requestRenderAll();
+  
+      y += scaledHeight + 100;
+    }
+  },  
 
 
   placingTextbox: false,
