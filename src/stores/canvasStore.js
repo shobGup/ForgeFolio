@@ -49,7 +49,7 @@ export const useCanvasStore = create((set, get) => ({
         const scaledHeight = height * scale;
     
         const fabricImg = new FabricImage(headshotImg, {
-          left: x,
+          left: 250,
           top: y,
           scaleX: scale,
           scaleY: scale,
@@ -57,16 +57,29 @@ export const useCanvasStore = create((set, get) => ({
           hasControls: true,
           hasBorders: true,
         });
+
+        const circleClipPath = new Circle({
+          radius: (Math.min(fabricImg.width, fabricImg.height) / 2 * scale) * 2.5, // Increase radius by 1.5x
+          originX: 'center',
+          originY: 'center',
+          top: -50,
+        });
+
+        fabricImg.clipPath = circleClipPath;
         
         canvas.add(fabricImg);
-        canvas.requestRenderAll();
+        let centerY = y + (scaledHeight / 2);
+
+        let userName = 'Oscar-Claude Monet';
+        get().addTextboxAt(x + 600, centerY - 120, 36, 400, userName);
     
         let userDescription = 'I’m passionate about capturing the way light and color shape how we see the world. My work focuses on creating immersive, dynamic visuals that bring everyday scenes to life. With a strong understanding of atmosphere and movement, I aim to push artistic boundaries and find new ways to blend creativity with technology.';
-        get().addTextboxAt(x + 550, y, 20, 500, userDescription);
+        get().addTextboxAt(x + 600, centerY - 70, 20, 500, userDescription);
     
         y += scaledHeight + 100;
     
         get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+        canvas.requestRenderAll();
       };
     } else {
       get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
