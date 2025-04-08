@@ -7,14 +7,23 @@ import './styles/Edit.css';
 import CanvasArea from '../components/Edit/CanvasArea';
 import { useCanvasStore } from '../stores/canvasStore.js';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { usePortfoliosStore } from '../stores/portfoliosStore';
+
 
 const Edit = () => {
+  const { title } = useParams();
+  const { portfolios, setCurrentPortfolio } = usePortfoliosStore();
   const { setViewMode, viewMode } = useCanvasStore();
 
-  /* Makes sure we always start in edit mode */
   useEffect(() => {
+    const portfolio = portfolios.find(p => p.title === decodeURIComponent(title));
+    if (portfolio) {
+      setCurrentPortfolio(portfolio);
+    }
     setViewMode(false);
-  }, []);
+  }, [title, portfolios]);
+
 
   if (!viewMode) {
     return (

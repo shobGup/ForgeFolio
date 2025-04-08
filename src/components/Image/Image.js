@@ -1,7 +1,15 @@
 import React from 'react';
 import './Image.css';
+import { useNavigate } from 'react-router-dom';
+import { usePortfoliosStore } from '../../stores/portfoliosStore';
+
 
 const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup = null, deleteWork = null, deletePortfolio = null}) => {
+    
+    const navigate = useNavigate();
+    const { setCurrentPortfolio } = usePortfoliosStore();
+
+    
     return (
         <div className="works">
             <div className="image-container">
@@ -39,6 +47,10 @@ const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup
                                     src={process.env.PUBLIC_URL + "/images/work_all_symbols/edit_icon.png"} 
                                     alt="Edit Icon" 
                                     className="works-seeall-icon"
+                                    onClick={() => {
+                                        setCurrentPortfolio(work);  // Set the selected portfolio
+                                        navigate(`/edit/${encodeURIComponent(work.title)}`);  // Navigate with route param
+                                    }}
                                 />
                                 <img 
                                     src={process.env.PUBLIC_URL + "/images/work_all_symbols/bin.png"} 

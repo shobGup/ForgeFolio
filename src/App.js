@@ -11,6 +11,7 @@ import Works from './pages/Works';
 import Portfolios from './pages/Portfolios';
 import Edit from './pages/Edit';
 
+
 const App = () => {
     return (
         <div className="app">
@@ -30,6 +31,7 @@ const App = () => {
                     <Route path="/works" element={<Works />} />
                     <Route path="/portfolios" element={<Portfolios />} />
                     <Route path="/edit" element={<Edit />} />
+                    <Route path="/edit/:title" element={<Edit />} />
                 </Routes>
             </Router>
         </div>
