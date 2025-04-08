@@ -4,8 +4,8 @@ import "./styles/AddPortfolioPage3.css";
 import Config from "./Config";
 import { usePortfoliosStore } from "../../stores/portfoliosStore";
 
-const configurations = ['Headshot', 'Media Descriptions', 'Media Creation Date', 
-                        'Resume', 'Contact Information', 'Social Links']
+const configurations = ['Headshot', 'Media Descriptions', 'Media Creation Date',
+                        'Contact Information', 'Social Links']
 
 function AddPortfolioPage3({setNextPage, newPortfolio, setNewPortfolio}) {
     const { setCurrentPortfolio, addPortfolio} = usePortfoliosStore.getState();
