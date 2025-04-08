@@ -57,3 +57,12 @@
     font-weight: 400;
     padding-left: 8px;
 }
+
+.error-message {
+    padding-top: 50px;
+    position: absolute; 
+    color: red; 
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+}
