@@ -7,6 +7,8 @@ import AddWorkPage2 from "../components/AddWork/AddWorkPage2";
 import AddPortfolioPage1 from "../components/AddPortfolio/AddPortfolioPage1.js";
 import AddPortfolioPage2 from "../components/AddPortfolio/AddPortfolioPage2.js";
 import AddPortfolioPage3 from "../components/AddPortfolio/AddPortfolioPage3.js";
+import EditWorkPage1 from "../components/EditWork/EditWorkPage1.js";
+import EditWorkPage2 from "../components/EditWork/EditWorkPage2.js";
 import { useNavigate } from "react-router-dom";
 import { useWorksStore } from '../stores/worksStore.js';
 import { usePortfoliosStore} from '../stores/portfoliosStore.js';
@@ -31,6 +33,56 @@ const Home = () => {
     const [workDate, setWorkDate] = useState("");
     const [workDescription, setWorkDescription] = useState("");
     const [workTags, setWorkTags] = useState([]);
+
+    const resetAddWorkState = () => {
+        setAddWorkPopup(false);
+        setFile(null);
+        if (ref.current) ref.current.value = "";
+        setAddWorkPage(0);
+        setWorkTitle("");
+        setWorkDate("");
+        setWorkDescription("");
+        setWorkTags([]);
+    };
+
+    // Work Edit
+    const [showEditPopup, setShowEditPopup] = useState(false);
+    const [work, setWork] = useState(null);
+    const [newWork, setNewWork] = useState({
+        title: "",
+        imageUrl: "",
+        createdDate: new Date(),
+        description: "",
+        tags: [],
+    });
+    const [editWorkPage, setEditWorkPage] = useState(0);
+
+    const resetEditWorkState = () => {
+        setShowEditPopup(false);
+        setWork(null);
+        setNewWork({
+            title: "",
+            imageUrl: "",
+            createdDate: new Date(),
+            description: "",
+            tags: [],
+        });
+        setEditWorkPage(0);
+    }
+
+    // Work Delete
+    const [refresh, setRefresh] = useState(false);
+
+    const handleDeleteWork = (title) => {
+        useWorksStore.getState().deleteWork(title);
+        
+        if (work && work.title === title) resetEditWorkState();
+        if (workTitle === title) resetAddWorkState();
+    
+        setRefresh(prev => !prev);
+    };
+    
+
     
     const [newPortfolio, setNewPortfolio] = useState({
         title: "",
@@ -61,7 +113,7 @@ const Home = () => {
                 <input type="file" ref={ref} accept='.png,.jpeg,.jpg' hidden
         />
                 <button className="add-button" onClick={() => {
-                    setFile(null);
+                    resetAddWorkState();
                     ref.current.click();
                     // File Upload
                     ref.current.onchange = (_) => {
@@ -75,7 +127,7 @@ const Home = () => {
                     <div className="add-button-text">New Work</div>
                 </div>
                 {useWorksStore.getState().getSortedByDate().slice(0, 2).map((work) => (
-                    <Image key={work.title} work={work} type = "work" />
+                    <Image key={work.title} work={work} type = "work" setWork={setWork} setNewWork={setNewWork} setShowEditPopup={setShowEditPopup} deleteWork={handleDeleteWork}/>
                 ))}
                 {useWorksStore.getState().getWorksLength() > 2 ? (
                         <div className='see-all-container'>
@@ -105,9 +157,12 @@ const Home = () => {
                         <div className="see-all-container"></div>
                     )}
             </div>
-            <Popup trigger={addWorkPopup} closePopup={() => {setAddWorkPopup(false); setFile(null); ref.current.value = ""; setAddWorkPage(0); setWorkDate(""); setWorkDescription(""); setWorkTitle(""); setWorkTags([]);}}>
+
+
+
+            <Popup trigger={addWorkPopup} closePopup={() => {resetAddWorkState();}}>
                 {
-                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage} setFile={setFile} workTitle={workTitle} workDate={workDate} workDescription={workDescription} setWorkTitle={setWorkTitle} setWorkDate={setWorkDate} setWorkDescription={setWorkDescription}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage} workTitle={workTitle} workDate={workDate} workDescription={workDescription} workTags={workTags} setWorkTags={setWorkTags} setAddWorkPopup={setAddWorkPopup}/>
+                    addWorkPage === 0 ? <AddWorkPage1 file={file} setNextPage={setAddWorkPage} setFile={setFile} workTitle={workTitle} workDate={workDate} workDescription={workDescription} setWorkTitle={setWorkTitle} setWorkDate={setWorkDate} setWorkDescription={setWorkDescription}/> : <AddWorkPage2 file={file} setNextPage={setAddWorkPage} workTitle={workTitle} workDate={workDate} workDescription={workDescription} workTags={workTags} setWorkTags={setWorkTags} setAddWorkPopup={setAddWorkPopup} resetAddWorkState={resetAddWorkState}/>
                 }
             </Popup>
             <Popup 
@@ -142,6 +197,17 @@ const Home = () => {
                                 newPortfolio={newPortfolio}
                                 setNewPortfolio={setNewPortfolio}/>
                 }
+            </Popup>
+
+
+
+            <Popup trigger={showEditPopup} closePopup={() => resetEditWorkState()}>
+               {
+                 editWorkPage === 0 ? 
+                 <EditWorkPage1 work={work} newWork={newWork} setNewWork={setNewWork} setShowEditPopup={setShowEditPopup} goToPage={setEditWorkPage} />
+                 :
+                 <EditWorkPage2 work={work} newWork={newWork} setNewWork={setNewWork} setShowEditPopup={setShowEditPopup} goToPage={setEditWorkPage} resetAddWorkState={resetEditWorkState}/>
+               }
             </Popup>
 
         </div>

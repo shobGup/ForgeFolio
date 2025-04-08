@@ -51,6 +51,18 @@ export const useWorksStore = create((set, get) => ({
             .sort((a, b) => b.score - a.score)
     },
 
+    deleteWork: (work) => {
+        set((state) => ({
+            works: state.works.filter((w) => w !== work),
+        }));
+    },
+
+    editWork: (oldWork, newWork) => {
+        set((state) => ({
+            works: state.works.map((w) => (w === oldWork ? newWork : w)),
+        }));
+    },
+
 
     /*
     To add a newWork

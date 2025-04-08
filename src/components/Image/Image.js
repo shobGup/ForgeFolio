@@ -1,7 +1,7 @@
 import React from 'react';
 import './Image.css';
 
-const Image = ({ work, type }) => {
+const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup = null, deleteWork = null}) => {
     return (
         <div className="works">
             <div className="image-container">
@@ -14,11 +14,23 @@ const Image = ({ work, type }) => {
                                     src={process.env.PUBLIC_URL + "/images/work_all_symbols/edit_icon.png"} 
                                     alt="Edit Icon" 
                                     className="works-seeall-icon"
+                                    onClick = {() => {
+                                        setWork(work);
+                                        setNewWork(work);
+                                        setShowEditPopup(true);
+                                        }
+                                    }
                                 />
                                 <img 
                                     src={process.env.PUBLIC_URL + "/images/work_all_symbols/bin.png"} 
                                     alt="Bin Icon" 
                                     className="works-seeall-icon"
+                                    onClick={() => {
+                                        if (window.confirm("Are you sure you want to delete this work?")) {
+                                            deleteWork(work);
+                                        }
+                                    }
+                                    }
                                 />
                             </>
                         ) : (
