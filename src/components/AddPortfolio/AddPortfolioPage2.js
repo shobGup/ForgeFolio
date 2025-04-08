@@ -1,5 +1,7 @@
 import React from "react";
 import "./styles/AddPortfolioPage2.css";
+import { usePortfoliosStore } from "../../stores/portfoliosStore";
+import { use } from "react";
 
 function AddPortfolioPage2({setNextPage, newPortfolio, setNewPortfolio}) {
     const handleInputChange = (field, value) => {
@@ -7,6 +9,26 @@ function AddPortfolioPage2({setNextPage, newPortfolio, setNewPortfolio}) {
             ...prevPortfolio,
             [field]: value,
         }));
+    };
+
+    const [errors, setErrors] = React.useState(['']);
+    const [showErrorMessage, setShowErrorMessage] = React.useState(false);
+
+    const handleSubmit = () => {
+        if (newPortfolio.title === '') {
+            setShowErrorMessage(true); 
+            setErrors(['Must name your portfolio.']);
+        } else if (usePortfoliosStore.getState().getSortedByName().some((portfolio) => portfolio.title === newPortfolio.title)) {
+            setShowErrorMessage(true); 
+            setErrors(['Portfolio name already exists.']);
+        }  else if (newPortfolio.mediaCount <=  0) {
+            setShowErrorMessage(true); 
+            setErrors(['Must include at least 1 image in your portfolio.']);
+        } else {
+            setShowErrorMessage(false); 
+            setErrors(['', '']);
+            setNextPage(2); 
+        }
     };
 
     return (
@@ -41,7 +63,12 @@ function AddPortfolioPage2({setNextPage, newPortfolio, setNewPortfolio}) {
             </input>
                 
             <div className='add-portfolio-button-bar'>
-                <button className='add-next-button' onClick={() => setNextPage(2)}>Next</button>
+                <button className='add-next-button' onClick={handleSubmit}>Next</button>
+                {showErrorMessage && (
+                    <div className="error-message">
+                        {errors[0]}
+                    </div>
+                )}
                 <button className='add-back-button' onClick={() => setNextPage(0)}>Back</button>
             </div>
         </div>

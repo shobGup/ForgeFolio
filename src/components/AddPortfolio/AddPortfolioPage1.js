@@ -16,6 +16,20 @@ function AddPortfolioPage1({setNextPage, newPortfolio, setNewPortfolio}) {
         });
     };
 
+    const [errors, setErrors] = React.useState(['']);
+    const [showErrorMessage, setShowErrorMessage] = React.useState(false);
+
+    const handleSubmit = () => {
+        if (newPortfolio.tags.length === 0) {
+            setShowErrorMessage(true); 
+            setErrors(['Must select at least 1 tag.']);
+        } else {
+            setShowErrorMessage(false); 
+            setErrors(['']);
+            setNextPage(1); 
+        }
+    };
+
     return (
         <div>
             <div className="add-portfolio-header">
@@ -31,8 +45,18 @@ function AddPortfolioPage1({setNextPage, newPortfolio, setNewPortfolio}) {
                     ))} 
                 </div>
             </div>
+            {/* {showErrorMessage && (
+                <div className="error-message">
+                    Please select at least one tag to proceed.
+                </div>
+            )} */}
             <div className='add-portfolio-button-bar'>
-                <button className='add-next-button' onClick={() => setNextPage(1)}>Next</button>
+                {showErrorMessage && (
+                    <div className="error-message">
+                        {errors[0]}
+                    </div>
+                )}
+                <button className='add-next-button' onClick={handleSubmit}>Next</button>
             </div>
         </div>
     )
