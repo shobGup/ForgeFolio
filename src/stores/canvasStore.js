@@ -37,7 +37,9 @@ export const useCanvasStore = create((set, get) => ({
       y = await get().getOptionalHeadshot(x, y)
     }
     y = await get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
-    // get().setContactInformation(contactInformation, x, y + 50); 
+    if (contactInformation) {
+      await get().getOptionalContactInformation(x, y);
+    }
   },
 
   getOptionalSocialLinks: () => {
@@ -174,25 +176,33 @@ export const useCanvasStore = create((set, get) => ({
       canvas.add(fabricImg);
       canvas.requestRenderAll();
   
-      addTextboxAt(x + 550, y, 36, 700, title);
+      get().addTextboxAt(x + 550, y, 36, 700, title);
   
       if (mediaCreationDate) {
         const formattedDate = createdDate
           ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(createdDate))
           : 'No date';
-        addTextboxAt(x + 550, y + 50, 16, 200, formattedDate);
+        get().addTextboxAt(x + 550, y + 50, 16, 200, formattedDate);
       }
   
       if (mediaDescriptions) {
-        addTextboxAt(x + 550, y + 100, 20, 500, description);
+        get().addTextboxAt(x + 550, y + 100, 20, 500, description);
       }
       get().resetAllSelection()
       canvas.requestRenderAll();
   
       y += scaledHeight + 100;
     }
+    return y;
   },  
 
+  getOptionalContactInformation: (x, y) => {
+    get().addTextboxAt(x, y, 30, 500, 'Contact');
+
+    const contactInfo = "Email: monet@gmain.com \nPhone: +1 (123) 456-7890";
+
+    get().addTextboxAt(x, y + 40, 20, 500, contactInfo);
+  },
 
   placingTextbox: false,
   setPlacingTextbox: (val) => set({ placingTextbox: val }),

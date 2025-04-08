@@ -135,11 +135,7 @@ export const usePortfoliosStore = create((set, get) => ({
         }
 
         if (currentPortfolio["configurations"].includes('Contact Information')) {
-            height += 0;
-        }
-
-        if (currentPortfolio["configurations"].includes('Social Links')) {
-            height += 0;
+            height += 100;
         }
         
         height += currentPortfolio["mediaCount"] * 500;
