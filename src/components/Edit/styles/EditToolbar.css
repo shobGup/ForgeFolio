@@ -47,3 +47,30 @@
     margin-right: 12px;
 }
 
+.font-dropdown {
+    height: 25px;
+    padding: 2px 8px;
+    border: none;
+    background-color: #EFEFEF;
+    font-family: inherit;
+    font-size: 14px;
+    margin-right: 12px;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  
+  .font-dropdown:hover {
+    background-color: #e2e2e2;
+  }
+  
+  .edit-font-input {
+    height: 25px;
+    padding: 2px 8px;
+    border: 1px solid #646464;
+    background-color: #EFEFEF;
+    font-family: inherit;
+    font-size: 14px;
+    margin-right: 12px;
+    cursor: pointer;
+    border-radius: 2px;
+  }

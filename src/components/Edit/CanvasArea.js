@@ -14,10 +14,12 @@ const CanvasArea = () => {
     placingImage, 
     placingTextbox 
   } = useCanvasStore();
+  const canvas = useCanvasStore((state) => state.canvas);
 
+  // function to update the portfolio image in home screen
   const updatePortfolioImage = () => {
     const canvas = useCanvasStore.getState().canvas;
-    if (!canvas) return;
+    if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
 
     const newImg = canvas.toDataURL('png');
     const canvasJSON = canvas.toJSON();
@@ -26,6 +28,7 @@ const CanvasArea = () => {
     usePortfoliosStore.getState().updatePortfolio('imageUrl', newImg);
   };
 
+  /* useEffect to initially create the canvas object */
   useEffect(() => {
     const wrapper = document.querySelector('.canvas-wrapper');
     const width = wrapper.clientWidth;
@@ -40,6 +43,15 @@ const CanvasArea = () => {
     });
 
     useCanvasStore.getState().setCanvas(canvas);
+
+    return () => {
+      canvas.dispose();
+    };
+  }, []);
+
+  /* useEffect to initially generate the portfolio */
+  useEffect(() => {
+    if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
 
     // Set Initial Generation: 
     const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
@@ -60,16 +72,13 @@ const CanvasArea = () => {
       currPortfolio['configurations'].includes('Media Creation Date'),
       currPortfolio['configurations'].includes('Contact Information'),
       currPortfolio['configurations'].includes('Social Links'));
+  }, [canvas]);
 
-    const handleCanvasChange = () => {
-      updatePortfolioImage();
-    };
+  /* use effect for all background stuff */
+  useEffect(() => {
+    if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
 
-    canvas.on('object:modified', handleCanvasChange);
-    canvas.on('object:added', handleCanvasChange);
-    canvas.on('object:removed', handleCanvasChange);
-
-    // Handle textbox placement on click
+    // Place textbox on click
     canvas.on('mouse:down', function (e) {
       const state = useCanvasStore.getState();
       if (state.placingTextbox && e.viewportPoint) {
@@ -97,10 +106,10 @@ const CanvasArea = () => {
       }
     });
 
-    // ⌨️ Handle Backspace/Delete to remove selected object
+    // Backspace deletes an object
     const handleKeyDown = (e) => {
         const canvas = useCanvasStore.getState().canvas;
-        if (!canvas) return;
+        if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
         
         const active = canvas.getActiveObject();
         if (!active) return;
@@ -117,11 +126,11 @@ const CanvasArea = () => {
 
     /* ------- Drag and Drop for Sidebar -------*/
     const handleDragOver = (e) => {
-      e.preventDefault(); // Necessary to allow drop
+      e.preventDefault();
     };
     
-    // Drop handler
     const handleDrop = (e) => {
+      const wrapper = document.querySelector('.canvas-wrapper');
       e.preventDefault();
       const imageUrl = e.dataTransfer.getData('image-url');
       if (!imageUrl) return;
@@ -133,25 +142,37 @@ const CanvasArea = () => {
       useCanvasStore.getState().addImageAt(imageUrl, x, y);
     };
   /* ------------------------------------*/
-    
-  wrapper.addEventListener('dragover', handleDragOver);
-  wrapper.addEventListener('drop', handleDrop);
+
+    // update portfolio image
+    const handleCanvasChange = () => {
+      updatePortfolioImage();
+    };
+
+    canvas.on('object:modified', handleCanvasChange);
+    canvas.on('object:added', handleCanvasChange);
+    canvas.on('object:removed', handleCanvasChange);
+
+    const wrapper = document.querySelector('.canvas-wrapper');
+    wrapper.addEventListener('dragover', handleDragOver);
+    wrapper.addEventListener('drop', handleDrop);
+    window.addEventListener('keydown', handleKeyDown);
   
-  window.addEventListener('keydown', handleKeyDown);
-  
-  // Cleanup on unmount
-  return () => {
-    window.removeEventListener('keydown', handleKeyDown);
-    wrapper.removeEventListener('dragover', handleDragOver);
-    wrapper.removeEventListener('drop', handleDrop);
-    canvas.dispose();
-  };
-  }, []);
+    // Cleanup
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      wrapper.removeEventListener('dragover', handleDragOver);
+      wrapper.removeEventListener('drop', handleDrop);
+      canvas.off('mouse:down');
+      canvas.off('object:moving');
+      canvas.off('object:modified', handleCanvasChange);
+      canvas.off('object:added', handleCanvasChange);
+      canvas.off('object:removed', handleCanvasChange);
+    };
+  }, [canvas]);
 
   /* Effect to change the cursor and show the user what they are doing */
   useEffect(() => {
-    const canvas = useCanvasStore.getState().canvas;
-    if (!canvas) return;
+    if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
   
     if (placingTextbox) {
       canvas.defaultCursor = 'crosshair';
@@ -160,12 +181,11 @@ const CanvasArea = () => {
     } else {
       canvas.defaultCursor = 'default';
     }
-  }, [placingTextbox, placingImage]);
+  }, [placingTextbox, placingImage, canvas]);
 
   /* Effect to toggle canvas size and scale for viewMode */
   useEffect(() => {
-    const { canvas } = useCanvasStore.getState();
-    if (!canvas) return;
+    if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
 
     const wrapper = document.querySelector('.canvas-wrapper');
     if (!wrapper) return;
@@ -183,8 +203,19 @@ const CanvasArea = () => {
       canvas.setWidth(width);
     }
 
+    canvas.selection = !viewMode;
+    canvas.skipTargetFind = viewMode;
+
+    canvas.forEachObject((obj) => {
+      obj.selectable = !viewMode;
+      obj.evented = !viewMode;
+    });
+
+    canvas.discardActiveObject();
     canvas.renderAll();
-  }, [viewMode]);
+
+    canvas.renderAll();
+  }, [viewMode, canvas]);
 
   /* Lets the escape key exit view mode */
   useEffect(() => {
@@ -206,7 +237,6 @@ const CanvasArea = () => {
       <canvas id="portfolio-canvas" ref={canvasRef}></canvas>
       {viewMode && <EscHintPopup />} {/* Show only in view mode */}
     </div> 
-
   );
 };
 
