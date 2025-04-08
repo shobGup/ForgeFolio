@@ -1,9 +1,22 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import './styles/EditToolbar.css';
 import { useCanvasStore } from '../../stores/canvasStore';
 
 
 const EditToolbar = () => {
+    const FONT_OPTIONS = [
+        'Arial',
+        'Helvetica',
+        'Times New Roman',
+        'Georgia',
+        'Courier New',
+        'Verdana',
+        'Trebuchet MS',
+        'Comic Sans MS',
+        'Impact',
+        'Lucida Console',
+      ];      
+
     const { 
         setPlacingTextbox, 
         canvasRenderAll,
@@ -11,12 +24,28 @@ const EditToolbar = () => {
         setImageUrl,
         resetAllSelection,
         setSelectedObject,
-        selectedObject,
-        placingTextbox
      } = useCanvasStore();
-     
+
+     const placingTextbox = useCanvasStore((state) => state.placingTextbox);
+
+     const selectedObject = useCanvasStore((state) => state.selectedObject);
+
     const isTextboxSelected = selectedObject?.type === 'textbox';
     const ref = useRef();
+
+    const [fontFamily, setFontFamily] = useState(selectedObject?.fontFamily || 'Arial');
+    useEffect(() => {
+        if (selectedObject) {
+        setFontFamily(selectedObject.fontFamily || 'Arial');
+        }
+    }, [selectedObject]);
+
+    const [fontSize, setFontSize] = useState(selectedObject?.fontSize || 20);
+    useEffect(() => {
+        if (selectedObject) {
+            setFontSize(selectedObject.fontSize || 20)
+        }
+    }, [selectedObject])
 
     return (
         <div className="edit-toolbar">
@@ -27,8 +56,7 @@ const EditToolbar = () => {
                 Help
             </button>
             <button className="item icon print-button">
-                <img 
-                    src={process.env.PUBLIC_URL + "/images/toolbar_icons/printer_icon.png"} className="icon print-icon" alt="print"/>
+                <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/printer_icon.png"} className="icon print-icon" alt="print"/>
             </button>
             <button className="item icon undo-button">
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/undo_icon.png"} className="icon undo-icon" alt="undo"/>
@@ -95,16 +123,40 @@ const EditToolbar = () => {
                     </button>
                 </>
             )}
-            {isTextboxSelected && (
+            {isTextboxSelected && !placingTextbox && (
                 <>
+                {console.log( 
+        selectedObject,
+        placingTextbox)}
                     <div className='vertical-line'/>
+                    <div className="edit-font-family">
+                        <select
+                            value={fontFamily}
+                            className="font-dropdown"
+                            onChange={(e) => {
+                            const newFont = e.target.value;
+                            setFontFamily(newFont);
+                            if (selectedObject) {
+                                selectedObject.set({ fontFamily: newFont });
+                                selectedObject.canvas?.requestRenderAll();
+                            }
+                            }}
+                        >
+                            {FONT_OPTIONS.map((font) => (
+                            <option key={font} value={font} style={{ fontFamily: font }}>
+                                {font}
+                            </option>
+                            ))}
+                        </select>
+                    </div>
                     <div className='edit-font-size'>
-                        <input type="number" min="1" max="100" defaultValue={selectedObject.fontSize} className="item edit-font-input" 
+                        <input type="number" min="1" max="100" value={fontSize} className="item edit-font-input" 
                         onChange={(e) => {
                             const newSize = parseInt(e.target.value);
+                            setFontSize(newSize);
                             if (!isNaN(newSize) && selectedObject) {
-                            selectedObject.set({ fontSize: newSize });
-                            canvasRenderAll();
+                                selectedObject.set({ fontSize: newSize });
+                                canvasRenderAll();
                             }
                         }}/>
                     </div>
