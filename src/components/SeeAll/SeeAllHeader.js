@@ -53,7 +53,7 @@ const SeeAllHeader = ({
                     <input 
                         className="works-search-bar" 
                         type="text" 
-                        placeholder="Search by name or #tags" 
+                        placeholder="Search by name or #tags (Use # to search by tags)" 
                         value={searchQuery}
                         onChange={handleSearchChange}
                     />
