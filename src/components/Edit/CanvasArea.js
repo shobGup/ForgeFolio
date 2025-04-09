@@ -134,10 +134,11 @@ const CanvasArea = () => {
       e.preventDefault();
       const imageUrl = e.dataTransfer.getData('image-url');
       if (!imageUrl) return;
+      const scrollY = wrapper.scrollTop;
     
       const rect = wrapper.getBoundingClientRect();
       const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const y = e.clientY - rect.top + scrollY;
     
       useCanvasStore.getState().addImageAt(imageUrl, x, y);
     };
