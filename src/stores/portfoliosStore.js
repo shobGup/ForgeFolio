@@ -115,17 +115,12 @@ export const usePortfoliosStore = create((set, get) => ({
         });
     },
 
-    deletePortfolio: () => {
-        set((state) => {
-            const portfolios = [...state.portfolios];
-            const portfolioToUpdate = get().getCurrentPortfolio();
-            const index = portfolios.findIndex(portfolio => portfolio.title === portfolioToUpdate.title);
-    
-            portfolios.splice(index, index);
-    
-            return { portfolios };
-        });
+    deletePortfolio: (title) => {
+        set((state) => ({
+            portfolios: state.portfolios.filter((w) => w !== title),
+        }));
     },
+
 
     getInitialCanvasHeight: () => {
         const currentPortfolio = get().getCurrentPortfolio();

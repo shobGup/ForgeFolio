@@ -6,6 +6,7 @@ import { useWorksStore } from '../../stores/worksStore';
 import './styles/CanvasArea.css';
 import EscHintPopup from './EscHintPopup.js';
 
+
 const CanvasArea = () => {
   const canvasRef = useRef(null);
   const { 
@@ -48,31 +49,47 @@ const CanvasArea = () => {
       canvas.dispose();
     };
   }, []);
+    
 
-  /* useEffect to initially generate the portfolio */
+ /* use effect for initial and updated portofolio generation */
   useEffect(() => {
     if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
-
-    // Set Initial Generation: 
+  
     const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
-    const tagWorks = currPortfolio?.tags
+  
+    if (currPortfolio?.canvas) {
+      canvas.loadFromJSON(currPortfolio.canvas, () => {
+        setTimeout(() => {
+          canvas.renderAll();
+          canvas.requestRenderAll();
+        }, 10);
+      });
+      
+    } else {
+      const tagWorks = currPortfolio?.tags
         ? useWorksStore.getState().scoreWorksByTags(currPortfolio.tags)
         : [];
-    tagWorks.sort((a, b) => {
-          if (a.score !== undefined && b.score !== undefined) {
-              return b.score - a.score;
-          }
-          return b.createdDate - a.createdDate;
-    });
-    let bestWorks = tagWorks.slice(0, currPortfolio['mediaCount'])
-    useCanvasStore.getState().setInitialCanvas(
-      bestWorks, 
-      currPortfolio['configurations'].includes('Headshot'),
-      currPortfolio['configurations'].includes('Media Descriptions'),
-      currPortfolio['configurations'].includes('Media Creation Date'),
-      currPortfolio['configurations'].includes('Contact Information'),
-      currPortfolio['configurations'].includes('Social Links'));
+      tagWorks.sort((a, b) => {
+        if (a.score !== undefined && b.score !== undefined) {
+          return b.score - a.score;
+        }
+        return b.createdDate - a.createdDate;
+      });
+      const bestWorks = tagWorks.slice(0, currPortfolio.mediaCount);
+  
+      useCanvasStore.getState().setInitialCanvas(
+        bestWorks, 
+        currPortfolio.configurations.includes('Headshot'),
+        currPortfolio.configurations.includes('Media Descriptions'),
+        currPortfolio.configurations.includes('Media Creation Date'),
+        currPortfolio.configurations.includes('Contact Information'),
+        currPortfolio.configurations.includes('Social Links')
+      );
+    }
   }, [canvas]);
+  
+
+      
 
   /* use effect for all background stuff */
   useEffect(() => {

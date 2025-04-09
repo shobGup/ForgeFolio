@@ -76,12 +76,13 @@ const Home = () => {
     const handleDeleteWork = (title) => {
         useWorksStore.getState().deleteWork(title);
         
-        if (work && work.title === title) resetEditWorkState();
-        if (workTitle === title) resetAddWorkState();
-    
         setRefresh(prev => !prev);
     };
     
+    const handleDeletePortfolio = (title) => {
+        usePortfoliosStore.getState().deletePortfolio(title);
+        setRefresh(prev => !prev);
+    };
 
     
     const [newPortfolio, setNewPortfolio] = useState({
@@ -147,7 +148,7 @@ const Home = () => {
                 <div className="add-button-text">New Portfolio</div>
                 </div>
                 {usePortfoliosStore.getState().getSortedByDate().slice(0, 2).map((portfolio) => (
-                    <Image key={portfolio.title} work={portfolio} type = "portfolio" />
+                    <Image key={portfolio.title} work={portfolio} type = "portfolio" deletePortfolio={handleDeletePortfolio}/>
                 ))}
                 {usePortfoliosStore.getState().getPortfoliosLength() > 2 ? (
                         <div className='see-all-container'>
