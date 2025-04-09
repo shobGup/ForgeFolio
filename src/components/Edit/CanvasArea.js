@@ -51,84 +51,34 @@ const CanvasArea = () => {
   }, []);
     
 
-  /* useEffect to initially generate the portfolio */
+ /* use effect for initial and updated portofolio generation */
   useEffect(() => {
-    const canvas = useCanvasStore.getState().canvas;
+    if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
+  
     const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
   
-    console.log("🧪 Canvas context ready:", !!canvas?.lowerCanvasEl?.getContext?.('2d'));
-    console.log("Canvas:", canvas);
-    console.log("lowerCanvasEl:", canvas?.lowerCanvasEl);
-    console.log("getContext('2d'):", canvas?.lowerCanvasEl?.getContext?.('2d'));
-      if (
-      !canvas || 
-      !canvas.lowerCanvasEl || 
-      !canvas.lowerCanvasEl.getContext || 
-      !canvas.lowerCanvasEl.getContext('2d')
-    ) {
-      console.warn('Canvas rendering context not ready. Skipping load.');
-      return;
-    }
-  
     if (currPortfolio?.canvas) {
-      try {
-        canvas.loadFromJSON(currPortfolio.canvas, () => {
-          // Wait for all images to be fully loaded using event listeners
-          const images = canvas.getObjects('image');
-          let loaded = 0;
-    
-          if (images.length === 0) {
-            canvas.renderAll();
-            return;
-          }
-    
-          images.forEach((img) => {
-            // If image already loaded, count it
-            if (img._element?.complete) {
-              loaded += 1;
-            } else {
-              // Wait for the image to finish loading
-              img._element.onload = () => {
-                loaded += 1;
-                if (loaded === images.length) {
-                  canvas.renderAll();
-                }
-              };
-    
-              img._element.onerror = () => {
-                console.error('Image failed to load:', img._element.src);
-                loaded += 1;
-                if (loaded === images.length) {
-                  canvas.renderAll();
-                }
-              };
-            }
-          });
-    
-          // Edge case: all were already loaded
-          if (loaded === images.length) {
-            canvas.renderAll();
-          }
-        });
-      } catch (err) {
-        console.error('Failed to load canvas JSON:', err);
-      }
+      canvas.loadFromJSON(currPortfolio.canvas, () => {
+        setTimeout(() => {
+          canvas.renderAll();
+          canvas.requestRenderAll();
+        }, 10);
+      });
+      
     } else {
       const tagWorks = currPortfolio?.tags
         ? useWorksStore.getState().scoreWorksByTags(currPortfolio.tags)
         : [];
-  
       tagWorks.sort((a, b) => {
         if (a.score !== undefined && b.score !== undefined) {
           return b.score - a.score;
         }
         return b.createdDate - a.createdDate;
       });
-  
       const bestWorks = tagWorks.slice(0, currPortfolio.mediaCount);
   
       useCanvasStore.getState().setInitialCanvas(
-        bestWorks,
+        bestWorks, 
         currPortfolio.configurations.includes('Headshot'),
         currPortfolio.configurations.includes('Media Descriptions'),
         currPortfolio.configurations.includes('Media Creation Date'),
@@ -136,7 +86,9 @@ const CanvasArea = () => {
         currPortfolio.configurations.includes('Social Links')
       );
     }
-  }, [useCanvasStore(state => state.canvas)]);
+  }, [canvas]);
+  
+
       
 
   /* use effect for all background stuff */
