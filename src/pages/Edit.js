@@ -21,7 +21,7 @@ const Edit = () => {
     if (portfolio) {
       setCurrentPortfolio(portfolio);
     }
-    setViewMode(false);
+    // setViewMode(false);
   }, [title, portfolios]);
 
 

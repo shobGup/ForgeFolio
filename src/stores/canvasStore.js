@@ -299,4 +299,38 @@ export const useCanvasStore = create((set, get) => ({
       canvas.requestRenderAll();
     }
   },  
+
+  applyViewModeToCanvas: (viewMode) => {
+    const canvas = get().canvas;
+    if (!canvas) return;
+  
+    const wrapper = document.querySelector('.canvas-wrapper');
+    if (!wrapper) return;
+  
+    const width = wrapper.clientWidth;
+    const height = wrapper.clientHeight;
+  
+    if (viewMode) {
+      const scaleFactor = width / canvas.getWidth();
+      canvas.setZoom(scaleFactor);
+      canvas.setWidth(width);
+      canvas.setHeight(Math.max(canvas.getHeight(), height));
+    } else {
+      canvas.setZoom(1);
+      canvas.setWidth(width);
+    }
+  
+    canvas.selection = !viewMode;
+    canvas.skipTargetFind = viewMode;
+  
+    canvas.forEachObject((obj) => {
+      obj.selectable = !viewMode;
+      obj.evented = !viewMode;
+    });
+  
+    canvas.discardActiveObject();
+    canvas.renderAll();
+  }
+  
+  
 }));
