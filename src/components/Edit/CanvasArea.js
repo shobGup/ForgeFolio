@@ -56,10 +56,11 @@ const CanvasArea = () => {
     if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
   
     const currPortfolio = usePortfoliosStore.getState().getCurrentPortfolio();
-  
+
     if (currPortfolio?.canvas) {
       canvas.loadFromJSON(currPortfolio.canvas, () => {
         setTimeout(() => {
+          useCanvasStore.getState().applyViewModeToCanvas(viewMode);
           canvas.renderAll();
           canvas.requestRenderAll();
         }, 10);
@@ -203,36 +204,8 @@ const CanvasArea = () => {
 
   /* Effect to toggle canvas size and scale for viewMode */
   useEffect(() => {
-    if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
-
-    const wrapper = document.querySelector('.canvas-wrapper');
-    if (!wrapper) return;
-
-    const width = wrapper.clientWidth;
-    const height = wrapper.clientHeight;
-
-    if (viewMode) {
-      const scaleFactor = width / canvas.getWidth();
-      canvas.setZoom(scaleFactor);
-      canvas.setWidth(width);
-      canvas.setHeight(Math.max(canvas.getHeight(), height));
-    } else {
-      canvas.setZoom(1);
-      canvas.setWidth(width);
-    }
-
-    canvas.selection = !viewMode;
-    canvas.skipTargetFind = viewMode;
-
-    canvas.forEachObject((obj) => {
-      obj.selectable = !viewMode;
-      obj.evented = !viewMode;
-    });
-
-    canvas.discardActiveObject();
-    canvas.renderAll();
-
-    canvas.renderAll();
+    console.log(viewMode);
+    useCanvasStore.getState().applyViewModeToCanvas(viewMode);
   }, [viewMode, canvas]);
 
   /* Lets the escape key exit view mode */
