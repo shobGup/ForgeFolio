@@ -22,6 +22,10 @@ const EditHeader = ({ portfolioName }) => {
 
     const { toggleViewMode } = useCanvasStore();
 
+    const sharePortfolio = () => {
+        navigate('/home', { state: { showPopup: true } });
+    };
+
     return (
         <div className="edit-header">
             <img 
@@ -40,7 +44,12 @@ const EditHeader = ({ portfolioName }) => {
             >
                 View
             </button>
-            <button className='share-button'>Share</button> {/* Add on click button */}
+            <button 
+                className='share-button'
+                onClick={ sharePortfolio }
+            >
+                Share
+            </button> {/* Add on click button */}
         </div>
     );
 }

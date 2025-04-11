@@ -23,41 +23,7 @@ export const usePortfoliosStore = create((set, get) => ({
         return currentPortfolio['title']
     },
     
-    portfolios: [
-        { 
-            title: 'Dreamworks', 
-            imageUrl: '/images/portfolio2.png', 
-            createdDate: new Date('03/01/2025'), 
-            description: 'A portfolio for dreamworks.', 
-            tags: ['art', 'paintings', 'cartoon'], 
-            canvas: null,
-            mediaCount: 5,
-            link: 30,
-            configurations: ['Headshot', 'Media Descriptions', 'Contact Information']
-        },
-        { 
-            title: 'Cellos at Texas', 
-            imageUrl: '/images/portfolio1.png', 
-            createdDate: new Date('02/25/2025'), 
-            description: 'A portfolio for cellos at texas.', 
-            tags: ['audio', 'expressionism'], 
-            canvas: null,
-            mediaCount: 3,
-            link: 7,
-            configurations: ['Media Descriptions', 'Social Links'] 
-        },
-        { 
-            title: 'Impressionism', 
-            imageUrl: '/images/monet_port.png', 
-            createdDate: new Date('02/25/2024'), 
-            description: 'A portfolio for impressionism.', 
-            tags: ['art', 'impressionism'], 
-            canvas: null,
-            mediaCount: 7,
-            link: 7,
-            configurations: []
-        },
-    ],
+    portfolios: [],
 
     getPortfoliosLength: () => { 
         return get().portfolios.length;

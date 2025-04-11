@@ -2,6 +2,7 @@ import React from 'react';
 import './Image.css';
 import { useNavigate } from 'react-router-dom';
 import { usePortfoliosStore } from '../../stores/portfoliosStore';
+import '../../pages/styles/SharePortfolioPopup.css';
 
 
 const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup = null, deleteWork = null, deletePortfolio = null}) => {
@@ -9,7 +10,15 @@ const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup
     const navigate = useNavigate();
     const { setCurrentPortfolio } = usePortfoliosStore();
 
+    const [visible, setVisible] = React.useState(true);
     
+    React.useEffect(() => {
+        if (visible) {
+            const timer = setTimeout(() => setVisible(false), 4000); 
+            return () => clearTimeout(timer);
+        }
+    }, [visible]);
+
     return (
         <div className="works">
             <div className="image-container">
@@ -67,6 +76,7 @@ const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup
                                     src={process.env.PUBLIC_URL + "/images/work_all_symbols/share.png"} 
                                     alt="Share Icon" 
                                     className="works-seeall-icon"
+                                    onClick={() => { setVisible(true)}}
                                 />
                             </>
                         )}
@@ -82,6 +92,11 @@ const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup
                     >
                         Link expires in {work.link} days
                     </a>
+                </div>
+            )}
+            {visible && (
+                <div className="share-portfolio-popup">
+                    Link copied to your clipboard. This link will expire in {work.link} days.
                 </div>
             )}
         </div>

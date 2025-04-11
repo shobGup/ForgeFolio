@@ -46,7 +46,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
             setInputValue("");
             setFilteredTags([]);
             setWorkTags((prev) => [...prev, inputValue]);
-            tagsStore.addNewTag(inputValue);
+            tagsStore.updateTagCount(inputValue);
             setShowErrorMessage(false);
         }
     }

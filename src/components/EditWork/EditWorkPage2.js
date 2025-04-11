@@ -3,6 +3,7 @@ import Tag from "../Tags/Tag";
 
 import { useWorksStore } from "../../stores/worksStore";
 import { useTagsStore } from "../../stores/tagsStore";
+import "./styles/style.css";
 
 const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage, resetAddWorkState}) => {
     const worksStore = useWorksStore();
@@ -44,7 +45,7 @@ const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage, r
                 setInputValue("");
                 setFilteredTags([]);
                 setNewWork((prev) => ({...prev, tags: [...prev.tags, inputValue]}));
-                tagsStore.addNewTag(inputValue);
+                tagsStore.updateTagCount(inputValue);
                 setShowErrorMessage(false);
             }
         }
@@ -91,7 +92,7 @@ const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage, r
                             <p className="error-message" id="add-work-error-message" hidden={!showErrorMessage}>* Please add at least one tag to your work</p>
                         </div>
                         {newWork.tags.length > 0 && (
-                            <div className="selected-tags-container d-flex flex-wrap">
+                            <div className="selected-tags-container d-flex flex-wrap tag-container">
                                 {newWork.tags.map((tag, index) => (
                                     <Tag
                                         key={index}
