@@ -68,7 +68,7 @@ const EditWorkPage1 = ({ work, newWork, setNewWork, setShowEditPopup, goToPage }
                             <input className={"form-control mb-3 form-input" + (errors[1] ? " error-input" : "")} type="date" value={newWork.createdDate ? new Date(newWork.createdDate).toISOString().split("T")[0] : ""} onChange={(event) => {setNewWork((prev) => ({...prev, createdDate: event.target.value}))}}></input>
  
                             <label className={"form-header " + (errors[2] ? "error-header" : "")}>{"Description" + (errors[2] ? " *": "")}</label>
-                            <textarea className={"form-control mb-3 form-textarea" + (errors[2] ? " error-input" : "")} rows={8} placeholder={newWork.description.trim() === "" ? "Describe your masterpiece..." : newWork.description} onChange={(event) => {setNewWork((prev) => ({...prev, description: event.target.value}))}} ></textarea>
+                            <textarea className={"form-control mb-3 form-textarea" + (errors[2] ? " error-input" : "")} rows={8} value={newWork.description.trim() === "" ? "Describe your masterpiece..." : newWork.description} onChange={(event) => {setNewWork((prev) => ({...prev, description: event.target.value}))}} ></textarea>
                         </div>
                         <p className="error-message" id="add-work-error-message" hidden={!showErrorMessage}>* Please fill out these fields to continue</p>
                     </div>

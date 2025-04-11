@@ -84,7 +84,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                     </div> 
                     {/* Form Container */}
                     <div className="col h-100 form-container">
-                        <form className="w-100 form">
+                        <div className="w-100 form">
                             <label className={"form-header" + (showErrorMessage ? " error-header" : "")}>{"Tags" + (showErrorMessage ? " *" : "")}</label>
                             <input className={"form-control mb-3 form-input" + (showErrorMessage ? " error-input" : "")} value={inputValue} onChange={handleInputChange} placeholder="Type to search or create a new tag"></input>
                             {inputValue.trim() !== "" && (
@@ -97,7 +97,8 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                                     )}
                                 </ul>
                             )}
-                        </form>
+                            <p className="error-message" id="add-work-error-message" hidden={!showErrorMessage}>* Please add at least one tag to your work</p>
+                        </div>
                         {workTags.length > 0 && (
                             <div className="selected-tags-container d-flex flex-wrap">
                                 {workTags.map((tag, index) => (
@@ -105,7 +106,7 @@ const AddWorkPage2 = ({file, setNextPage, workTitle, workDate, workDescription, 
                                 ))}
                             </div>
                         )}
-                        <p className="error-message" id="add-work-error-message" hidden={!showErrorMessage}>* Please add at least one tag to your work</p>
+                        
                     </div>
                     
                 </div>
