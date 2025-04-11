@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ForgeFolio/static/css/main.49c25cc5.css",
-    "main.js": "/ForgeFolio/static/js/main.dd753b28.js",
+    "main.js": "/ForgeFolio/static/js/main.bcc11700.js",
     "static/js/787.adad572c.chunk.js": "/ForgeFolio/static/js/787.adad572c.chunk.js",
     "index.html": "/ForgeFolio/index.html",
     "main.49c25cc5.css.map": "/ForgeFolio/static/css/main.49c25cc5.css.map",
-    "main.dd753b28.js.map": "/ForgeFolio/static/js/main.dd753b28.js.map",
+    "main.bcc11700.js.map": "/ForgeFolio/static/js/main.bcc11700.js.map",
     "787.adad572c.chunk.js.map": "/ForgeFolio/static/js/787.adad572c.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.49c25cc5.css",
-    "static/js/main.dd753b28.js"
+    "static/js/main.bcc11700.js"
   ]
 }
