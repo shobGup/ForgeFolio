@@ -131,7 +131,7 @@ const Home = () => {
                     // File Upload
                     ref.current.onchange = (_) => {
                         setFile(ref.current.files[0]);
-                        setWorkTitle(ref.current.files[0].name);
+                        setWorkTitle(ref.current.files[0].name.split(".")[0]);
                         setWorkDate(new Date(ref.current.files[0].lastModified).toISOString().split("T")[0]);
                         setAddWorkPopup(true);
                     };
