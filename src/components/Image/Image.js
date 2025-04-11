@@ -10,7 +10,7 @@ const Image = ({ work, type, setWork = null, setNewWork = null, setShowEditPopup
     const navigate = useNavigate();
     const { setCurrentPortfolio } = usePortfoliosStore();
 
-    const [visible, setVisible] = React.useState(true);
+    const [visible, setVisible] = React.useState(false);
     
     React.useEffect(() => {
         if (visible) {
