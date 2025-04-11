@@ -1,0 +1,21 @@
+.share-portfolio-popup {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(60, 60, 60, 0.9);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    z-index: 9999;
+    animation: fadeOut 1s ease-in-out 3s forwards;
+    pointer-events: none;
+  }
+  
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      transform: translateX(-50%) translateY(10px);
+    }
+  }

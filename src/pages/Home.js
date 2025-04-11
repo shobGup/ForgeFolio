@@ -13,9 +13,21 @@ import { useNavigate } from "react-router-dom";
 import { useWorksStore } from '../stores/worksStore.js';
 import { usePortfoliosStore} from '../stores/portfoliosStore.js';
 import './styles/Home.css';
+import { useLocation } from 'react-router-dom';
+import './styles/SharePortfolioPopup.css';
 
 
 const Home = () => {
+    const location = useLocation();
+    const [showPopup, setShowPopup] = React.useState(false);
+    React.useEffect(() => {
+        if (location?.state?.showPopup) {
+            navigate(location.pathname, { replace: true, state: {} });
+            setShowPopup(true);
+            const timer = setTimeout(() => setShowPopup(false), 4000);
+            return () => clearTimeout(timer);
+        }
+    }, [location?.state]);
     const navigate = useNavigate();
     
     const [addWorkPopup, setAddWorkPopup] = useState(false);
@@ -210,6 +222,11 @@ const Home = () => {
                  <EditWorkPage2 work={work} newWork={newWork} setNewWork={setNewWork} setShowEditPopup={setShowEditPopup} goToPage={setEditWorkPage} resetAddWorkState={resetEditWorkState}/>
                }
             </Popup>
+            {showPopup && (
+                <div className="share-portfolio-popup">
+                    Link copied to your clipboard. This link will expire in 30 days.
+                </div>
+            )}
 
         </div>
     );
