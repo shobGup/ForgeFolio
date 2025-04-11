@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Canvas } from 'fabric';
-import { useCanvasStore } from '../../stores/canvasStore';
+import { useCanvasStore, debounce } from '../../stores/canvasStore';
 import { usePortfoliosStore } from '../../stores/portfoliosStore';
 import { useWorksStore } from '../../stores/worksStore';
 import './styles/CanvasArea.css';
@@ -44,6 +44,7 @@ const CanvasArea = () => {
     });
 
     useCanvasStore.getState().setCanvas(canvas);
+    useCanvasStore.getState().resetHistory();
 
     return () => {
       canvas.dispose();
@@ -63,6 +64,8 @@ const CanvasArea = () => {
           useCanvasStore.getState().applyViewModeToCanvas(viewMode);
           canvas.renderAll();
           canvas.requestRenderAll();
+          useCanvasStore.getState().resetHistory();
+          useCanvasStore.getState().saveHistory();
         }, 10);
       });
       
@@ -130,16 +133,26 @@ const CanvasArea = () => {
         if (!canvas || !canvas.lowerCanvasEl || !canvas.wrapperEl) return;
         
         const active = canvas.getActiveObject();
-        if (!active) return;
         
-        if (
-            (e.key === 'Backspace' || e.key === 'Delete') &&
-            !(active.isEditing)
-        ) {
-            e.preventDefault();
-            canvas.remove(active);
-            canvas.requestRenderAll();
+        // delete
+        if ((e.key === 'Backspace' || e.key === 'Delete') && !(active.isEditing)) {
+          e.preventDefault();
+          useCanvasStore.getState().deleteSelected();
+          return;
         }
+        //undo
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+          e.preventDefault();
+          useCanvasStore.getState().undo();
+          return;
+        }
+        // redo
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z' && e.shiftKey) {
+          e.preventDefault();
+          useCanvasStore.getState().redo();
+          return;
+        }
+
     };
 
     /* ------- Drag and Drop for Sidebar -------*/
@@ -162,12 +175,19 @@ const CanvasArea = () => {
     };
   /* ------------------------------------*/
 
+  const debouncedSave = debounce(() => {
+    useCanvasStore.getState().saveHistory();
+    updatePortfolioImage(); // optional if needed
+  }, 500); // adjust time to your liking
+
     // update portfolio image
     const handleCanvasChange = () => {
       updatePortfolioImage();
     };
 
-    canvas.on('object:modified', handleCanvasChange);
+    canvas.on('object:modified', () => {
+      debouncedSave();
+    });
     canvas.on('object:added', handleCanvasChange);
     canvas.on('object:removed', handleCanvasChange);
 
@@ -226,7 +246,7 @@ const CanvasArea = () => {
   return (
     <div className={`canvas-wrapper ${viewMode ? 'view-mode' : ''}`}>
       <canvas id="portfolio-canvas" ref={canvasRef}></canvas>
-      {viewMode && <EscHintPopup />} {/* Show only in view mode */}
+      {viewMode && <EscHintPopup />}
     </div> 
   );
 };

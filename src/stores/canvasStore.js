@@ -241,6 +241,7 @@ export const useCanvasStore = create((set, get) => ({
 
     canvas.requestRenderAll();
     set({ placingTextbox: false, selectedObject: textbox });
+    get().saveHistory();
   },
 
   setCanvas: (canvas) => {
@@ -288,6 +289,8 @@ export const useCanvasStore = create((set, get) => ({
       canvas.requestRenderAll();
   
       set({ placingImage: false, selectedObject: fabricImg, imageUrl: '' });
+
+      get().saveHistory();
     };
   },  
 
@@ -298,6 +301,7 @@ export const useCanvasStore = create((set, get) => ({
       canvas.remove(active);
       canvas.requestRenderAll();
     }
+    get().saveHistory();
   },  
 
   applyViewModeToCanvas: (viewMode) => {
@@ -330,7 +334,67 @@ export const useCanvasStore = create((set, get) => ({
   
     canvas.discardActiveObject();
     canvas.renderAll();
-  }
-  
-  
+  },
+
+undoStack: [],
+redoStack: [],
+
+saveHistory: () => {
+  const canvas = get().canvas;
+  if (!canvas) return;
+
+  const json = canvas.toJSON();
+  const last = get().undoStack[get().undoStack.length - 1];
+
+  if (JSON.stringify(last) === JSON.stringify(json)) return;
+
+  set((state) => ({
+    undoStack: [...state.undoStack, json],
+    redoStack: [],
+  }));
+},
+
+undo: () => {
+  const canvas = get().canvas;
+  const { undoStack, redoStack } = get();
+  if (undoStack.length < 2) return;
+
+  const previous = undoStack[undoStack.length - 2];
+  const current = undoStack[undoStack.length - 1];
+
+  set({
+    undoStack: undoStack.slice(0, -1),
+    redoStack: [...redoStack, current],
+  });
+
+  canvas.loadFromJSON(previous, () => canvas.requestRenderAll());
+},
+
+redo: () => {
+  const canvas = get().canvas;
+  const { undoStack, redoStack } = get();
+  if (redoStack.length === 0) return;
+
+  const next = redoStack[redoStack.length - 1];
+
+  set({
+    undoStack: [...undoStack, next],
+    redoStack: redoStack.slice(0, -1),
+  });
+
+  canvas.loadFromJSON(next, () => canvas.requestRenderAll());
+},
+
+
+
+resetHistory: () => set({ undoStack: [], redoStack: [] }),
 }));
+
+let debounceTimer;
+
+export const debounce = (func, delay) => {
+  return (...args) => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => func(...args), delay);
+  };
+};

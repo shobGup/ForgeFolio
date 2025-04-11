@@ -24,6 +24,8 @@ const EditToolbar = () => {
         setImageUrl,
         resetAllSelection,
         setSelectedObject,
+        undo,
+        redo,
      } = useCanvasStore();
 
      const placingTextbox = useCanvasStore((state) => state.placingTextbox);
@@ -59,10 +61,10 @@ const EditToolbar = () => {
                 <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/printer_icon.png"} className="icon print-icon" alt="print"/>
             </button>
             <button className="item icon undo-button">
-                <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/undo_icon.png"} className="icon undo-icon" alt="undo"/>
+                <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/undo_icon.png"} className="icon undo-icon" onClick={undo} alt="undo"/>
             </button>
             <button className="item icon redo-button">
-                <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/redo_icon.png"} className="icon redo-icon" alt="redo"/>
+                <img src={process.env.PUBLIC_URL + "/images/toolbar_icons/redo_icon.png"} className="icon redo-icon" onClick={redo} alt="redo"/>
             </button>
             <button className="item icon select-button">
                 <img 
