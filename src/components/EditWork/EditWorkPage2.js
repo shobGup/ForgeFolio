@@ -77,7 +77,7 @@ const EditWorkPage2 = ({work, newWork, setNewWork, setShowEditPopup, goToPage, r
                     {/* Form Container */}
                     <div className="col h-100 form-container">
                         <div className="w-100 form">
-                            <label className={"form-header" + (showErrorMessage ? " error-header" : "")}>{"Tags" + (showErrorMessage ? " *" : "")}</label>
+                            <label className={"form-header" + (showErrorMessage ? " error-header" : "")}>{"Tags" + (showErrorMessage ? " *" : "")} <button onClick={() => {alert("The tag system helps to identify which media will be best during portfolio creation. You can search your pre-existing tags or create a brand new one that will appear as an option when you create a portfolio.")}}><img className="question-mark" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Icon-round-Question_mark.svg/1200px-Icon-round-Question_mark.svg.png"></img></button></label>
                             <input className={"form-control mb-3 form-input" + (showErrorMessage ? " error-input" : "")} value={inputValue} onChange={handleInputChange} placeholder="Type to search or create a new tag"></input>
                             {inputValue.trim() !== "" && (
                                 <ul className="suggestions-dropdown">

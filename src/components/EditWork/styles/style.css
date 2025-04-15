@@ -6,3 +6,8 @@
     flex-wrap: wrap;
     overflow-y: scroll;
 }
+
+.question-mark{
+    width: 25px;
+    height: 25px;
+  }
