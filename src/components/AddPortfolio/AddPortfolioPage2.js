@@ -59,6 +59,7 @@ function AddPortfolioPage2({setNextPage, newPortfolio, setNewPortfolio}) {
                 type='number' 
                 placeholder="0"
                 value={newPortfolio.mediaCount}
+                min={0}
                 onChange={(e) => handleInputChange("mediaCount", e.target.value)}>
             </input>
                 
