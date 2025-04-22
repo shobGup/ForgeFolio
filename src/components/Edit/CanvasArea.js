@@ -67,6 +67,10 @@ const CanvasArea = () => {
           useCanvasStore.getState().resetHistory();
           useCanvasStore.getState().saveHistory();
         }, 10);
+
+        setTimeout(() => {
+          canvas.backgroundColor = currPortfolio.backgroundColor;
+        }, 20)
       });
       
     } else {

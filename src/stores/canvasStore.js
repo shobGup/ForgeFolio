@@ -379,7 +379,10 @@ export const useCanvasStore = create((set, get) => ({
   
     const width = wrapper.clientWidth;
     const height = wrapper.clientHeight;
-  
+
+    const currentBg = canvas.backgroundColor;
+    
+    
     if (viewMode) {
       const scaleFactor = width / canvas.getWidth();
       canvas.setZoom(scaleFactor);
@@ -397,6 +400,8 @@ export const useCanvasStore = create((set, get) => ({
       obj.selectable = !viewMode;
       obj.evented = !viewMode;
     });
+
+    canvas.backgroundColor = currentBg;
   
     canvas.discardActiveObject();
     canvas.renderAll();
@@ -454,6 +459,17 @@ redo: () => {
 
 
 resetHistory: () => set({ undoStack: [], redoStack: [] }),
+
+setBackgroundColor: (color) => {
+  const canvas = get().canvas;
+  if (!canvas) return;
+  
+  canvas.backgroundColor = color;
+  canvas.renderAll();
+
+  get().saveHistory(); // Optional: Save the change to history for undo/redo
+},
+
 }));
 
 let debounceTimer;

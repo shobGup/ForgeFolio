@@ -1,6 +1,7 @@
 import React, {useRef, useState, useEffect} from 'react';
 import './styles/EditToolbar.css';
 import { useCanvasStore } from '../../stores/canvasStore';
+import { usePortfoliosStore } from '../../stores/portfoliosStore';
 
 
 const EditToolbar = () => {
@@ -112,9 +113,19 @@ const EditToolbar = () => {
             {!isTextboxSelected && (
                 <>
                     <div className='vertical-line'/>
-                    <button className="item edit-button background-button">
+                    <button 
+                        className="item edit-button background-button"
+                        onClick={() => {
+                            const color = prompt("Enter background color (e.g., #FFDDDD or red):", "#ffffff");
+                            if (color) {
+                                usePortfoliosStore.getState().updatePortfolio('backgroundColor', color)
+                                useCanvasStore.getState().setBackgroundColor(color);
+                            }
+                        }}
+                        >
                         Background
                     </button>
+
                     <div className='vertical-line'/> 
                     <button className="item edit-button layout-button">
                         Layout
