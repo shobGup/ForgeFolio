@@ -36,7 +36,14 @@ export const useCanvasStore = create((set, get) => ({
     if (headshot) {
       y = await get().getOptionalHeadshot(x, y)
     }
-    y = await get().loadBestWorks(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+    const randomPortfolio = Math.floor(Math.random() * 2);
+    console.log(randomPortfolio);
+    if (randomPortfolio == 0) {
+      y = await get().loadBestWorksOption1g(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+    } else {
+      y = await get().loadBestWorksOption2(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+    }
+
     if (contactInformation) {
       await get().getOptionalContactInformation(x, y);
     }
@@ -54,7 +61,7 @@ export const useCanvasStore = create((set, get) => ({
 
     const iconSize = 30; 
     const iconSpacing = 10; 
-    let x = 1300;
+    let x = 1000;
 
     icons.forEach((icon, index) => {
         const img = new Image();
@@ -139,7 +146,7 @@ export const useCanvasStore = create((set, get) => ({
     });
   },
 
-  loadBestWorks: async (bestWorks, x, y, mediaDescriptions, mediaCreationDate) => {
+  loadBestWorksOption1: async (bestWorks, x, y, mediaDescriptions, mediaCreationDate) => {
     const canvas = useCanvasStore.getState().canvas;
     const addTextboxAt = useCanvasStore.getState().addTextboxAt;
   
@@ -162,7 +169,7 @@ export const useCanvasStore = create((set, get) => ({
       const scale = Math.min(1, widthRatio, heightRatio);
       const scaledWidth = width * scale;
       const scaledHeight = height * scale;
-  
+      
       const fabricImg = new FabricImage(image, {
         left: x,
         top: y,
@@ -196,10 +203,69 @@ export const useCanvasStore = create((set, get) => ({
     return y;
   },  
 
+  loadBestWorksOption2: async (bestWorks, x, y, mediaDescriptions, mediaCreationDate) => {
+    const canvas = useCanvasStore.getState().canvas;
+  
+    const maxWidth = 500;
+    const maxHeight = 400;
+  
+    for (let i = 0; i < bestWorks.length; i++) {
+      const { imageUrl, description, createdDate, title } = bestWorks[i];
+  
+      const image = await new Promise((resolve) => {
+        const img = new Image();
+        img.src = imageUrl.startsWith('blob:') ? imageUrl : process.env.PUBLIC_URL + imageUrl;
+        img.onload = () => resolve(img);
+      });
+  
+      const { width, height } = image;
+  
+      const widthRatio = maxWidth / width;
+      const heightRatio = maxHeight / height;
+      const scale = Math.min(1, widthRatio, heightRatio);
+      const scaledWidth = width * scale;
+      const scaledHeight = height * scale;
+
+      get().addTextboxAt((canvas.getWidth() - scaledWidth) / 2, y, 36, 700, title);
+      y += 50;
+
+      if (mediaCreationDate) {
+        const formattedDate = createdDate
+          ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(createdDate))
+          : 'No date';
+        get().addTextboxAt((canvas.getWidth() - scaledWidth) / 2, y, 16, 200, formattedDate);
+      }
+      y += 30;
+      
+      const fabricImg = new FabricImage(image, {
+        left: (canvas.getWidth() - scaledWidth) / 2,
+        top: y,
+        scaleX: scale,
+        scaleY: scale,
+        selectable: true,
+        hasControls: true,
+        hasBorders: true,
+      });
+      canvas.add(fabricImg);
+      canvas.requestRenderAll();
+      
+      y += scaledHeight + 20;
+      if (mediaDescriptions) {
+        get().addTextboxAt((canvas.getWidth() - scaledWidth) / 2, y, 20, scaledWidth, description);
+      }
+
+      get().resetAllSelection()
+      canvas.requestRenderAll();
+  
+      y += 200;
+    }
+    return y;
+  },
+
   getOptionalContactInformation: (x, y) => {
     get().addTextboxAt(x, y, 30, 500, 'Contact');
 
-    const contactInfo = "Email: monet@gmain.com \nPhone: +1 (123) 456-7890";
+    const contactInfo = "Email: monet@gmail.com \nPhone: +1 (123) 456-7890";
 
     get().addTextboxAt(x, y + 40, 20, 500, contactInfo);
   },

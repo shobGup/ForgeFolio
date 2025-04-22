@@ -99,7 +99,7 @@ export const usePortfoliosStore = create((set, get) => ({
             height += 100;
         }
         
-        height += currentPortfolio["mediaCount"] * 500;
+        height += currentPortfolio["mediaCount"] * 700;
         return height;
     }
 }));
