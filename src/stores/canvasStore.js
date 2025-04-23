@@ -39,7 +39,7 @@ export const useCanvasStore = create((set, get) => ({
     const randomPortfolio = Math.floor(Math.random() * 2);
     console.log(randomPortfolio);
     if (randomPortfolio == 0) {
-      y = await get().loadBestWorksOption1g(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
+      y = await get().loadBestWorksOption1(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
     } else {
       y = await get().loadBestWorksOption2(bestWorks, x, y, mediaDescriptions, mediaCreationDate);
     }
