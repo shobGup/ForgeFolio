@@ -35,6 +35,7 @@ const EditToolbar = () => {
 
     const isTextboxSelected = selectedObject?.type === 'textbox';
     const ref = useRef();
+    const colorInputRef = useRef();
 
     const [fontFamily, setFontFamily] = useState(selectedObject?.fontFamily || 'Arial');
     useEffect(() => {
@@ -113,27 +114,34 @@ const EditToolbar = () => {
             {!isTextboxSelected && (
                 <>
                     <div className='vertical-line'/>
-                    <button 
-                        className="item edit-button background-button"
-                        onClick={() => {
-                            const color = prompt("Enter background color (e.g., #FFDDDD or red):", "#ffffff");
-                            if (color) {
-                                usePortfoliosStore.getState().updatePortfolio('backgroundColor', color)
-                                useCanvasStore.getState().setBackgroundColor(color);
-                            }
-                        }}
+                    <div className='background-color-wrapper'>
+                        <button 
+                            className="item edit-button background-button"
+                            onClick={() => colorInputRef.current.click()}
                         >
-                        Background
-                    </button>
-
+                            Background
+                        </button>
+                        <input
+                            className='color-input-swatch'
+                            ref={colorInputRef}
+                            type="color"
+                            style={{ display: 'none' }}
+                            value={usePortfoliosStore.getState().getCurrentPortfolio().backgroundColor}
+                            onChange={(e) => {
+                                const color = e.target.value;
+                                usePortfoliosStore.getState().updatePortfolio('backgroundColor', color);
+                                useCanvasStore.getState().setBackgroundColor(color);
+                            }}
+                        />
+                    </div>
                     <div className='vertical-line'/> 
-                    <button className="item edit-button layout-button">
+                    {/* <button className="item edit-button layout-button">
                         Layout
                     </button> 
                     <div className='vertical-line'/>
                     <button className="item edit-button edit-tags-button">
                         Edit Tags
-                    </button>
+                    </button> */}
                 </>
             )}
             {isTextboxSelected && !placingTextbox && (
